@@ -7,7 +7,7 @@ In this case, I chose Cassandra DB for storing data.
 ## API Operations
 
 The following is a list of supported operations:
-- Save a to-do item:`POST /todoList/item s.`
+- Save a to-do item:`POST /todoList/items.`
 - Save a collection of to-do item:`POST /todoList/items/bulk.`
 - Delete a to-do item:`DELETE /todoList/items/{id.}`
 - Delete all to-do items:`DELETE /todoList/items.`
@@ -32,6 +32,11 @@ This project make use of the following technologies:
 
 This project was made using the following tools:
 
-- IntelliJ IDEA.
-- Gitignore.io.
-- Typora.
+- [IntelliJ IDEA](https://www.jetbrains.com/idea).
+- [Gitignore.io](https://www.gitignore.io).
+- [Typora](https://typora.io).
+- [Conventional Commits](https://www.conventionalcommits.org/en/v1.0.0-beta.4).
+
+## License
+
+[GNU GPL 3.0](./LICENSE)
