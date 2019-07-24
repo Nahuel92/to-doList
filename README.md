@@ -27,3 +27,11 @@ This project make use of the following technologies:
 - Maven.
 - Cassandra DB.
 - Docker.
+
+## Tools
+
+This project was made using the following tools:
+
+- IntelliJ IDEA.
+- Gitignore.io.
+- Typora.
