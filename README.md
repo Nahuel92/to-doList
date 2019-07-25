@@ -1,6 +1,6 @@
 # To-do List Project
 
-This is a hobby project which consists of an API REST Spring Boot project based.
+This is a hobby project which consists of an API REST Spring Boot based project.
 I made this project firstly for training myself on new Java features like lambdas as well as for NoSQL database systems and Docker too.
 In this case, I chose Cassandra DB for storing data.
 
