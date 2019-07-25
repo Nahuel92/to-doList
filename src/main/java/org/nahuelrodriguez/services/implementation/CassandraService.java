@@ -14,12 +14,12 @@ import java.util.Collection;
 import java.util.Optional;
 
 @Service
-public class DefaultService implements TodoListService {
+public class CassandraService implements TodoListService {
     private final TodoItemMapper mapper;
     private CassandraOperations repository;
 
     @Autowired
-    public DefaultService(CassandraOperations repository) {
+    public CassandraService(CassandraOperations repository) {
         this.repository = repository;
         this.mapper = new TodoItemMapper();
     }

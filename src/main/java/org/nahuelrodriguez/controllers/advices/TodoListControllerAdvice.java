@@ -18,6 +18,6 @@ public class TodoListControllerAdvice {
     @ExceptionHandler({InvalidDataAccessApiUsageException.class})
     public ResponseEntity<Object> handleInvalidQueryException() {
         final String errorMessage = "An invalid query has been executed by the server.";
-        return new ResponseEntity<>(errorMessage, null, HttpStatus.BAD_REQUEST);
+        return new ResponseEntity<>(errorMessage, null, HttpStatus.INTERNAL_SERVER_ERROR);
     }
 }
