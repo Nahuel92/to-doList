@@ -7,12 +7,15 @@ In this case, I chose Cassandra DB for storing data.
 ## Features Status
 
 - [x] CRUD operations for a to-do list project.
-- [x] Cassandra integration for persistence.
+- [x] Support for Cassandra.
 - [x] Aspect for logging public controller methods.
 - [x] Controller advice for handling controller exceptions.
 - [ ] Request collection validation.
 - [ ] Unit tests.
 - [ ] Authorization.
+- [ ] Support for Redis.
+- [ ] Support for MongoDB.
+- [ ] Support for MariaDB.
 
 ## API Operations
 
