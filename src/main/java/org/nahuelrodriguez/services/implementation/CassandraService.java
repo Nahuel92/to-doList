@@ -42,12 +42,12 @@ public class CassandraService implements TodoListService {
         repository.truncate(TodoItem.class);
     }
 
-    public Page<TodoItem> getAllTodoItems() {
-        return new PageImpl<>(repository.select("SELECT * FROM to_do_items", TodoItem.class));
+    public Page<TodoItemDTO> getAllTodoItems() {
+        return new PageImpl<>(repository.select("SELECT * FROM to_do_items", TodoItemDTO.class));
     }
 
-    public Page<TodoItem> getAllTodoItemsSearchingByKeywords(String keywords) {
-        return new PageImpl<>(repository.select("SELECT * FROM to_do_items WHERE 'description: *" + keywords + "*", TodoItem.class));
+    public Page<TodoItemDTO> getAllTodoItemsSearchingByKeywords(String keywords) {
+        return new PageImpl<>(repository.select("SELECT * FROM to_do_items WHERE 'description: *" + keywords + "*", TodoItemDTO.class));
     }
 
     public void updateTodoItem(TodoItemDTO dto) {

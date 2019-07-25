@@ -1,7 +1,6 @@
 package org.nahuelrodriguez.services;
 
 import org.nahuelrodriguez.dtos.TodoItemDTO;
-import org.nahuelrodriguez.entities.TodoItem;
 import org.springframework.data.domain.Page;
 
 import java.util.Collection;
@@ -15,9 +14,9 @@ public interface TodoListService {
 
     void deleteAllTodoItems();
 
-    Page<TodoItem> getAllTodoItems();
+    Page<TodoItemDTO> getAllTodoItems();
 
-    Page<TodoItem> getAllTodoItemsSearchingByKeywords(String keywords);
+    Page<TodoItemDTO> getAllTodoItemsSearchingByKeywords(String keywords);
 
     void updateTodoItem(TodoItemDTO dto);
 }

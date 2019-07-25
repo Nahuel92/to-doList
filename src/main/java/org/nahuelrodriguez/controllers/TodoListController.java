@@ -1,7 +1,6 @@
 package org.nahuelrodriguez.controllers;
 
 import org.nahuelrodriguez.dtos.TodoItemDTO;
-import org.nahuelrodriguez.entities.TodoItem;
 import org.nahuelrodriguez.services.TodoListService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -41,12 +40,12 @@ public class TodoListController {
     }
 
     @GetMapping(path = "/items")
-    public Page<TodoItem> getAllTodoItems() {
+    public Page<TodoItemDTO> getAllTodoItems() {
         return service.getAllTodoItems();
     }
 
     @GetMapping(path = "/items/{keywords}")
-    public Page<TodoItem> getAllTodoItemsSearchingByKeywords(@PathVariable("keywords") String keywords) {
+    public Page<TodoItemDTO> getAllTodoItemsSearchingByKeywords(@PathVariable("keywords") String keywords) {
         return service.getAllTodoItemsSearchingByKeywords(keywords);
     }
 
