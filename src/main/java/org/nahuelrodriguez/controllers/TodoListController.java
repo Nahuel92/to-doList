@@ -1,9 +1,12 @@
 package org.nahuelrodriguez.controllers;
 
+import com.google.common.annotations.Beta;
 import org.nahuelrodriguez.dtos.TodoItemDTO;
 import org.nahuelrodriguez.services.TodoListService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -20,13 +23,15 @@ public class TodoListController {
     }
 
     @PostMapping(path = "/items")
-    public void addNewTodoItem(@RequestBody @Validated TodoItemDTO dto) {
+    public ResponseEntity addNewTodoItem(@RequestBody @Validated TodoItemDTO dto) {
         service.addNewTodoItem(dto);
+        return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
     @PostMapping(path = "/items/bulk")
-    public void addNewTodoItems(@RequestBody @Validated Collection<TodoItemDTO> dtos) {
+    public ResponseEntity addNewTodoItems(@RequestBody @Validated Collection<TodoItemDTO> dtos) {
         service.addNewTodoItems(dtos);
+        return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
     @DeleteMapping(path = "/items/{id}")
@@ -44,6 +49,7 @@ public class TodoListController {
         return service.getAllTodoItems();
     }
 
+    @Beta
     @GetMapping(path = "/items/{keywords}")
     public Page<TodoItemDTO> getAllTodoItemsSearchingByKeywords(@PathVariable("keywords") String keywords) {
         return service.getAllTodoItemsSearchingByKeywords(keywords);
