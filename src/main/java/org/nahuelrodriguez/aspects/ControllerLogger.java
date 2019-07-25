@@ -13,7 +13,7 @@ public class ControllerLogger {
     private static final Logger logger = LoggerFactory.getLogger(ControllerLogger.class);
 
     @Around("execution(public * *(..)) && within(org.nahuelrodriguez.controllers..*)")
-    public Object logControllerMethodExecution(ProceedingJoinPoint pjp) {
+    public Object logControllerMethodExecution(ProceedingJoinPoint pjp) throws Throwable {
         if (logger.isInfoEnabled())
             logger.info("Before executing {} method", pjp.getSignature());
 
@@ -27,7 +27,8 @@ public class ControllerLogger {
         } catch (Throwable throwable) {
             if (logger.isErrorEnabled())
                 logger.error("Method {} has failed with exception message {}",
-                        pjp.getSignature(), throwable.getCause());
+                        pjp.getSignature(), throwable.getMessage());
+            throw throwable;
         }
         return retVal;
     }

@@ -4,6 +4,13 @@ This is a hobby project which consists of an API REST Spring Boot project based.
 I made this project firstly for training myself on new Java features like lambdas as well as for NoSQL database systems and Docker too.
 In this case, I chose Cassandra DB for storing data.
 
+## Features Status
+
+- [x] Cassandra integration.
+- [x] Aspect for logging public controller methods.
+- [ ] Unit tests.
+- [x] Controller advice.
+
 ## API Operations
 
 The following is a list of supported operations:
