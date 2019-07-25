@@ -29,7 +29,7 @@ The following is a list of supported operations:
 
 ## Technologies
 
-This project make use of the following technologies:
+This project uses the following technologies:
 - Java.
 - Spring Boot.
 - Maven.
