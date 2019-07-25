@@ -1,4 +1,4 @@
-# To-do List Project
+# To-do List Project (WIP)
 
 This is a hobby project which consists of an API REST Spring Boot based project.
 I made this project firstly for training myself on new Java features like lambdas as well as for NoSQL database systems and Docker too.
