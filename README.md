@@ -85,6 +85,8 @@ Used to persist a to-do item on database.
 ]
 ```
 
+(WIP)
+
 ## Technologies
 
 This project uses the following technologies:
