@@ -44,6 +44,7 @@ This project was made using the following tools:
 - [Gitignore.io](https://www.gitignore.io).
 - [Typora](https://typora.io).
 - [Conventional Commits](https://www.conventionalcommits.org/en/v1.0.0-beta.4).
+- [Postman](https://www.getpostman.com/).
 
 ## License
 
