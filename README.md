@@ -9,8 +9,10 @@ In this case, I chose Cassandra DB for storing data.
 - [x] CRUD operations for a to-do list project.
 - [x] Cassandra integration for persistence.
 - [x] Aspect for logging public controller methods.
-- [x] Controller advice.
+- [x] Controller advice for handling controller exceptions.
+- [ ] Request collection validation.
 - [ ] Unit tests.
+- [ ] Authorization.
 
 ## API Operations
 
@@ -25,7 +27,60 @@ The following is a list of supported operations:
 
 ## Examples
 
-— To do.
+### Save item
+
+Used to persist a to-do item on database.
+
+**URL:**  `/todoList/items`
+
+**Method:**  `POST`
+
+**Auth required:** NO
+
+**Data constraints:**
+
+```json
+{
+	"id": "[Valid number value, different for each item (WIP to avoid sending this parameter)]",
+	"description": "[Valid text, not null or empty]"
+}
+```
+
+**Data example (WIP)**:
+
+```json
+{
+	"id": 1,
+	"description": "To do item example"
+}
+```
+
+
+
+#### Success response
+
+**Code:** `201 created.`
+
+**Content:** Empty as the following example.
+
+```json
+
+```
+
+#### Error response
+
+**Code:** `400 bad request.`
+
+**Condition:** if 'id' or 'description' are null or empty.
+
+**Content:**
+
+```json
+[
+    "Id can not be null",
+    "Description can not be null or empty"
+]
+```
 
 ## Technologies
 
