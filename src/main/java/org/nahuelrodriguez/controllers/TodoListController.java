@@ -35,13 +35,15 @@ public class TodoListController {
     }
 
     @DeleteMapping(path = "/items/{id}")
-    public void deleteTodoItem(@PathVariable("id") Long id) {
+    public ResponseEntity deleteTodoItem(@PathVariable("id") Long id) {
         service.deleteTodoItem(id);
+        return new ResponseEntity(HttpStatus.NO_CONTENT);
     }
 
     @DeleteMapping(path = "/items")
-    public void deleteAllTodoItems() {
+    public ResponseEntity deleteAllTodoItems() {
         service.deleteAllTodoItems();
+        return new ResponseEntity(HttpStatus.NO_CONTENT);
     }
 
     @GetMapping(path = "/items")
@@ -56,7 +58,8 @@ public class TodoListController {
     }
 
     @PatchMapping(path = "/items")
-    public void updateTodoItem(@RequestBody @Validated TodoItemDTO dto) {
+    public ResponseEntity updateTodoItem(@RequestBody @Validated TodoItemDTO dto) {
         service.updateTodoItem(dto);
+        return new ResponseEntity(HttpStatus.NO_CONTENT);
     }
 }
