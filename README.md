@@ -26,7 +26,7 @@ The following is a list of supported operations:
 - Save a collection of to-do item:`POST /todoList/items/bulk`
 - Delete a to-do item:`DELETE /todoList/items/{id}`
 - Delete all to-do items:`DELETE /todoList/items`
-- Retrieve all to-do items:`GET /todoList/items
+- Retrieve all to-do items:`GET /todoList/items`
 - Update a to-do item:`PATCH /todoList/items`
 
 ## Examples
