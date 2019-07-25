@@ -29,7 +29,7 @@ public class TodoListController {
     }
 
     @PostMapping(path = "/items/bulk")
-    public ResponseEntity addNewTodoItems(@RequestBody @Validated Collection<TodoItemDTO> dtos) {
+    public ResponseEntity addNewTodoItems(@RequestBody Collection<TodoItemDTO> dtos) {
         service.addNewTodoItems(dtos);
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
