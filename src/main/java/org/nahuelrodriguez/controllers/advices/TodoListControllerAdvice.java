@@ -1,23 +1,40 @@
 package org.nahuelrodriguez.controllers.advices;
 
+import org.springframework.context.support.DefaultMessageSourceResolvable;
 import org.springframework.dao.DataAccessResourceFailureException;
 import org.springframework.dao.InvalidDataAccessApiUsageException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @ControllerAdvice
 public class TodoListControllerAdvice {
     @ExceptionHandler({DataAccessResourceFailureException.class})
-    public ResponseEntity<Object> handleConnectionFailureException() {
+    public ResponseEntity<String> handleConnectionFailureException() {
         final String errorMessage = "Database connection failed. Please try again later.";
         return new ResponseEntity<>(errorMessage, null, HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
     @ExceptionHandler({InvalidDataAccessApiUsageException.class})
-    public ResponseEntity<Object> handleInvalidQueryException() {
+    public ResponseEntity<String> handleInvalidQueryException() {
         final String errorMessage = "An invalid query has been executed by the server.";
         return new ResponseEntity<>(errorMessage, null, HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+
+    @ExceptionHandler({MethodArgumentNotValidException.class})
+    public ResponseEntity handleMethodArgumentNotValidException(MethodArgumentNotValidException exception) {
+        List<String> errorMessages = exception.getBindingResult()
+                .getFieldErrors()
+                .stream()
+                .map(DefaultMessageSourceResolvable::getDefaultMessage)
+                .collect(Collectors.toCollection(ArrayList::new));
+
+        return new ResponseEntity<>(errorMessages, null, HttpStatus.BAD_REQUEST);
     }
 }
