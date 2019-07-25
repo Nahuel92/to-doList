@@ -18,6 +18,7 @@ In this case, I chose Cassandra DB for storing data.
 - [ ] Support for Redis.
 - [ ] Support for MongoDB.
 - [ ] Support for MariaDB.
+- [ ] Kafka integration for massive creation operations.
 
 ## API Operations
 
@@ -61,13 +62,13 @@ Used to persist a to-do item on database.
 
 #### Success response
 
-**Code:** `201 created`
+**Code:** `201 CREATED`
 
 **Content:** No.
 
 #### Error response
 
-**Code:** `400 bad request`
+**Code:** `400 BAD REQUEST`
 
 **Condition:** If 'id' or 'description' are null or empty.
 
@@ -118,7 +119,7 @@ Used to persist a to-do items collection on database.
 
 #### Success response
 
-**Code:** `201 created`
+**Code:** `201 CREATED`
 
 **Content:** No.
 
@@ -152,7 +153,7 @@ Used to delete a specific to-do item on database.
 
 #### Success response
 
-**Code:** `204 no-content`
+**Code:** `204 NO CONTENT`
 
 **Content:** No.
 
@@ -184,7 +185,7 @@ Used to delete all to-do items saved on database.
 
 #### Success response
 
-**Code:** `204 no-content`
+**Code:** `204 NO CONTENT`
 
 **Content:** No.
 
@@ -214,9 +215,9 @@ Used to retrieve all to-do items on database.
 
 #### Success response
 
-**Code:** `200 ok`
+**Code:** `200 OK`
 
-**Content:** A Page object.
+**Content:** A (Spring) Page object.
 
 ```json
 {
@@ -291,7 +292,7 @@ Used to update a to-do item saved on database.
 
 #### Success response
 
-**Code:** `204 no-content`
+**Code:** `204 NO CONTENT`
 
 **Content:** No.
 
