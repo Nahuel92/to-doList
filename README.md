@@ -61,13 +61,13 @@ Used to persist a to-do item on database.
 
 #### Success response
 
-**Code:** `201 created.`
+**Code:** `201 created`
 
 **Content:** No.
 
 #### Error response
 
-**Code:** `400 bad request.`
+**Code:** `400 bad request`
 
 **Condition:** If 'id' or 'description' are null or empty.
 
@@ -97,12 +97,7 @@ Used to persist a to-do items collection on database.
   {
     "id": "[Valid number value, different for each item (WIP to avoid sending this parameter)]",
     "description": "[Valid text, not null or empty]"
-  },
-  {
-    "id": "[Valid number value, different for each item (WIP to avoid sending this parameter)]",
-    "description": "[Valid text, not null or empty]"
-  },
-  ...
+  }
 ]
 ```
 
@@ -123,7 +118,7 @@ Used to persist a to-do items collection on database.
 
 #### Success response
 
-**Code:** `201 created.`
+**Code:** `201 created`
 
 **Content:** No.
 
@@ -147,9 +142,7 @@ Used to delete a specific to-do item on database.
 
 **Data constraints:**
 
-```json
-{id} must be a valid number and a persisted object has to have it as id.
-```
+`{id} must be a valid number and a persisted object has to have it as id.`
 
 **Data example:**
 
@@ -159,7 +152,7 @@ Used to delete a specific to-do item on database.
 
 #### Success response
 
-**Code:** `204 no-content.`
+**Code:** `204 no-content`
 
 **Content:** No.
 
@@ -191,7 +184,7 @@ Used to delete all to-do items saved on database.
 
 #### Success response
 
-**Code:** `204 no-content.`
+**Code:** `204 no-content`
 
 **Content:** No.
 
@@ -221,7 +214,7 @@ Used to retrieve all to-do items on database.
 
 #### Success response
 
-**Code:** `200 ok.`
+**Code:** `200 ok`
 
 **Content:** A Page object.
 
@@ -258,7 +251,7 @@ Used to retrieve all to-do items on database.
 
 #### Error response (WIP)
 
-**Code:**`
+**Code:**
 
 **Condition:**
 
@@ -298,13 +291,13 @@ Used to update a to-do item saved on database.
 
 #### Success response
 
-**Code:** `204 no-content.`
+**Code:** `204 no-content`
 
 **Content:** No.
 
 #### Error response (WIP)
 
-**Code:**`
+**Code:**
 
 **Condition:**
 
