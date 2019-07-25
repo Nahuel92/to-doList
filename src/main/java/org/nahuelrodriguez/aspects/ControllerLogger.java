@@ -12,7 +12,7 @@ import org.springframework.stereotype.Component;
 public class ControllerLogger {
     private static final Logger logger = LoggerFactory.getLogger(ControllerLogger.class);
 
-    @Around("execution(public * *(..)) && within(org.nahuelrodriguez.controllers..*)")
+    @Around("execution(public * *(..)) && within(org.nahuelrodriguez.controllers.*)")
     public Object logControllerMethodExecution(ProceedingJoinPoint pjp) throws Throwable {
         if (logger.isInfoEnabled())
             logger.info("Executing method {}", pjp.getSignature());

@@ -91,6 +91,12 @@
             <artifactId>java-driver-core</artifactId>
             <version>4.1.0</version>
         </dependency>
+
+        <dependency>
+            <groupId>com.datastax.cassandra</groupId>
+            <artifactId>cassandra-driver-extras</artifactId>
+            <version>3.7.2</version>
+        </dependency>
     </dependencies>
 
     <build>

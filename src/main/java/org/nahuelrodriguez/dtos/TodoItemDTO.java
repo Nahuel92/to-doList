@@ -10,10 +10,9 @@ public class TodoItemDTO {
 
     @NotBlank(message = "Description can not be null or empty")
     private String description;
+    private String createdDatetime;
 
-    public TodoItemDTO(Long id, String description) {
-        this.id = id;
-        this.description = description;
+    public TodoItemDTO() {
     }
 
     public Long getId() {
@@ -32,24 +31,34 @@ public class TodoItemDTO {
         this.description = description;
     }
 
+    public String getCreatedDatetime() {
+        return createdDatetime;
+    }
+
+    public void setCreatedDatetime(String createdDatetime) {
+        this.createdDatetime = createdDatetime;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         TodoItemDTO that = (TodoItemDTO) o;
-        return id.equals(that.id) &&
-                description.equals(that.description);
+        return Objects.equals(id, that.id) &&
+                description.equals(that.description) &&
+                Objects.equals(createdDatetime, that.createdDatetime);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, description);
+        return Objects.hash(id, description, createdDatetime);
     }
 
     @Override
     public String toString() {
         return "TodoItemDTO{" +
                 "description='" + description + '\'' +
+                ", createdDatetime='" + createdDatetime + '\'' +
                 '}';
     }
 }
