@@ -6,10 +6,11 @@ In this case, I chose Cassandra DB for storing data.
 
 ## Features Status
 
-- [x] Cassandra integration.
+- [x] CRUD operations for a to-do list project.
+- [x] Cassandra integration for persistence.
 - [x] Aspect for logging public controller methods.
-- [ ] Unit tests.
 - [x] Controller advice.
+- [ ] Unit tests.
 
 ## API Operations
 
