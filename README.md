@@ -37,7 +37,7 @@ Used to persist a to-do item on database.
 
 **URL:** `/todoList/items`
 
-**Method:** `POST.`
+**Method:** `POST`
 
 **Auth required:** No.
 
@@ -86,7 +86,7 @@ Used to persist a to-do items collection on database.
 
 **URL:** `/todoList/items/bulk`
 
-**Method:** `POST.`
+**Method:** `POST`
 
 **Auth required:** No.
 
@@ -141,7 +141,7 @@ Used to delete a specific to-do item on database.
 
 **URL:** `/todoList/items/{id}`
 
-**Method:** `DELETE.`
+**Method:** `DELETE`
 
 **Auth required:** No.
 
@@ -181,7 +181,7 @@ Used to delete all to-do items saved on database.
 
 **URL:** `/todoList/items`
 
-**Method:** `DELETE.`
+**Method:** `DELETE`
 
 **Auth required:** No.
 
@@ -213,7 +213,7 @@ Used to retrieve all to-do items on database.
 
 **URL:** `/todoList/items`
 
-**Method:** `GET.`
+**Method:** `GET`
 
 **Auth required:** No.
 
@@ -274,7 +274,7 @@ Used to update a to-do item saved on database.
 
 **URL:** `/todoList/items`
 
-**Method:** `PATCH.`
+**Method:** `PATCH`
 
 **Auth required:** No.
 
