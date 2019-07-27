@@ -1,6 +1,7 @@
 package org.nahuelrodriguez.controllers;
 
 import org.nahuelrodriguez.dtos.TodoItemDTO;
+import org.nahuelrodriguez.responses.DTOErrors;
 import org.nahuelrodriguez.responses.ErrorList;
 import org.nahuelrodriguez.services.TodoListService;
 import org.nahuelrodriguez.validators.ListValidator;
@@ -35,6 +36,9 @@ public class TodoListController {
 
     @PostMapping(path = "/items/bulk")
     public ResponseEntity addNewTodoItems(@RequestBody final List<TodoItemDTO> dtos) {
+        if (dtos.isEmpty())
+            return new ResponseEntity<>(new DTOErrors("Empty request"), HttpStatus.BAD_REQUEST);
+
         final Map<Integer, Set<String>> errors = validator.validate(dtos);
 
         if (!errors.isEmpty())

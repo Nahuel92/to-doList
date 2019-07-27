@@ -12,8 +12,9 @@ In this case, I chose Cassandra DB for storing data.
 - [x] Aspect for logging public controller methods.
 - [x] Controller advice for handling controller exceptions.
 - [x] CRUD operations for a to-do list project.
+- [x] Request data validation.
+- [x] Exception handling.
 - [ ] Kafka integration for massive creation operations.
-- [x] Request collection validation.
 - [x] Support for Cassandra.
 - [ ] Swagger for API documentation.
 - [ ] Unit tests.
@@ -129,7 +130,34 @@ Used to persist a to-do items collection on database.
 
 **Condition:** If request body is missing.
 
-**Content:** No.
+**Content:** 
+
+```json
+{
+    "errorMessages": [
+        "Empty request"
+    ]
+}
+```
+
+#### Error response
+
+**Code:** `400 BAD REQUEST`
+
+**Condition:** If 'id' or 'description' are null or empty.
+
+**Content:** 
+
+```json
+{
+    "errorMessages": {
+        "0": [
+            "Description can not be null or empty",
+            "Id can not be null"
+        ]
+    }
+}
+```
 
 ### Delete item
 
@@ -143,7 +171,7 @@ Used to delete a specific to-do item on database.
 
 **Data constraints:**
 
-`{id} must be a valid number and a persisted object has to have it as id.`
+`{id} must be a valid number value.`
 
 **Data example:**
 
@@ -157,16 +185,20 @@ Used to delete a specific to-do item on database.
 
 **Content:** No.
 
-#### Error response (WIP)
+#### Error response
 
-**Code:**
+**Code:** `400 BAD REQUEST`
 
-**Condition:**
+**Condition:** Sending a non number id param.
 
 **Content:**
 
 ```json
-
+{
+    "errorMessages": [
+        "Argument type mismatch. Please check data types and try again."
+    ]
+}
 ```
 
 ### Delete all items
@@ -188,18 +220,6 @@ Used to delete all to-do items saved on database.
 **Code:** `204 NO CONTENT`
 
 **Content:** No.
-
-#### Error response (WIP)
-
-**Code:**
-
-**Condition:**
-
-**Content:**
-
-```json
-
-```
 
 ### Retrieve all items
 
@@ -250,18 +270,6 @@ Used to retrieve all to-do items on database.
 }
 ```
 
-#### Error response (WIP)
-
-**Code:**
-
-**Condition:**
-
-**Content:**
-
-```json
-
-```
-
 ### Update item
 
 Used to update a to-do item saved on database.
@@ -296,16 +304,21 @@ Used to update a to-do item saved on database.
 
 **Content:** No.
 
-#### Error response (WIP)
+#### Error response
 
-**Code:**
+**Code:** `400 BAD REQUEST`
 
-**Condition:**
+**Condition:** If 'id' or 'description' are null or empty.
 
 **Content:**
 
 ```json
-
+{
+    "errorMessages": [
+        "Description can not be null or empty",
+        "Id can not be null"
+    ]
+}
 ```
 
 ## Technologies
@@ -314,10 +327,7 @@ This project uses the following technologies:
 - Cassandra DB.
 - Docker.
 - Java.
-- Kafka.
-- MariaDB.
 - Maven.
-- Redis.
 - Spring Boot.
 
 ## Tools

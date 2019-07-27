@@ -1,15 +1,19 @@
 package org.nahuelrodriguez.responses;
 
-import java.util.Collection;
+import java.util.Set;
 
-public class DTOErrors<T> {
-    private final Collection<T> errorMessages;
+public class DTOErrors {
+    private final Set<String> errorMessages;
 
-    public DTOErrors(final Collection<T> errorMessages) {
+    public DTOErrors(final Set<String> errorMessages) {
         this.errorMessages = errorMessages;
     }
 
-    public Collection<T> getErrorMessages() {
+    public DTOErrors(final String errorMessage) {
+        this.errorMessages = Set.of(errorMessage);
+    }
+
+    public Set<String> getErrorMessages() {
         return errorMessages;
     }
 }
