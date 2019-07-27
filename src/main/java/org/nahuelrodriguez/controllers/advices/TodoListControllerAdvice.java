@@ -19,18 +19,6 @@ import java.util.stream.Collectors;
 
 @RestControllerAdvice
 public class TodoListControllerAdvice {
-    @ExceptionHandler({DataAccessResourceFailureException.class})
-    public ResponseEntity<DTOErrors<String>> handleConnectionFailureException() {
-        final DTOErrors<String> errors = new DTOErrors<>(List.of("Database connection failed. Please try again later."));
-        return new ResponseEntity<>(errors, HttpStatus.INTERNAL_SERVER_ERROR);
-    }
-
-    @ExceptionHandler({InvalidDataAccessApiUsageException.class})
-    public ResponseEntity<DTOErrors<String>> handleInvalidQueryException() {
-        final DTOErrors<String> errors = new DTOErrors<>(List.of("An invalid query has been executed by the server."));
-        return new ResponseEntity<>(errors, HttpStatus.INTERNAL_SERVER_ERROR);
-    }
-
     @ExceptionHandler({MethodArgumentNotValidException.class})
     public ResponseEntity<DTOErrors> handleMethodArgumentNotValidException(MethodArgumentNotValidException exception) {
         final List<String> errorMessages = exception.getBindingResult()
@@ -41,21 +29,37 @@ public class TodoListControllerAdvice {
         return new ResponseEntity<>(new DTOErrors<>(errorMessages), HttpStatus.BAD_REQUEST);
     }
 
+    @ExceptionHandler({DataAccessResourceFailureException.class})
+    public ResponseEntity<DTOErrors<String>> handleConnectionFailureException() {
+        final String error = "Database connection failed. Please try again later.";
+        return new ResponseEntity<>(generateErrorList(error), HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+
+    @ExceptionHandler({InvalidDataAccessApiUsageException.class})
+    public ResponseEntity<DTOErrors<String>> handleInvalidQueryException() {
+        final String error = "An invalid query has been executed by the server.";
+        return new ResponseEntity<>(generateErrorList(error), HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+
     @ExceptionHandler({HttpMessageNotReadableException.class})
-    public ResponseEntity<DTOErrors<String>> handleMethodArgumentTypeMismatchException(HttpMessageNotReadableException exception) {
-        final DTOErrors<String> errors = new DTOErrors<>(List.of("Required request body is missing."));
-        return new ResponseEntity<>(errors, HttpStatus.BAD_REQUEST);
+    public ResponseEntity<DTOErrors<String>> handleMethodArgumentTypeMismatchException() {
+        final String error = "Database connection failed. Please try again later.";
+        return new ResponseEntity<>(generateErrorList(error), HttpStatus.BAD_REQUEST);
     }
 
     @ExceptionHandler({HttpRequestMethodNotSupportedException.class})
     public ResponseEntity<DTOErrors<String>> handleHttpRequestMethodNotSupportedException(HttpRequestMethodNotSupportedException exception) {
-        final DTOErrors<String> errors = new DTOErrors<>(List.of(exception.getMessage() + ". Verify the URL and params and try again."));
-        return new ResponseEntity<>(errors, HttpStatus.METHOD_NOT_ALLOWED);
+        final String error = exception.getMessage() + ". Verify the URL and params and try again.";
+        return new ResponseEntity<>(generateErrorList(error), HttpStatus.METHOD_NOT_ALLOWED);
     }
 
     @ExceptionHandler({MismatchedInputException.class, JsonParseException.class})
     public ResponseEntity<DTOErrors<String>> handleMismatchedInputException() {
-        final DTOErrors<String> errors = new DTOErrors<>(List.of("Cannot deserialize data. Please check params and try again."));
-        return new ResponseEntity<>(errors, HttpStatus.BAD_REQUEST);
+        final String error = "Cannot deserialize data. Please check params and try again.";
+        return new ResponseEntity<>(generateErrorList(error), HttpStatus.BAD_REQUEST);
+    }
+
+    private DTOErrors<String> generateErrorList(final String error) {
+        return new DTOErrors<>(List.of(error));
     }
 }
