@@ -43,7 +43,7 @@ public class TodoListControllerAdvice {
 
     @ExceptionHandler({HttpMessageNotReadableException.class})
     public ResponseEntity<DTOErrors<String>> handleMethodArgumentTypeMismatchException() {
-        final String error = "Database connection failed. Please try again later.";
+        final String error = "Required request body is missing.";
         return new ResponseEntity<>(generateErrorList(error), HttpStatus.BAD_REQUEST);
     }
 
