@@ -6,7 +6,7 @@ import java.util.Set;
 public class ErrorList {
     private final Map<Integer, Set<String>> errorMessages;
 
-    public ErrorList(Map<Integer, Set<String>> errorMessages) {
+    public ErrorList(final Map<Integer, Set<String>> errorMessages) {
         this.errorMessages = errorMessages;
     }
 

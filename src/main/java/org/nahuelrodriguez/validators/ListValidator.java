@@ -12,11 +12,11 @@ public final class ListValidator<T> {
     private final Validator validator;
 
     @Autowired
-    public ListValidator(Validator validator) {
+    public ListValidator(final Validator validator) {
         this.validator = validator;
     }
 
-    public Map<Integer, Set<String>> validate(List<T> dtos) {
+    public Map<Integer, Set<String>> validate(final List<T> dtos) {
         final Map<Integer, Set<String>> errors = new HashMap<>();
 
         IntStream.range(0, dtos.size())

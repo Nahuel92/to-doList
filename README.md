@@ -14,10 +14,7 @@ In this case, I chose Cassandra DB for storing data.
 - [x] CRUD operations for a to-do list project.
 - [ ] Kafka integration for massive creation operations.
 - [x] Request collection validation.
-- [ ] Support for Cassandra.
-- [ ] Support for Redis.
-- [ ] Support for MariaDB.
-- [ ] Support for MongoDB.
+- [x] Support for Cassandra.
 - [ ] Swagger for API documentation.
 - [ ] Unit tests.
 

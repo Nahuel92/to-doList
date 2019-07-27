@@ -1,6 +1,5 @@
 package org.nahuelrodriguez.controllers;
 
-import com.google.common.annotations.Beta;
 import org.nahuelrodriguez.dtos.TodoItemDTO;
 import org.nahuelrodriguez.responses.ErrorList;
 import org.nahuelrodriguez.services.TodoListService;
@@ -23,20 +22,20 @@ public class TodoListController {
     private final ListValidator<TodoItemDTO> validator;
 
     @Autowired
-    public TodoListController(TodoListService service, ListValidator<TodoItemDTO> validator) {
+    public TodoListController(final TodoListService service, final ListValidator<TodoItemDTO> validator) {
         this.service = service;
         this.validator = validator;
     }
 
     @PostMapping(path = "/items")
-    public ResponseEntity addNewTodoItem(@RequestBody @Validated TodoItemDTO dto) {
+    public ResponseEntity addNewTodoItem(@RequestBody @Validated final TodoItemDTO dto) {
         service.addNewTodoItem(dto);
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
     @PostMapping(path = "/items/bulk")
-    public ResponseEntity addNewTodoItems(@RequestBody List<TodoItemDTO> dtos) {
-        Map<Integer, Set<String>> errors = validator.validate(dtos);
+    public ResponseEntity addNewTodoItems(@RequestBody final List<TodoItemDTO> dtos) {
+        final Map<Integer, Set<String>> errors = validator.validate(dtos);
 
         if (!errors.isEmpty())
             return new ResponseEntity<>(new ErrorList(errors), HttpStatus.BAD_REQUEST);
@@ -46,7 +45,7 @@ public class TodoListController {
     }
 
     @DeleteMapping(path = "/items/{id}")
-    public ResponseEntity deleteTodoItem(@PathVariable("id") Long id) {
+    public ResponseEntity deleteTodoItem(@PathVariable("id") final Long id) {
         service.deleteTodoItem(id);
         return new ResponseEntity(HttpStatus.NO_CONTENT);
     }
@@ -62,14 +61,8 @@ public class TodoListController {
         return service.getAllTodoItems();
     }
 
-    @Beta
-    @GetMapping(path = "/items/{keywords}")
-    public Page<TodoItemDTO> getAllTodoItemsSearchingByKeywords(@PathVariable("keywords") String keywords) {
-        return service.getAllTodoItemsSearchingByKeywords(keywords);
-    }
-
     @PatchMapping(path = "/items")
-    public ResponseEntity updateTodoItem(@RequestBody @Validated TodoItemDTO dto) {
+    public ResponseEntity updateTodoItem(@RequestBody @Validated final TodoItemDTO dto) {
         service.updateTodoItem(dto);
         return new ResponseEntity(HttpStatus.NO_CONTENT);
     }

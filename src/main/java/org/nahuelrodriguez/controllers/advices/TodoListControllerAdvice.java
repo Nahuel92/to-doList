@@ -29,12 +29,12 @@ public class TodoListControllerAdvice {
 
     @ExceptionHandler({MethodArgumentNotValidException.class})
     public ResponseEntity<DTOErrors> handleMethodArgumentNotValidException(MethodArgumentNotValidException exception) {
-        List<String> errorMessages = exception.getBindingResult()
+        final List<String> errorMessages = exception.getBindingResult()
                 .getFieldErrors()
                 .stream()
                 .map(DefaultMessageSourceResolvable::getDefaultMessage)
                 .collect(Collectors.toList());
 
-        return new ResponseEntity<>(new DTOErrors(errorMessages), HttpStatus.BAD_REQUEST);
+        return new ResponseEntity<>(new DTOErrors<>(errorMessages), HttpStatus.BAD_REQUEST);
     }
 }

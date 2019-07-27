@@ -7,11 +7,12 @@ import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 
 public class TodoItemDTOMapper {
-    private final static DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy mm dd HH:MM:SS")
+    private final static DateTimeFormatter dtf = DateTimeFormatter
+            .ofPattern("yyyy mm dd HH:MM:SS")
             .withZone(ZoneId.systemDefault());
 
-    public TodoItemDTO from(TodoItem entity) {
-        TodoItemDTO dto = new TodoItemDTO();
+    public TodoItemDTO from(final TodoItem entity) {
+        final TodoItemDTO dto = new TodoItemDTO();
 
         dto.setId(entity.getId());
         dto.setDescription(entity.getDescription());

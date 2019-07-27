@@ -5,7 +5,7 @@ import java.util.Collection;
 public class DTOErrors<T> {
     private final Collection<T> errorMessages;
 
-    public DTOErrors(Collection<T> errorMessages) {
+    public DTOErrors(final Collection<T> errorMessages) {
         this.errorMessages = errorMessages;
     }
 

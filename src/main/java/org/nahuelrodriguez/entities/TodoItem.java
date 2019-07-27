@@ -10,7 +10,8 @@ import java.util.Objects;
 @Table("to_do_items")
 public class TodoItem {
     @PrimaryKey
-    private long id;
+    @Column
+    private Long id;
 
     @Column
     private String description;
@@ -25,7 +26,7 @@ public class TodoItem {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -50,7 +51,7 @@ public class TodoItem {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         TodoItem todoItem = (TodoItem) o;
-        return id == todoItem.id &&
+        return id.equals(todoItem.id) &&
                 description.equals(todoItem.description) &&
                 Objects.equals(createdDatetime, todoItem.createdDatetime);
     }
