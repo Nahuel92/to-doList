@@ -41,12 +41,6 @@ public class TodoListControllerAdvice {
         return new ResponseEntity<>(generateErrorList(error), HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
-    @ExceptionHandler({HttpMessageNotReadableException.class})
-    public ResponseEntity<DTOErrors<String>> handleMethodArgumentTypeMismatchException() {
-        final String error = "Required request body is missing.";
-        return new ResponseEntity<>(generateErrorList(error), HttpStatus.BAD_REQUEST);
-    }
-
     @ExceptionHandler({HttpRequestMethodNotSupportedException.class})
     public ResponseEntity<DTOErrors<String>> handleHttpRequestMethodNotSupportedException(HttpRequestMethodNotSupportedException exception) {
         final String error = exception.getMessage() + ". Verify the URL and params and try again.";
@@ -56,6 +50,15 @@ public class TodoListControllerAdvice {
     @ExceptionHandler({MismatchedInputException.class, JsonParseException.class})
     public ResponseEntity<DTOErrors<String>> handleMismatchedInputException() {
         final String error = "Cannot deserialize data. Please check params and try again.";
+        return new ResponseEntity<>(generateErrorList(error), HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler({HttpMessageNotReadableException.class})
+    public ResponseEntity<DTOErrors<String>> handleHttpMessageNotReadableException(HttpMessageNotReadableException e) {
+        if (e.getCause() instanceof MismatchedInputException)
+            return handleMismatchedInputException();
+
+        final String error = "Required request body is missing.";
         return new ResponseEntity<>(generateErrorList(error), HttpStatus.BAD_REQUEST);
     }
 

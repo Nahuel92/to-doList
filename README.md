@@ -73,10 +73,12 @@ Used to persist a to-do item on database.
 **Content:**
 
 ```json
-[
-    "Id can not be null",
-    "Description can not be null or empty"
-]
+{
+    "errorMessages": [
+        "Id can not be null",
+        "Description can not be null or empty"
+    ]
+}
 ```
 
 ### Save an items collection
@@ -121,11 +123,11 @@ Used to persist a to-do items collection on database.
 
 **Content:** No.
 
-#### Error response (WIP)
+#### Error response
 
-**Code:**
+**Code:** `400 BAD REQUEST`
 
-**Condition:**
+**Condition:** If request body is missing.
 
 **Content:** No.
 
