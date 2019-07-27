@@ -1,5 +1,6 @@
 package org.nahuelrodriguez.controllers.advices;
 
+import org.nahuelrodriguez.responses.DTOErrors;
 import org.springframework.context.support.DefaultMessageSourceResolvable;
 import org.springframework.dao.DataAccessResourceFailureException;
 import org.springframework.dao.InvalidDataAccessApiUsageException;
@@ -27,13 +28,13 @@ public class TodoListControllerAdvice {
     }
 
     @ExceptionHandler({MethodArgumentNotValidException.class})
-    public ResponseEntity handleMethodArgumentNotValidException(MethodArgumentNotValidException exception) {
+    public ResponseEntity<DTOErrors> handleMethodArgumentNotValidException(MethodArgumentNotValidException exception) {
         List<String> errorMessages = exception.getBindingResult()
                 .getFieldErrors()
                 .stream()
                 .map(DefaultMessageSourceResolvable::getDefaultMessage)
                 .collect(Collectors.toList());
 
-        return new ResponseEntity<>(errorMessages, HttpStatus.BAD_REQUEST);
+        return new ResponseEntity<>(new DTOErrors(errorMessages), HttpStatus.BAD_REQUEST);
     }
 }

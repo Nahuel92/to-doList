@@ -8,17 +8,18 @@ In this case, I chose Cassandra DB for storing data.
 
 ## Features Status
 
-- [x] CRUD operations for a to-do list project.
-- [x] Support for Cassandra.
+- [ ] Authorization.
 - [x] Aspect for logging public controller methods.
 - [x] Controller advice for handling controller exceptions.
-- [ ] Request collection validation.
-- [ ] Unit tests.
-- [ ] Authorization.
-- [ ] Support for Redis.
-- [ ] Support for MongoDB.
-- [ ] Support for MariaDB.
+- [x] CRUD operations for a to-do list project.
 - [ ] Kafka integration for massive creation operations.
+- [x] Request collection validation.
+- [ ] Support for Cassandra.
+- [ ] Support for Redis.
+- [ ] Support for MariaDB.
+- [ ] Support for MongoDB.
+- [ ] Swagger for API documentation.
+- [ ] Unit tests.
 
 ## API Operations
 
@@ -311,21 +312,24 @@ Used to update a to-do item saved on database.
 ## Technologies
 
 This project uses the following technologies:
-- Java.
-- Spring Boot.
-- Maven.
 - Cassandra DB.
 - Docker.
+- Java.
+- Kafka.
+- MariaDB.
+- Maven.
+- Redis.
+- Spring Boot.
 
 ## Tools
 
 This project was made using the following tools:
 
+- [Conventional Commits](https://www.conventionalcommits.org/en/v1.0.0-beta.4).
 - [IntelliJ IDEA](https://www.jetbrains.com/idea).
 - [Gitignore.io](https://www.gitignore.io).
-- [Typora](https://typora.io).
-- [Conventional Commits](https://www.conventionalcommits.org/en/v1.0.0-beta.4).
 - [Postman](https://www.getpostman.com/).
+- [Typora](https://typora.io).
 
 ## License
 
