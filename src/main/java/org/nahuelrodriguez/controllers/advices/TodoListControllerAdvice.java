@@ -22,7 +22,7 @@ import java.util.stream.Collectors;
 @RestControllerAdvice
 public class TodoListControllerAdvice {
     @ExceptionHandler({MethodArgumentNotValidException.class})
-    public ResponseEntity<DTOErrors> handleMethodArgumentNotValidException(MethodArgumentNotValidException exception) {
+    public ResponseEntity<DTOErrors> handleMethodArgumentNotValidException(final MethodArgumentNotValidException exception) {
         final Set<String> errorMessages = exception.getBindingResult()
                 .getFieldErrors()
                 .stream()
@@ -44,7 +44,7 @@ public class TodoListControllerAdvice {
     }
 
     @ExceptionHandler({HttpRequestMethodNotSupportedException.class})
-    public ResponseEntity<DTOErrors> handleHttpRequestMethodNotSupportedException(HttpRequestMethodNotSupportedException exception) {
+    public ResponseEntity<DTOErrors> handleHttpRequestMethodNotSupportedException(final HttpRequestMethodNotSupportedException exception) {
         final String error = exception.getMessage() + ". Verify the URL and params and try again.";
         return new ResponseEntity<>(new DTOErrors(error), HttpStatus.METHOD_NOT_ALLOWED);
     }
@@ -56,7 +56,7 @@ public class TodoListControllerAdvice {
     }
 
     @ExceptionHandler({HttpMessageNotReadableException.class})
-    public ResponseEntity<DTOErrors> handleHttpMessageNotReadableException(HttpMessageNotReadableException exception) {
+    public ResponseEntity<DTOErrors> handleHttpMessageNotReadableException(final HttpMessageNotReadableException exception) {
         if (exception.getCause() instanceof MismatchedInputException)
             return handleMismatchedInputException();
 

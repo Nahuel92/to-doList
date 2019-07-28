@@ -6,15 +6,14 @@ I made this project firstly for training myself on new Java features like lambda
 
 In this case, I chose Cassandra DB for storing data.
 
-## Features Status
+## Project Status
 
 - [ ] Authorization.
 - [x] Aspect for logging public controller methods.
 - [x] Caching with Redis (some operations only).
-- [x] Controller advice for handling controller exceptions.
 - [x] CRUD operations for a to-do list project.
 - [x] Request data validation.
-- [x] Exception handling.
+- [x] Exception handling with controller advice.
 - [ ] Kafka integration for massive creation operations.
 - [x] Support for Cassandra.
 - [ ] Swagger for API documentation.
@@ -23,12 +22,12 @@ In this case, I chose Cassandra DB for storing data.
 ## API Operations
 
 The following is a list of supported operations:
-- Save a to-do item:`POST /todoList/items`
-- Save a collection of to-do item:`POST /todoList/items/bulk`
-- Delete a to-do item:`DELETE /todoList/items/{id}`
-- Delete all to-do items:`DELETE /todoList/items`
-- Retrieve all to-do items:`GET /todoList/items`
-- Update a to-do item:`PATCH /todoList/items`
+- Save a to-do item:`POST /todo-list/item`
+- Save a collection of to-do item:`POST /todo-list/items`
+- Delete a to-do item:`DELETE /todo-list/item/{id}`
+- Delete all to-do items:`DELETE /todo-list/items`
+- Retrieve all to-do items:`GET /todo-list/items`
+- Update a to-do item:`PATCH /todo-list/item`
 
 ## Examples
 
@@ -36,7 +35,7 @@ The following is a list of supported operations:
 
 Used to persist a to-do item on database.
 
-**URL:** `/todoList/items`
+**URL:** `/todo-list/item`
 
 **Method:** `POST`
 
@@ -87,7 +86,7 @@ Used to persist a to-do item on database.
 
 Used to persist a to-do items collection on database.
 
-**URL:** `/todoList/items/bulk`
+**URL:** `/todo-list/items`
 
 **Method:** `POST`
 
@@ -164,7 +163,7 @@ Used to persist a to-do items collection on database.
 
 Used to delete a specific to-do item on database.
 
-**URL:** `/todoList/items/{id}`
+**URL:** `/todo-list/item/{id}`
 
 **Method:** `DELETE`
 
@@ -222,7 +221,7 @@ Used to delete a specific to-do item on database.
 
 Used to delete all to-do items saved on database.
 
-**URL:** `/todoList/items`
+**URL:** `/todo-list/items`
 
 **Method:** `DELETE`
 
@@ -242,7 +241,7 @@ Used to delete all to-do items saved on database.
 
 Used to retrieve all to-do items on database.
 
-**URL:** `/todoList/items`
+**URL:** `/todo-list/items`
 
 **Method:** `GET`
 
@@ -254,7 +253,7 @@ Used to retrieve all to-do items on database.
 
 **Code:** `200 OK`
 
-**Content:** A (Spring) Page object.
+**Content:** A collection of items.
 
 ```json
 [
@@ -275,7 +274,7 @@ Used to retrieve all to-do items on database.
 
 Used to update a to-do item saved on database.
 
-**URL:** `/todoList/items`
+**URL:** `/todo-list/item`
 
 **Method:** `PATCH`
 

@@ -16,7 +16,7 @@ import java.util.Map;
 import java.util.Set;
 
 @RestController
-@RequestMapping(path = "/todoList")
+@RequestMapping(path = "/todo-list")
 public class TodoListController {
     private final TodoListService service;
     private final ListValidator<TodoItemDTO> validator;
@@ -27,13 +27,13 @@ public class TodoListController {
         this.validator = validator;
     }
 
-    @PostMapping(path = "/items")
+    @PostMapping(path = "/item")
     public ResponseEntity addNewTodoItem(@RequestBody @Validated final TodoItemDTO dto) {
         service.addNewTodoItem(dto);
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
-    @PostMapping(path = "/items/bulk")
+    @PostMapping(path = "/items")
     public ResponseEntity addNewTodoItems(@RequestBody final List<TodoItemDTO> dtos) {
         if (dtos.isEmpty())
             return new ResponseEntity<>(new DTOErrors("Empty request"), HttpStatus.BAD_REQUEST);
@@ -47,7 +47,7 @@ public class TodoListController {
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
-    @DeleteMapping(path = "/items/{id}")
+    @DeleteMapping(path = "/item/{id}")
     public ResponseEntity deleteTodoItem(@PathVariable("id") final Long id) {
         service.deleteTodoItem(id);
         return new ResponseEntity(HttpStatus.NO_CONTENT);
@@ -64,7 +64,7 @@ public class TodoListController {
         return service.getAllTodoItems();
     }
 
-    @PatchMapping(path = "/items")
+    @PatchMapping(path = "/item")
     public ResponseEntity updateTodoItem(@RequestBody @Validated final TodoItemDTO dto) {
         service.updateTodoItem(dto);
         return new ResponseEntity(HttpStatus.NO_CONTENT);
