@@ -6,6 +6,36 @@ I made this project firstly for training myself on new Java features like lambda
 
 In this case, I chose Cassandra DB for storing data.
 
+## Table of Contents
+
+- [To-do List Project (WIP)](#to-do-list-project-wip)
+  - [Project Status](#project-status)
+  - [Requisites](#requisites)
+  - [API Operations](#api-operations)
+  - [Examples](#examples)
+    - [Save item](#save-item)
+      - [Success response](#success-response)
+      - [Error response](#error-response)
+    - [Save an items collection](#save-an-items-collection)
+      - [Success response](#success-response-1)
+      - [Error response](#error-response-1)
+      - [Error response](#error-response-2)
+    - [Delete item](#delete-item)
+      - [Success response](#success-response-2)
+      - [Error response](#error-response-3)
+      - [Error response](#error-response-4)
+    - [Delete all items](#delete-all-items)
+      - [Success response](#success-response-3)
+    - [Retrieve all items](#retrieve-all-items)
+      - [Success response](#success-response-4)
+    - [Update item](#update-item)
+      - [Success response](#success-response-5)
+      - [Error response](#error-response-5)
+      - [Error response](#error-response-6)
+  - [Technologies](#technologies)
+  - [Tools](#tools)
+  - [License](#license)
+
 ## Project Status
 
 - [ ] Authorization.
@@ -18,6 +48,34 @@ In this case, I chose Cassandra DB for storing data.
 - [x] Support for Cassandra DB.
 - [ ] Swagger for API documentation.
 - [ ] Unit tests.
+
+## Requisites
+
+You must have Redis, Cassandra DB and a Kafka instance properly configured.
+Please, configure the project's properties according to your configuration modifying the`application.properties`file.
+
+The following are the properties you can configure for this application:
+
+```properties
+# Cassandra configuration
+cassandra.ip=localhost
+cassandra.port=9042
+cassandra.contactPoints=localhost
+cassandra.keyspace=todoList
+# Kafka configuration
+spring.kafka.bootstrap-servers=localhost:9092
+spring.kafka.template.default-topic=todoListUsers
+# Kafka consumer configuration
+spring.kafka.consumer.group-id=group-id
+# Redis configuration
+redis.host=localhost
+redis.port=6379
+redis.password=
+# Spring cache
+spring.cache.type=redis
+spring.cache.redis.time-to-live=600000
+
+```
 
 ## API Operations
 
@@ -354,6 +412,7 @@ This project was made using the following tools:
 
 - [Conventional Commits](https://www.conventionalcommits.org/en/v1.0.0-beta.4).
 - [IntelliJ IDEA](https://www.jetbrains.com/idea).
+- [gh-md-toc](https://github.com/ekalinin/github-markdown-toc)
 - [Gitignore.io](https://www.gitignore.io).
 - [Postman](https://www.getpostman.com/).
 - [Typora](https://typora.io).
