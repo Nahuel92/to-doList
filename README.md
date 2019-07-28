@@ -14,8 +14,8 @@ In this case, I chose Cassandra DB for storing data.
 - [x] CRUD operations for a to-do list project.
 - [x] Request data validation.
 - [x] Exception handling with controller advice.
-- [ ] Kafka integration for massive creation operations.
-- [x] Support for Cassandra.
+- [x] Kafka integration for massive creation operations.
+- [x] Support for Cassandra DB.
 - [ ] Swagger for API documentation.
 - [ ] Unit tests.
 
@@ -340,7 +340,8 @@ Used to update a to-do item saved on database.
 ## Technologies
 
 This project uses the following technologies:
-- Cassandra DB.
+- Apache Cassandra DB.
+- Apache Kafka.
 - Docker.
 - Java.
 - Maven.

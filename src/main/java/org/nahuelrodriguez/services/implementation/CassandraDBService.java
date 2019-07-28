@@ -14,10 +14,8 @@ import org.springframework.stereotype.Service;
 
 import java.time.Instant;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 @Service
 public class CassandraDBService implements TodoListService {
@@ -27,23 +25,15 @@ public class CassandraDBService implements TodoListService {
 
     @Autowired
     public CassandraDBService(final Repository repository) {
-        this.repository = repository;
         this.toEntityMapper = new TodoItemMapper();
         this.toDtoMapper = new TodoItemDTOMapper();
+        this.repository = repository;
     }
 
     public void addNewTodoItem(final TodoItemDTO dto) {
         final TodoItem entity = toEntityMapper.from(dto);
         entity.setCreatedDatetime(Instant.now());
-
         repository.save(entity);
-    }
-
-    public void addNewTodoItems(final Collection<TodoItemDTO> dtos) {
-        final List<TodoItem> entities = dtos.stream()
-                .map(toEntityMapper::from)
-                .collect(Collectors.toList());
-        repository.saveAll(entities);
     }
 
     @CacheEvict(value = "todoItems", key = "#p0")

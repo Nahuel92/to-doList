@@ -20,7 +20,7 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 @RestControllerAdvice
-public class TodoListControllerAdvice {
+public class ControllerAdvice {
     @ExceptionHandler({MethodArgumentNotValidException.class})
     public ResponseEntity<DTOErrors> handleMethodArgumentNotValidException(final MethodArgumentNotValidException exception) {
         final Set<String> errorMessages = exception.getBindingResult()
