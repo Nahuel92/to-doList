@@ -28,8 +28,8 @@ public class KafkaConsumerConfig {
     }
 
     @Bean
-    public ConsumerFactory<String, TodoItemDTO> consumerFactory() {
-        return new DefaultKafkaConsumerFactory(
+    public ConsumerFactory<TodoItemDTO, TodoItemDTO> consumerFactory() {
+        return new DefaultKafkaConsumerFactory<>(
                 consumerConfigs(),
                 new TodoItemDTODeserializer(),
                 new TodoItemDTODeserializer()
@@ -37,8 +37,8 @@ public class KafkaConsumerConfig {
     }
 
     @Bean
-    public ConcurrentKafkaListenerContainerFactory<String, TodoItemDTO> kafkaListenerContainerFactory() {
-        final ConcurrentKafkaListenerContainerFactory<String, TodoItemDTO> factory =
+    public ConcurrentKafkaListenerContainerFactory<TodoItemDTO, TodoItemDTO> kafkaListenerContainerFactory() {
+        final ConcurrentKafkaListenerContainerFactory<TodoItemDTO, TodoItemDTO> factory =
                 new ConcurrentKafkaListenerContainerFactory<>();
         factory.setConsumerFactory(consumerFactory());
         return factory;
