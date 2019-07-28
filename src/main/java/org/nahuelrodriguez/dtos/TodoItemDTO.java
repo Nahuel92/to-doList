@@ -2,9 +2,10 @@ package org.nahuelrodriguez.dtos;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
+import java.io.Serializable;
 import java.util.Objects;
 
-public class TodoItemDTO {
+public class TodoItemDTO implements Serializable {
     @NotNull(message = "Id can not be null")
     private Long id;
 

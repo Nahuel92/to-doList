@@ -10,6 +10,7 @@ In this case, I chose Cassandra DB for storing data.
 
 - [ ] Authorization.
 - [x] Aspect for logging public controller methods.
+- [x] Caching with Redis (some operations only).
 - [x] Controller advice for handling controller exceptions.
 - [x] CRUD operations for a to-do list project.
 - [x] Request data validation.
@@ -201,6 +202,22 @@ Used to delete a specific to-do item on database.
 }
 ```
 
+#### Error response
+
+**Code:** `400 BAD REQUEST`
+
+**Condition:** Deleting an inexistent item.
+
+**Content:**
+
+```json
+{
+    "errorMessages": [
+        "Entity not found."
+    ]
+}
+```
+
 ### Delete all items
 
 Used to delete all to-do items saved on database.
@@ -240,34 +257,18 @@ Used to retrieve all to-do items on database.
 **Content:** A (Spring) Page object.
 
 ```json
-{
-    "content": [
-        {
-            "id": 1,
-            "description": "To do item example",
-            "createdDatetime": "2019 26 25 11:07:03"
-        },
-        {
-            "id": 2,
-            "description": "To do item example 2",
-            "createdDatetime": "2019 57 25 11:07:49"
-        }
-    ],
-    "pageable": "INSTANCE",
-    "totalPages": 1,
-    "totalElements": 2,
-    "last": true,
-    "size": 0,
-    "number": 0,
-    "sort": {
-        "sorted": false,
-        "unsorted": true,
-        "empty": true
-    },
-    "first": true,
-    "numberOfElements": 2,
-    "empty": false
-}
+[
+  {
+    "id": 1,
+    "description": "To do item example",
+    "createdDatetime": "2019 26 25 11:07:03"
+  },
+  {
+    "id": 2,
+    "description": "To do item example 2",
+    "createdDatetime": "2019 57 25 11:07:49"
+  }
+]
 ```
 
 ### Update item
@@ -321,6 +322,22 @@ Used to update a to-do item saved on database.
 }
 ```
 
+#### Error response
+
+**Code:** `400 BAD REQUEST`
+
+**Condition:** Updating an inexistent item.
+
+**Content:**
+
+```json
+{
+    "errorMessages": [
+        "Entity not found."
+    ]
+}
+```
+
 ## Technologies
 
 This project uses the following technologies:
@@ -328,6 +345,7 @@ This project uses the following technologies:
 - Docker.
 - Java.
 - Maven.
+- Redis.
 - Spring Boot.
 
 ## Tools

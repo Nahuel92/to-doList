@@ -2,6 +2,7 @@ package org.nahuelrodriguez.controllers.advices;
 
 import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.databind.exc.MismatchedInputException;
+import org.nahuelrodriguez.exceptions.NotFoundException;
 import org.nahuelrodriguez.responses.DTOErrors;
 import org.springframework.context.support.DefaultMessageSourceResolvable;
 import org.springframework.dao.DataAccessResourceFailureException;
@@ -66,6 +67,12 @@ public class TodoListControllerAdvice {
     @ExceptionHandler({MethodArgumentTypeMismatchException.class})
     public ResponseEntity<DTOErrors> handleHttpMessageNotReadableException() {
         final String error = "Argument type mismatch. Please check data types and try again.";
+        return new ResponseEntity<>(new DTOErrors(error), HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler({NotFoundException.class})
+    public ResponseEntity<DTOErrors> handleNotFoundException() {
+        final String error = "Entity not found.";
         return new ResponseEntity<>(new DTOErrors(error), HttpStatus.BAD_REQUEST);
     }
 }

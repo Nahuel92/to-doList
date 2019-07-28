@@ -6,7 +6,6 @@ import org.nahuelrodriguez.responses.ErrorList;
 import org.nahuelrodriguez.services.TodoListService;
 import org.nahuelrodriguez.validators.ListValidator;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
@@ -61,7 +60,7 @@ public class TodoListController {
     }
 
     @GetMapping(path = "/items")
-    public Page<TodoItemDTO> getAllTodoItems() {
+    public List<TodoItemDTO> getAllTodoItems() {
         return service.getAllTodoItems();
     }
 

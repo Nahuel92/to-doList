@@ -3,12 +3,13 @@ package org.nahuelrodriguez.services.implementation;
 import org.nahuelrodriguez.daos.Repository;
 import org.nahuelrodriguez.dtos.TodoItemDTO;
 import org.nahuelrodriguez.entities.TodoItem;
+import org.nahuelrodriguez.exceptions.NotFoundException;
 import org.nahuelrodriguez.mappers.TodoItemDTOMapper;
 import org.nahuelrodriguez.mappers.TodoItemMapper;
 import org.nahuelrodriguez.services.TodoListService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import java.time.Instant;
@@ -45,25 +46,32 @@ public class CassandraDBService implements TodoListService {
         repository.saveAll(entities);
     }
 
+    @CacheEvict(value = "todoItems", key = "#p0")
     public void deleteTodoItem(final Long id) {
+        final Optional<TodoItem> entity = repository.findById(id);
         repository.deleteById(id);
+        entity.orElseThrow(NotFoundException::new);
     }
 
+    @CacheEvict(value = "todoItems", allEntries = true)
     public void deleteAllTodoItems() {
         repository.deleteAll();
     }
 
-    public Page<TodoItemDTO> getAllTodoItems() {
+    @Cacheable(value = "todoItems", unless = "#result.size() == 0")
+    public List<TodoItemDTO> getAllTodoItems() {
         final List<TodoItemDTO> dtos = new ArrayList<>();
         repository.findAll().forEach(entity -> dtos.add(toDtoMapper.from(entity)));
-        return new PageImpl<>(dtos);
+        return dtos;
     }
 
+    @CacheEvict(value = "todoItems", allEntries = true)
     public void updateTodoItem(final TodoItemDTO dto) {
         final Optional<TodoItem> entity = repository.findById(dto.getId());
         entity.ifPresent(e -> {
             e.setDescription(dto.getDescription());
             repository.save(e);
         });
+        entity.orElseThrow(NotFoundException::new);
     }
 }
