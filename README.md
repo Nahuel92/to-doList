@@ -32,6 +32,7 @@ In this case, I chose Cassandra DB for storing data.
       - [Success response](#success-response-5)
       - [Error response](#error-response-5)
       - [Error response](#error-response-6)
+    - [Swagger](#swagger)
   - [Technologies](#technologies)
   - [Tools](#tools)
   - [License](#license)
