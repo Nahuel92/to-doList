@@ -46,7 +46,7 @@ In this case, I chose Cassandra DB for storing data.
 - [x] Exception handling with controller advice.
 - [x] Kafka integration for massive creation operations.
 - [x] Support for Cassandra DB.
-- [ ] Swagger for API documentation.
+- [x] Swagger for API documentation.
 - [ ] Unit tests.
 
 ## Requisites
@@ -394,6 +394,10 @@ Used to update a to-do item saved on database.
     ]
 }
 ```
+
+## Swagger
+
+[Here](http://localhost:8080/swagger-ui.html) is the Swagger-generated API documentation. The project have to be running to access the page.
 
 ## Technologies
 
