@@ -1,6 +1,6 @@
 package org.nahuelrodriguez.services.implementation;
 
-import org.nahuelrodriguez.dtos.TodoItemDTO;
+import org.nahuelrodriguez.requests.dtos.TodoItemRequest;
 import org.nahuelrodriguez.services.TodoListService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.kafka.annotation.KafkaListener;
@@ -16,7 +16,7 @@ public class KafkaConsumer {
     }
 
     @KafkaListener(topics = "${spring.kafka.template.default-topic}", groupId = "${spring.kafka.consumer.group-id}")
-    public void consume(final TodoItemDTO dto) {
+    public void consume(final TodoItemRequest dto) {
         service.addNewTodoItem(dto);
     }
 }

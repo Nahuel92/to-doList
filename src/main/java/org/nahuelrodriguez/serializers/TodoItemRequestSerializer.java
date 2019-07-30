@@ -2,18 +2,17 @@ package org.nahuelrodriguez.serializers;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.kafka.common.serialization.Serializer;
-import org.nahuelrodriguez.dtos.TodoItemDTO;
+import org.nahuelrodriguez.requests.dtos.TodoItemRequest;
 
 import java.util.Map;
 
-public class TodoItemDTOSerializer implements Serializer<TodoItemDTO> {
+public class TodoItemRequestSerializer implements Serializer<TodoItemRequest> {
     @Override
     public void configure(Map<String, ?> map, boolean b) {
-
     }
 
     @Override
-    public byte[] serialize(final String s, final TodoItemDTO dto) {
+    public byte[] serialize(final String s, final TodoItemRequest dto) {
         byte[] retVal;
         ObjectMapper objectMapper = new ObjectMapper();
         try {
@@ -26,6 +25,5 @@ public class TodoItemDTOSerializer implements Serializer<TodoItemDTO> {
 
     @Override
     public void close() {
-
     }
 }

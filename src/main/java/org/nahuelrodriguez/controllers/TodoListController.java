@@ -1,6 +1,7 @@
 package org.nahuelrodriguez.controllers;
 
-import org.nahuelrodriguez.dtos.TodoItemDTO;
+import org.nahuelrodriguez.requests.dtos.TodoItemRequest;
+import org.nahuelrodriguez.responses.dtos.TodoItemDTO;
 import org.nahuelrodriguez.services.TodoListService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -21,7 +22,7 @@ public class TodoListController {
     }
 
     @PostMapping(path = "/item")
-    public ResponseEntity addNewTodoItem(@RequestBody @Validated final TodoItemDTO dto) {
+    public ResponseEntity addNewTodoItem(@RequestBody @Validated final TodoItemRequest dto) {
         service.addNewTodoItem(dto);
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
@@ -44,7 +45,7 @@ public class TodoListController {
     }
 
     @PatchMapping(path = "/item")
-    public ResponseEntity updateTodoItem(@RequestBody @Validated final TodoItemDTO dto) {
+    public ResponseEntity updateTodoItem(@RequestBody @Validated final TodoItemRequest dto) {
         service.updateTodoItem(dto);
         return new ResponseEntity(HttpStatus.NO_CONTENT);
     }

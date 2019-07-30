@@ -1,11 +1,12 @@
 package org.nahuelrodriguez.services;
 
-import org.nahuelrodriguez.dtos.TodoItemDTO;
+import org.nahuelrodriguez.requests.dtos.TodoItemRequest;
+import org.nahuelrodriguez.responses.dtos.TodoItemDTO;
 
 import java.util.List;
 
 public interface TodoListService {
-    void addNewTodoItem(final TodoItemDTO dto);
+    void addNewTodoItem(final TodoItemRequest dto);
 
     void deleteTodoItem(final Long id);
 
@@ -13,5 +14,5 @@ public interface TodoListService {
 
     List<TodoItemDTO> getAllTodoItems();
 
-    void updateTodoItem(final TodoItemDTO dto);
+    void updateTodoItem(final TodoItemRequest dto);
 }

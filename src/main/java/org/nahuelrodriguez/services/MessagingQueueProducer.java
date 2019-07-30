@@ -1,9 +1,9 @@
 package org.nahuelrodriguez.services;
 
-import org.nahuelrodriguez.dtos.TodoItemDTO;
+import org.nahuelrodriguez.requests.dtos.TodoItemRequest;
 
 import java.util.Collection;
 
 public interface MessagingQueueProducer {
-    void sendMessage(final Collection<TodoItemDTO> dtos);
+    void sendMessage(final Collection<TodoItemRequest> dtos);
 }

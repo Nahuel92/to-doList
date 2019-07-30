@@ -410,6 +410,7 @@ This project uses the following technologies:
 - Maven.
 - Redis.
 - Spring Boot.
+- Swagger.
 
 ## Tools
 

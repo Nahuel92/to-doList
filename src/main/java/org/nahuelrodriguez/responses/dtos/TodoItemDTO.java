@@ -1,4 +1,4 @@
-package org.nahuelrodriguez.dtos;
+package org.nahuelrodriguez.responses.dtos;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;

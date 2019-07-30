@@ -1,7 +1,7 @@
 package org.nahuelrodriguez.mappers;
 
-import org.nahuelrodriguez.dtos.TodoItemDTO;
 import org.nahuelrodriguez.entities.TodoItem;
+import org.nahuelrodriguez.responses.dtos.TodoItemDTO;
 
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;

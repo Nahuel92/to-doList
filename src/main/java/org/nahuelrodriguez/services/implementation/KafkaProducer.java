@@ -1,6 +1,6 @@
 package org.nahuelrodriguez.services.implementation;
 
-import org.nahuelrodriguez.dtos.TodoItemDTO;
+import org.nahuelrodriguez.requests.dtos.TodoItemRequest;
 import org.nahuelrodriguez.services.MessagingQueueProducer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -13,14 +13,14 @@ import java.util.Collection;
 public class KafkaProducer implements MessagingQueueProducer {
     @Value("${spring.kafka.template.default-topic}")
     private String topic;
-    private KafkaTemplate<String, TodoItemDTO> kafkaTemplate;
+    private final KafkaTemplate<String, TodoItemRequest> kafkaTemplate;
 
     @Autowired
-    public KafkaProducer(final KafkaTemplate<String, TodoItemDTO> kafkaTemplate) {
+    public KafkaProducer(final KafkaTemplate<String, TodoItemRequest> kafkaTemplate) {
         this.kafkaTemplate = kafkaTemplate;
     }
 
-    public void sendMessage(final Collection<TodoItemDTO> dtos) {
+    public void sendMessage(final Collection<TodoItemRequest> dtos) {
         dtos.forEach(dto -> this.kafkaTemplate.send(topic, dto));
     }
 }

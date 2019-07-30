@@ -2,22 +2,21 @@ package org.nahuelrodriguez.serializers;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.kafka.common.serialization.Deserializer;
-import org.nahuelrodriguez.dtos.TodoItemDTO;
+import org.nahuelrodriguez.requests.dtos.TodoItemRequest;
 
 import java.util.Map;
 
-public class TodoItemDTODeserializer implements Deserializer<TodoItemDTO> {
+public class TodoItemRequestDeserializer implements Deserializer<TodoItemRequest> {
     @Override
     public void configure(Map<String, ?> map, boolean b) {
-
     }
 
     @Override
-    public TodoItemDTO deserialize(final String topic, final byte[] data) {
+    public TodoItemRequest deserialize(final String topic, final byte[] data) {
         ObjectMapper mapper = new ObjectMapper();
-        TodoItemDTO dto;
+        TodoItemRequest dto;
         try {
-            dto = mapper.readValue(data, TodoItemDTO.class);
+            dto = mapper.readValue(data, TodoItemRequest.class);
         } catch (Exception e) {
             throw new RuntimeException("Failed to deserialize data of topic: " + topic);
         }
@@ -26,6 +25,5 @@ public class TodoItemDTODeserializer implements Deserializer<TodoItemDTO> {
 
     @Override
     public void close() {
-
     }
 }

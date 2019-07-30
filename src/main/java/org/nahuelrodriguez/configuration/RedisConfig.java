@@ -20,7 +20,7 @@ public class RedisConfig {
     private String password;
 
     @Bean
-    JedisConnectionFactory jedisConnectionFactory() {
+    public JedisConnectionFactory jedisConnectionFactory() {
         final RedisStandaloneConfiguration redisConfig = new RedisStandaloneConfiguration(url, port);
         redisConfig.setPassword(RedisPassword.of(password));
         return new JedisConnectionFactory(redisConfig);
