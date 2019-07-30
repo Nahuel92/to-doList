@@ -13,7 +13,7 @@
     <groupId>org.nahuel-rodriguez.portfolio</groupId>
     <artifactId>to-doList</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <packaging>war</packaging>
+    <packaging>jar</packaging>
     <name>todo-list</name>
     <description>Spring Boot API REST project</description>
 

@@ -1,8 +1,9 @@
 package org.nahuelrodriguez.responses.dtos;
 
+import java.io.Serializable;
 import java.util.Objects;
 
-public class TodoItemDTO {
+public class TodoItemDTO implements Serializable {
     private Long id;
     private String description;
     private String createdDatetime;
