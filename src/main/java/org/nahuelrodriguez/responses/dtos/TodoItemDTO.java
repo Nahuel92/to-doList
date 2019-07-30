@@ -1,15 +1,9 @@
 package org.nahuelrodriguez.responses.dtos;
 
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
-import java.io.Serializable;
 import java.util.Objects;
 
-public class TodoItemDTO implements Serializable {
-    @NotNull(message = "Id can not be null")
+public class TodoItemDTO {
     private Long id;
-
-    @NotBlank(message = "Description can not be null or empty")
     private String description;
     private String createdDatetime;
 
