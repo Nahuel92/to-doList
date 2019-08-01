@@ -15,12 +15,15 @@ import java.util.Map;
 
 @Configuration
 public class KafkaConsumerConfig {
-    @Value("${spring.kafka.bootstrap-servers}")
-    private String bootstrapServers;
+    private final String bootstrapServers;
+
+    public KafkaConsumerConfig(@Value("${spring.kafka.bootstrap-servers}") final String bootstrapServers) {
+        this.bootstrapServers = bootstrapServers;
+    }
 
     @Bean
     public Map<String, Object> consumerConfigs() {
-        final Map<String, Object> props = new HashMap<>();
+        final var props = new HashMap<String, Object>();
         props.put(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, bootstrapServers);
         props.put(ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG, TodoItemRequestDeserializer.class);
         props.put(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, TodoItemRequestDeserializer.class);
@@ -38,8 +41,7 @@ public class KafkaConsumerConfig {
 
     @Bean
     public ConcurrentKafkaListenerContainerFactory<TodoItemRequest, TodoItemRequest> kafkaListenerContainerFactory() {
-        final ConcurrentKafkaListenerContainerFactory<TodoItemRequest, TodoItemRequest> factory =
-                new ConcurrentKafkaListenerContainerFactory<>();
+        final var factory = new ConcurrentKafkaListenerContainerFactory<TodoItemRequest, TodoItemRequest>();
         factory.setConsumerFactory(consumerFactory());
         return factory;
     }

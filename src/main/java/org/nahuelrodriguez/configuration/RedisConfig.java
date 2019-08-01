@@ -12,23 +12,24 @@ import org.springframework.data.redis.core.RedisTemplate;
 @Configuration
 @EnableCaching
 public class RedisConfig {
-    @Value("${redis.host}")
-    private String url;
-    @Value("${redis.port}")
-    private Integer port;
-    @Value("${redis.password}")
-    private String password;
+    private final String url;
+    private final String password;
+
+    public RedisConfig(@Value("${spring.redis.host}") final String url, @Value("${spring.redis.password}") final String password) {
+        this.url = url;
+        this.password = password;
+    }
 
     @Bean
     public JedisConnectionFactory jedisConnectionFactory() {
-        final RedisStandaloneConfiguration redisConfig = new RedisStandaloneConfiguration(url, port);
+        final var redisConfig = new RedisStandaloneConfiguration(url);
         redisConfig.setPassword(RedisPassword.of(password));
         return new JedisConnectionFactory(redisConfig);
     }
 
     @Bean
     public RedisTemplate<String, Object> redisTemplate() {
-        final RedisTemplate<String, Object> template = new RedisTemplate<>();
+        final var template = new RedisTemplate<String, Object>();
         template.setConnectionFactory(jedisConnectionFactory());
         return template;
     }
