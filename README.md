@@ -49,7 +49,7 @@ In this case, I chose Cassandra DB for storing data.
 - [x] Support for Cassandra DB.
 - [x] Swagger for API documentation.
 - [ ] Unit tests.
-- [ ] Dockerize.
+- [x] App Dockerized.
 
 ## Requisites
 

@@ -1,5 +1,5 @@
-FROM openjdk:12
-COPY ./target/to-doList-0.0.1-SNAPSHOT.jar /usr/src/todo-list
-WORKDIR /usr/src/todo-list
-EXPOSE 8080
+FROM openjdk:12-jdk-alpine
+
+ARG JAR_FILE
+COPY ${JAR_FILE} to-doList-0.0.1-SNAPSHOT.jar
 CMD ["java", "-jar", "to-doList-0.0.1-SNAPSHOT.jar"]
