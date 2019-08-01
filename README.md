@@ -10,6 +10,9 @@ In this case, I chose Cassandra DB for storing data.
 
 - [To-do List Project (WIP)](#to-do-list-project-wip)
   - [Project Status](#project-status)
+  - [Running the application](#running-the-application)
+  - [Requisites (only for Docker deployment)](#requisites-only-for-docker-deployment)
+  - [Requisites (only for local deployment)](#requisites-only-for-local-deployment)
   - [Requisites](#requisites)
   - [API Operations](#api-operations)
   - [Examples](#examples)
@@ -39,19 +42,35 @@ In this case, I chose Cassandra DB for storing data.
 
 ## Project Status
 
-- [ ] Authorization.
+- [x] App Dockerized.
 - [x] Aspect for logging public controller methods.
+- [ ] Authorization.
 - [x] Caching with Redis (some operations only).
-- [x] CRUD operations for a to-do list project.
-- [x] Request data validation.
+- [x] CRUD operations for a to-do list.
 - [x] Exception handling with controller advice.
 - [x] Kafka integration for massive creation operations.
+- [x] Request data validation.
 - [x] Support for Cassandra DB.
 - [x] Swagger for API documentation.
 - [ ] Unit tests.
-- [x] App Dockerized.
 
-## Requisites
+## Running the application
+
+This app is dockerized. This mean that the only thing you have to do is clone this repo and build the project with Maven (I'm working to avoid this and let Docker build the project too).
+
+After that, you can run the following command on the project root to have all up and running:
+
+```bash
+docker-compose up
+```
+
+You can run this app locally too, but you have to configure all the dependencies described on the Requisites section.
+
+## Requisites (only for Docker deployment)
+
+The only requisite is have installed Docker and Docker-compose.
+
+## Requisites (only for local deployment)
 
 You must have Redis, Cassandra DB and a Kafka instance properly configured.
 Please, configure the project's properties according to your configuration modifying the`application.properties`file.
@@ -60,23 +79,20 @@ The following are the properties you can configure for this application:
 
 ```properties
 # Cassandra configuration
-cassandra.ip=localhost
-cassandra.port=9042
-cassandra.contactPoints=localhost
-cassandra.keyspace=todoList
+spring.data.cassandra.contact-points=localhost
+spring.data.cassandra.keyspace-name=todoList
+spring.data.cassandra.schema-action=CREATE_IF_NOT_EXISTS
 # Kafka configuration
 spring.kafka.bootstrap-servers=localhost:9092
 spring.kafka.template.default-topic=todoListUsers
 # Kafka consumer configuration
 spring.kafka.consumer.group-id=group-id
 # Redis configuration
-redis.host=localhost
-redis.port=6379
-redis.password=
+spring.redis.host=localhost
+spring.redis.password=
 # Spring cache
 spring.cache.type=redis
 spring.cache.redis.time-to-live=600000
-
 ```
 
 ## API Operations
@@ -404,14 +420,14 @@ Used to update a to-do item saved on database.
 ## Technologies
 
 This project uses the following technologies:
-- Apache Cassandra DB.
-- Apache Kafka.
-- Docker.
-- Java.
-- Maven.
-- Redis.
-- Spring Boot.
-- Swagger.
+- [Apache Cassandra DB](http://cassandra.apache.org/).
+- [Apache Kafka](https://kafka.apache.org/).
+- [Docker](https://www.docker.com/).
+- [Java](https://openjdk.java.net/).
+- [Maven](https://maven.apache.org/).
+- [Redis](https://redis.io/).
+- [Spring Boot](https://spring.io/projects/spring-boot).
+- [Swagger](https://swagger.io/).
 
 ## Tools
 
