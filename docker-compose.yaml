@@ -8,6 +8,7 @@ services:
         JAR_FILE: /target/to-doList-0.0.1-SNAPSHOT.jar
     environment:
       SPRING_KAFKA_BOOTSTRAPSERVERS: kafka:29092
+      SPRING_REDIS_HOST: redis
     ports:
       - "8080:8080"
     depends_on:

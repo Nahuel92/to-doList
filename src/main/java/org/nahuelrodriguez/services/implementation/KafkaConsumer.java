@@ -14,7 +14,6 @@ public class KafkaConsumer {
     public KafkaConsumer(final TodoListService service) {
         this.service = service;
     }
-
     @KafkaListener(topics = "${spring.kafka.template.default-topic}", groupId = "${spring.kafka.consumer.group-id}")
     public void consume(final TodoItemRequest dto) {
         service.addNewTodoItem(dto);

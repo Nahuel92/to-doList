@@ -11,12 +11,12 @@ import java.util.List;
 
 @Configuration
 @EnableCassandraRepositories
-public class CassandraClusterConfig extends AbstractClusterConfiguration {
+public class CassandraConfig extends AbstractClusterConfiguration {
     private final String contactPoints;
     private final String keySpace;
 
-    public CassandraClusterConfig(@Value("${spring.data.cassandra.keyspace-name}") final String keySpace,
-                                  @Value("${spring.data.cassandra.contact-points}") final String contactPoints) {
+    public CassandraConfig(@Value("${spring.data.cassandra.keyspace-name}") final String keySpace,
+                           @Value("${spring.data.cassandra.contact-points}") final String contactPoints) {
         this.keySpace = keySpace;
         this.contactPoints = contactPoints;
     }
