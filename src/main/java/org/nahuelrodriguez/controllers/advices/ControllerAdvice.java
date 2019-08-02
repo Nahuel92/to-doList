@@ -73,6 +73,6 @@ public class ControllerAdvice {
     @ExceptionHandler({NotFoundException.class})
     public ResponseEntity<DTOErrors> handleNotFoundException() {
         final String error = "Entity not found.";
-        return new ResponseEntity<>(new DTOErrors(error), HttpStatus.BAD_REQUEST);
+        return new ResponseEntity<>(new DTOErrors(error), HttpStatus.NOT_FOUND);
     }
 }
