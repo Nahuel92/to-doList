@@ -18,12 +18,12 @@ services:
     restart: always
   cassandra:
     container_name: cassandra
-    image: "cassandra"
+    image: cassandra:latest
     ports:
       - "9042:9042"
   redis:
     container_name: redis
-    image: "redis:5.0.5-alpine3.10"
+    image: redis:5.0.5-alpine3.10
     ports:
       - "6379:6379"
   kafka:
