@@ -8,7 +8,7 @@ import java.util.*;
 import java.util.stream.IntStream;
 
 @Component
-public final class ListValidator<T> {
+public class ListValidator<T> {
     private final Validator validator;
 
     @Autowired

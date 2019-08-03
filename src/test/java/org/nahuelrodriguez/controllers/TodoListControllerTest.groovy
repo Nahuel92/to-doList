@@ -38,10 +38,9 @@ class TodoListControllerTest extends Specification {
         dto.setDescription("valid dto")
 
         when:
-        def results = mockMvc
-                .perform(post('/todo-list/item')
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(toJson(dto)))
+        def results = mockMvc.perform(post('/todo-list/item')
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(toJson(dto)))
 
         then:
         results.andExpect(status().isCreated())
@@ -52,10 +51,9 @@ class TodoListControllerTest extends Specification {
         def dto = new TodoItemRequest()
 
         when:
-        def results = mockMvc
-                .perform(post('/todo-list/item')
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(toJson(dto)))
+        def results = mockMvc.perform(post('/todo-list/item')
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(toJson(dto)))
 
         then:
         results.andExpect(status().isBadRequest())
@@ -65,11 +63,10 @@ class TodoListControllerTest extends Specification {
         given:
         def id = 1
         and:
-        repository.findById(id) >> Optional.of(validTodoItemEntity(id, "valid entity"))
+        repository.findById(id) >> Optional.of(newEntity(id, "valid entity"))
 
         when:
-        def results = mockMvc
-                .perform(delete('/todo-list/item/{id}', id))
+        def results = mockMvc.perform(delete('/todo-list/item/{id}', id))
 
         then:
         results.andExpect(status().isNoContent())
@@ -94,8 +91,7 @@ class TodoListControllerTest extends Specification {
         def id = "invalid id"
 
         when:
-        def results = mockMvc
-                .perform(delete('/todo-list/item/{id}', id))
+        def results = mockMvc.perform(delete('/todo-list/item/{id}', id))
 
         then:
         results.andExpect(status().isBadRequest())
@@ -103,8 +99,7 @@ class TodoListControllerTest extends Specification {
 
     def "When invocked deleteAllTodoItems method  -> returns 204 no content"() {
         when:
-        def results = mockMvc
-                .perform(delete('/todo-list/items'))
+        def results = mockMvc.perform(delete('/todo-list/items'))
 
         then:
         results.andExpect(status().isNoContent())
@@ -112,7 +107,10 @@ class TodoListControllerTest extends Specification {
 
     def "When invocked getAllTodoItems method -> returns 200 OK and an entity collection"() {
         given:
-        repository.findAll() >> getTodoItemCollection()
+        repository.findAll() >> List.of(newEntity(1, "entity 1"),
+                newEntity(2, "entity 2"),
+                newEntity(3, "entity 3"),
+                newEntity(4, "entity 4"))
 
         when:
         def results = mockMvc.perform(get('/todo-list/items')
@@ -142,7 +140,7 @@ class TodoListControllerTest extends Specification {
         dto.setId(id)
         dto.setDescription("valid dto")
         and:
-        repository.findById(id) >> Optional.of(validTodoItemEntity(id, "valid entity"))
+        repository.findById(id) >> Optional.of(newEntity(id, "valid entity"))
 
         when:
         def results = mockMvc.perform(patch('/todo-list/item')
@@ -173,20 +171,11 @@ class TodoListControllerTest extends Specification {
         exception.getCause().class == NotFoundException.class
     }
 
-    def validTodoItemEntity(int id, String description) {
+    def newEntity(int id, String description) {
         def entity = new TodoItem()
         entity.setId(id)
         entity.setDescription(description)
         entity.setCreatedDatetime(Instant.now())
         entity
-    }
-
-    def getTodoItemCollection() {
-        [
-                validTodoItemEntity(1, "entity 1"),
-                validTodoItemEntity(2, "entity 2"),
-                validTodoItemEntity(3, "entity 3"),
-                validTodoItemEntity(4, "entity 4")
-        ]
     }
 }

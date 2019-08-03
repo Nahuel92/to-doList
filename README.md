@@ -52,7 +52,7 @@ In this case, I chose Cassandra DB for storing data.
 - [x] Request data validation.
 - [x] Support for Cassandra DB.
 - [x] Swagger for API documentation.
-- [ ] Unit tests.
+- [x] Unit tests.
 
 ## Running the application
 

@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.kafka.common.serialization.Deserializer;
 import org.nahuelrodriguez.requests.dtos.TodoItemRequest;
 
+import java.io.IOException;
 import java.util.Map;
 
 public class TodoItemRequestDeserializer implements Deserializer<TodoItemRequest> {
@@ -13,11 +14,10 @@ public class TodoItemRequestDeserializer implements Deserializer<TodoItemRequest
 
     @Override
     public TodoItemRequest deserialize(final String topic, final byte[] data) {
-        final var mapper = new ObjectMapper();
-        TodoItemRequest dto;
+        final TodoItemRequest dto;
         try {
-            dto = mapper.readValue(data, TodoItemRequest.class);
-        } catch (Exception e) {
+            dto = new ObjectMapper().readValue(data, TodoItemRequest.class);
+        } catch (IOException e) {
             throw new RuntimeException("Failed to deserialize data of topic: " + topic);
         }
         return dto;

@@ -1,5 +1,6 @@
 package org.nahuelrodriguez.serializers;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.kafka.common.serialization.Serializer;
 import org.nahuelrodriguez.requests.dtos.TodoItemRequest;
@@ -12,15 +13,14 @@ public class TodoItemRequestSerializer implements Serializer<TodoItemRequest> {
     }
 
     @Override
-    public byte[] serialize(final String s, final TodoItemRequest dto) {
-        final byte[] retVal;
-        final var objectMapper = new ObjectMapper();
+    public byte[] serialize(final String s, final TodoItemRequest request) {
+        final byte[] serializedDTO;
         try {
-            retVal = objectMapper.writeValueAsString(dto).getBytes();
-        } catch (Exception e) {
-            throw new RuntimeException("Failed to serialize DTO:" + dto);
+            serializedDTO = new ObjectMapper().writeValueAsString(request).getBytes();
+        } catch (JsonProcessingException e) {
+            throw new RuntimeException("Failed to serialize DTO:" + request);
         }
-        return retVal;
+        return serializedDTO;
     }
 
     @Override
