@@ -56,6 +56,8 @@ class TodoListControllerTest extends Specification {
                 .content(toJson(dto)))
 
         then:
+        0 * service.addNewTodoItem(_ as TodoItemRequest)
+        and:
         results.andExpect(status().isBadRequest())
     }
 
@@ -84,6 +86,8 @@ class TodoListControllerTest extends Specification {
         then:
         def exception = thrown(Exception)
         exception.getCause().class == NotFoundException.class
+        and:
+        0 * service.deleteTodoItem(id)
     }
 
     def "When invocked deleteTodoItem method with invalid id -> returns 400 bad request"() {
@@ -94,6 +98,8 @@ class TodoListControllerTest extends Specification {
         def results = mockMvc.perform(delete('/todo-list/item/{id}', id))
 
         then:
+        0 * service.deleteTodoItem(id)
+        and:
         results.andExpect(status().isBadRequest())
     }
 
@@ -169,6 +175,8 @@ class TodoListControllerTest extends Specification {
         then:
         def exception = thrown(Exception)
         exception.getCause().class == NotFoundException.class
+        and:
+        0 * service.updateTodoItem(dto)
     }
 
     def newEntity(int id, String description) {

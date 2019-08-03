@@ -1,5 +1,6 @@
 package org.nahuelrodriguez.controllers
 
+import org.hamcrest.Matchers
 import org.nahuelrodriguez.requests.dtos.TodoItemRequest
 import org.nahuelrodriguez.services.MessagingQueueProducer
 import org.nahuelrodriguez.validators.ListValidator
@@ -36,6 +37,8 @@ class MessagingQueueControllerTest extends Specification {
                 .content(toJson(emptyCollection)))
 
         then:
+        0 * producer.sendMessage(_ as List)
+        and:
         results.andExpect(status().isBadRequest())
         and:
         results.andExpect(jsonPath('$.errorMessages').value('Empty request'))
@@ -53,10 +56,11 @@ class MessagingQueueControllerTest extends Specification {
                 .content(toJson(invalidDataCollection)))
 
         then:
+        0 * producer.sendMessage(_ as List)
+        and:
         results.andExpect(status().isBadRequest())
         and:
-        results.andExpect(jsonPath('$.errorMessages.0[0]').value('Id can not be null'))
-        results.andExpect(jsonPath('$.errorMessages.0[1]').value('Description can not be null or empty'))
+        results.andExpect(jsonPath('$.errorMessages.0', Matchers.containsInAnyOrder("Id can not be null", "Description can not be null or empty")))
         and:
         results.andExpect(jsonPath('$.errorMessages.1[0]').value('Id can not be null'))
     }
