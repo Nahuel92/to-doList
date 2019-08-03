@@ -1,7 +1,6 @@
 package org.nahuelrodriguez.services.implementation;
 
 import org.nahuelrodriguez.daos.Repository;
-import org.nahuelrodriguez.entities.TodoItem;
 import org.nahuelrodriguez.exceptions.NotFoundException;
 import org.nahuelrodriguez.mappers.TodoItemDTOMapper;
 import org.nahuelrodriguez.mappers.TodoItemMapper;
@@ -16,7 +15,6 @@ import org.springframework.stereotype.Service;
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class CassandraDBService implements TodoListService {
@@ -32,14 +30,14 @@ public class CassandraDBService implements TodoListService {
     }
 
     public void addNewTodoItem(final TodoItemRequest dto) {
-        final TodoItem entity = toEntityMapper.from(dto);
+        final var entity = toEntityMapper.from(dto);
         entity.setCreatedDatetime(Instant.now());
         repository.save(entity);
     }
 
     @CacheEvict(value = "todoItems", key = "#p0")
     public void deleteTodoItem(final Long id) {
-        final Optional<TodoItem> entity = repository.findById(id);
+        final var entity = repository.findById(id);
         repository.deleteById(id);
         entity.orElseThrow(NotFoundException::new);
     }
@@ -51,14 +49,14 @@ public class CassandraDBService implements TodoListService {
 
     @Cacheable(value = "todoItems", unless = "#result.size() == 0")
     public List<TodoItemDTO> getAllTodoItems() {
-        final List<TodoItemDTO> dtos = new ArrayList<>();
+        final var dtos = new ArrayList<TodoItemDTO>();
         repository.findAll().forEach(entity -> dtos.add(toDtoMapper.from(entity)));
         return dtos;
     }
 
     @CacheEvict(value = "todoItems", allEntries = true)
     public void updateTodoItem(final TodoItemRequest dto) {
-        final Optional<TodoItem> entity = repository.findById(dto.getId());
+        final var entity = repository.findById(dto.getId());
         entity.ifPresent(e -> {
             e.setDescription(dto.getDescription());
             repository.save(e);

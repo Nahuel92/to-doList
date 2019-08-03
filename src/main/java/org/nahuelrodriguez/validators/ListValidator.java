@@ -17,11 +17,11 @@ public final class ListValidator<T> {
     }
 
     public Map<Integer, Set<String>> validate(final List<T> dtos) {
-        final Map<Integer, Set<String>> errors = new HashMap<>();
+        final var errors = new HashMap<Integer, Set<String>>();
 
         IntStream.range(0, dtos.size())
                 .forEach(i -> {
-                    Set<String> errorMessages = new HashSet<>();
+                    final var errorMessages = new HashSet<String>();
 
                     validator.validate(dtos.get(i))
                             .forEach(e -> errorMessages.add(e.getMessage()));

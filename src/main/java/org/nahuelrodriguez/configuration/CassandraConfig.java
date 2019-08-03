@@ -31,7 +31,7 @@ public class CassandraConfig extends AbstractClusterConfiguration {
                 "CREATE KEYSPACE IF NOT EXISTS " + keySpace + " WITH durable_writes = true" +
                         " AND replication = {'class' : 'SimpleStrategy', 'replication_factor' : 1};";
 
-        final String createTable = "CREATE TABLE IF NOT EXISTS todolist.to_do_items " +
+        final var createTable = "CREATE TABLE IF NOT EXISTS todolist.to_do_items " +
                 "(id int primary key, createddatetime timestamp, description text) ";
         return List.of(createKeyspace, createTable);
     }
@@ -44,8 +44,7 @@ public class CassandraConfig extends AbstractClusterConfiguration {
     @Bean
     @Override
     public CassandraClusterFactoryBean cluster() {
-        final CassandraClusterFactoryBean bean = new CassandraClusterFactoryBean();
-
+        final var bean = new CassandraClusterFactoryBean();
         bean.setAddressTranslator(getAddressTranslator());
         bean.setAuthProvider(getAuthProvider());
         bean.setClusterBuilderConfigurer(getClusterBuilderConfigurer());
@@ -65,7 +64,6 @@ public class CassandraConfig extends AbstractClusterConfiguration {
         bean.setSpeculativeExecutionPolicy(getSpeculativeExecutionPolicy());
         bean.setSocketOptions(getSocketOptions());
         bean.setTimestampGenerator(getTimestampGenerator());
-
         bean.setKeyspaceCreations(getKeyspaceCreations());
         bean.setKeyspaceDrops(getKeyspaceDrops());
         bean.setStartupScripts(getStartupScripts());

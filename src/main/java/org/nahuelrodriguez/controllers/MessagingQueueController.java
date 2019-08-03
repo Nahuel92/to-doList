@@ -14,8 +14,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
-import java.util.Map;
-import java.util.Set;
 
 @RestController
 @RequestMapping(path = "/todo-list")
@@ -34,7 +32,7 @@ public class MessagingQueueController {
         if (dtos.isEmpty())
             return new ResponseEntity<>(new DTOErrors("Empty request"), HttpStatus.BAD_REQUEST);
 
-        final Map<Integer, Set<String>> errors = validator.validate(dtos);
+        final var errors = validator.validate(dtos);
 
         if (!errors.isEmpty())
             return new ResponseEntity<>(new ErrorList(errors), HttpStatus.BAD_REQUEST);

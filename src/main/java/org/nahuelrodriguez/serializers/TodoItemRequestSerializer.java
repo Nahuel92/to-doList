@@ -13,8 +13,8 @@ public class TodoItemRequestSerializer implements Serializer<TodoItemRequest> {
 
     @Override
     public byte[] serialize(final String s, final TodoItemRequest dto) {
-        byte[] retVal;
-        ObjectMapper objectMapper = new ObjectMapper();
+        final byte[] retVal;
+        final var objectMapper = new ObjectMapper();
         try {
             retVal = objectMapper.writeValueAsString(dto).getBytes();
         } catch (Exception e) {

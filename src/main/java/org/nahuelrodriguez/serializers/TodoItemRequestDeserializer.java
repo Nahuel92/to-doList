@@ -13,7 +13,7 @@ public class TodoItemRequestDeserializer implements Deserializer<TodoItemRequest
 
     @Override
     public TodoItemRequest deserialize(final String topic, final byte[] data) {
-        ObjectMapper mapper = new ObjectMapper();
+        final var mapper = new ObjectMapper();
         TodoItemRequest dto;
         try {
             dto = mapper.readValue(data, TodoItemRequest.class);

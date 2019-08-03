@@ -33,25 +33,25 @@ public class ControllerAdvice {
 
     @ExceptionHandler({DataAccessResourceFailureException.class})
     public ResponseEntity<DTOErrors> handleConnectionFailureException() {
-        final String error = "Database connection failed. Please try again later.";
+        final var error = "Database connection failed. Please try again later.";
         return new ResponseEntity<>(new DTOErrors(error), HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
     @ExceptionHandler({InvalidDataAccessApiUsageException.class})
     public ResponseEntity<DTOErrors> handleInvalidQueryException() {
-        final String error = "An invalid query has been executed by the server.";
+        final var error = "An invalid query has been executed by the server.";
         return new ResponseEntity<>(new DTOErrors(error), HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
     @ExceptionHandler({HttpRequestMethodNotSupportedException.class})
     public ResponseEntity<DTOErrors> handleHttpRequestMethodNotSupportedException(final HttpRequestMethodNotSupportedException exception) {
-        final String error = exception.getMessage() + ". Verify the URL and params and try again.";
+        final var error = exception.getMessage() + ". Verify the URL and params and try again.";
         return new ResponseEntity<>(new DTOErrors(error), HttpStatus.METHOD_NOT_ALLOWED);
     }
 
     @ExceptionHandler({MismatchedInputException.class, JsonParseException.class})
     public ResponseEntity<DTOErrors> handleMismatchedInputException() {
-        final String error = "Cannot deserialize data. Please check params and try again.";
+        final var error = "Cannot deserialize data. Please check params and try again.";
         return new ResponseEntity<>(new DTOErrors(error), HttpStatus.BAD_REQUEST);
     }
 
@@ -60,19 +60,19 @@ public class ControllerAdvice {
         if (exception.getCause() instanceof MismatchedInputException)
             return handleMismatchedInputException();
 
-        final String error = "Required request body is missing.";
+        final var error = "Required request body is missing.";
         return new ResponseEntity<>(new DTOErrors(error), HttpStatus.BAD_REQUEST);
     }
 
     @ExceptionHandler({MethodArgumentTypeMismatchException.class})
     public ResponseEntity<DTOErrors> handleHttpMessageNotReadableException() {
-        final String error = "Argument type mismatch. Please check data types and try again.";
+        final var error = "Argument type mismatch. Please check data types and try again.";
         return new ResponseEntity<>(new DTOErrors(error), HttpStatus.BAD_REQUEST);
     }
 
     @ExceptionHandler({NotFoundException.class})
     public ResponseEntity<DTOErrors> handleNotFoundException() {
-        final String error = "Entity not found.";
+        final var error = "Entity not found.";
         return new ResponseEntity<>(new DTOErrors(error), HttpStatus.NOT_FOUND);
     }
 }

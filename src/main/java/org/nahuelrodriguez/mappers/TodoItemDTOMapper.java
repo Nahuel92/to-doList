@@ -12,8 +12,7 @@ public class TodoItemDTOMapper {
             .withZone(ZoneId.systemDefault());
 
     public TodoItemDTO from(final TodoItem entity) {
-        final TodoItemDTO dto = new TodoItemDTO();
-
+        final var dto = new TodoItemDTO();
         dto.setId(entity.getId());
         dto.setDescription(entity.getDescription());
         dto.setCreatedDatetime(dtf.format(entity.getCreatedDatetime()));

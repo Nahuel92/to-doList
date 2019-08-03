@@ -5,8 +5,7 @@ import org.nahuelrodriguez.requests.dtos.TodoItemRequest;
 
 public class TodoItemMapper {
     public TodoItem from(final TodoItemRequest dto) {
-        final TodoItem item = new TodoItem();
-
+        final var item = new TodoItem();
         item.setId(dto.getId());
         item.setDescription(dto.getDescription());
 
