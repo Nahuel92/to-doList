@@ -1,8 +1,8 @@
 package org.nahuelrodriguez.controllers
 
+import org.nahuelrodriguez.controllers.advices.ControllerAdvice
 import org.nahuelrodriguez.daos.Repository
 import org.nahuelrodriguez.entities.TodoItem
-import org.nahuelrodriguez.exceptions.NotFoundException
 import org.nahuelrodriguez.requests.dtos.TodoItemRequest
 import org.nahuelrodriguez.services.TodoListService
 import org.nahuelrodriguez.services.implementation.CassandraDBService
@@ -28,7 +28,9 @@ class TodoListControllerTest extends Specification {
         repository = Mock(Repository)
         service = new CassandraDBService(repository)
         controller = new TodoListController(service)
-        mockMvc = MockMvcBuilders.standaloneSetup(controller).build()
+        mockMvc = MockMvcBuilders.standaloneSetup(controller)
+                .setControllerAdvice(new ControllerAdvice())
+                .build()
     }
 
     def "When invocked addNewTodoItem method with valid DTO -> returns 201 created"() {
@@ -81,13 +83,13 @@ class TodoListControllerTest extends Specification {
         repository.findById(id) >> Optional.empty()
 
         when:
-        mockMvc.perform(delete('/todo-list/item/{id}', id))
+        def results = mockMvc.perform(delete('/todo-list/item/{id}', id))
 
         then:
-        def exception = thrown(Exception)
-        exception.getCause().class == NotFoundException.class
-        and:
         0 * service.deleteTodoItem(id)
+        and:
+        results.andExpect(status().isNotFound())
+        results.andExpect(jsonPath('$.errorMessages').value('Entity not found.'))
     }
 
     def "When invocked deleteTodoItem method with invalid id -> returns 400 bad request"() {
@@ -173,10 +175,10 @@ class TodoListControllerTest extends Specification {
                 .content(toJson(dto)))
 
         then:
-        def exception = thrown(Exception)
-        exception.getCause().class == NotFoundException.class
-        and:
         0 * service.updateTodoItem(dto)
+        and:
+        results.andExpect(status().isNotFound())
+        results.andExpect(jsonPath('$.errorMessages').value('Entity not found.'))
     }
 
     def newEntity(int id, String description) {
