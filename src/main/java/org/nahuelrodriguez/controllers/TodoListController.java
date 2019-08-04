@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
+@CrossOrigin(origins = "*")
 @RequestMapping(path = "/todo-list")
 public class TodoListController {
     private final TodoListService service;
