@@ -32,7 +32,7 @@ public class CassandraConfig extends AbstractClusterConfiguration {
                         " AND replication = {'class' : 'SimpleStrategy', 'replication_factor' : 1};";
 
         final var createTable = "CREATE TABLE IF NOT EXISTS todolist.to_do_items " +
-                "(id int primary key, createddatetime timestamp, description text) ";
+                "(id INT PRIMARY KEY, description TEXT, status TEXT, createddatetime TIMESTAMP) ";
         return List.of(createKeyspace, createTable);
     }
 

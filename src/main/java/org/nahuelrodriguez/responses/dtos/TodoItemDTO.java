@@ -6,6 +6,7 @@ import java.util.Objects;
 public class TodoItemDTO implements Serializable {
     private Long id;
     private String description;
+    private String status;
     private String createdDatetime;
 
     public TodoItemDTO() {
@@ -27,6 +28,14 @@ public class TodoItemDTO implements Serializable {
         this.description = description;
     }
 
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
     public String getCreatedDatetime() {
         return createdDatetime;
     }
@@ -41,19 +50,22 @@ public class TodoItemDTO implements Serializable {
         if (o == null || getClass() != o.getClass()) return false;
         TodoItemDTO that = (TodoItemDTO) o;
         return Objects.equals(id, that.id) &&
-                description.equals(that.description) &&
+                Objects.equals(description, that.description) &&
+                Objects.equals(status, that.status) &&
                 Objects.equals(createdDatetime, that.createdDatetime);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, description, createdDatetime);
+        return Objects.hash(id, description, status, createdDatetime);
     }
 
     @Override
     public String toString() {
         return "TodoItemDTO{" +
-                "description='" + description + '\'' +
+                "id=" + id +
+                ", description='" + description + '\'' +
+                ", status='" + status + '\'' +
                 ", createdDatetime='" + createdDatetime + '\'' +
                 '}';
     }

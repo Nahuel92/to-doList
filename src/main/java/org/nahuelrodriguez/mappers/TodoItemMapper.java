@@ -5,10 +5,11 @@ import org.nahuelrodriguez.requests.dtos.TodoItemRequest;
 
 public class TodoItemMapper {
     public TodoItem from(final TodoItemRequest dto) {
-        final var item = new TodoItem();
-        item.setId(dto.getId());
-        item.setDescription(dto.getDescription());
+        final var entity = new TodoItem();
+        entity.setId(dto.getId());
+        entity.setDescription(dto.getDescription());
+        entity.setStatus(dto.getStatus());
 
-        return item;
+        return entity;
     }
 }

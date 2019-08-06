@@ -59,6 +59,7 @@ public class CassandraDBService implements TodoListService {
         final var entity = repository.findById(dto.getId());
         entity.ifPresent(e -> {
             e.setDescription(dto.getDescription());
+            e.setStatus(dto.getStatus());
             repository.save(e);
         });
         entity.orElseThrow(NotFoundException::new);
