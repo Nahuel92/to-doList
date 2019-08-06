@@ -35,7 +35,7 @@ public class CassandraDBService implements TodoListService {
         repository.save(entity);
     }
 
-    @CacheEvict(value = "todoItems", key = "#p0")
+    @CacheEvict(value = "todoItems", key = "#id")
     public void deleteTodoItem(final Long id) {
         final var entity = repository.findById(id);
         repository.deleteById(id);
@@ -54,7 +54,7 @@ public class CassandraDBService implements TodoListService {
         return dtos;
     }
 
-    @CacheEvict(value = "todoItems", allEntries = true)
+    @CacheEvict(value = "todoItems", key = "#dto.id")
     public void updateTodoItem(final TodoItemRequest dto) {
         final var entity = repository.findById(dto.getId());
         entity.ifPresent(e -> {
