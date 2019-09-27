@@ -48,6 +48,7 @@ In this case, I chose Cassandra DB for storing data.
 - [x] Caching with Redis (some operations only).
 - [x] CRUD operations for a to-do list.
 - [x] Exception handling with controller advice.
+- [ ] Jenkins pipeline.
 - [x] Kafka integration for massive creation operations.
 - [x] Request data validation.
 - [x] Support for Cassandra DB.
