@@ -1,9 +1,11 @@
 node {
     stage('Initialize') {
+        def jdk = tool name: 'openjdk-13'
+        env.JAVA_HOME = "${jdk}"
+
         def dockerHome = tool 'Docker'
         def mavenHome = tool 'Maven'
-        def javaHome = tool 'openjdk-13'
-        env.PATH = "${dockerHome}/bin:${mavenHome}/bin:${javaHome}/bin:${env.PATH}"
+        env.PATH = "${dockerHome}/bin:${mavenHome}/bin:${env.PATH}"
     }
 
     stage('Project Checkout') {
