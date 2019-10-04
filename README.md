@@ -1,4 +1,4 @@
-[![Known Vulnerabilities](https://snyk.io/test/github/Nahuel92/to-doList/badge.svg)](https://snyk.io/test/github/Nahuel92/to-doList) [![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
+[![Known Vulnerabilities](https://snyk.io/test/github/Nahuel92/to-doList/badge.svg)](https://snyk.io/test/github/Nahuel92/to-doList) [![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0) [![Maintainability](https://api.codeclimate.com/v1/badges/09067e6fa8e8f1160d02/maintainability)](https://codeclimate.com/github/Nahuel92/to-doList/maintainability)
 
 # To-do List Project (WIP)
 
