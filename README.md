@@ -1,6 +1,4 @@
-```undefined
 [![Known Vulnerabilities](https://snyk.io/test/github/Nahuel92/to-doList/badge.svg)](https://snyk.io/test/github/Nahuel92/to-doList)
-```
 
 # To-do List Project (WIP)
 
