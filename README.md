@@ -1,3 +1,7 @@
+```undefined
+[![Known Vulnerabilities](https://snyk.io/test/github/Nahuel92/to-doList/badge.svg)](https://snyk.io/test/github/Nahuel92/to-doList)
+```
+
 # To-do List Project (WIP)
 
 This is a hobby project which consists of an API REST Spring Boot based project.
