@@ -38,6 +38,7 @@ class TodoListControllerTest extends Specification {
         def dto = new TodoItemRequest()
         dto.setId(1)
         dto.setDescription("valid dto")
+        dto.setStatus("Created")
 
         when:
         def results = mockMvc.perform(post('/todo-list/item')
@@ -147,6 +148,7 @@ class TodoListControllerTest extends Specification {
         def dto = new TodoItemRequest()
         dto.setId(id)
         dto.setDescription("valid dto")
+        dto.setStatus("Created")
         and:
         repository.findById(id) >> Optional.of(newEntity(id, "valid entity"))
 
@@ -166,6 +168,7 @@ class TodoListControllerTest extends Specification {
         def dto = new TodoItemRequest()
         dto.setId(id)
         dto.setDescription("valid dto")
+        dto.setStatus("Created")
         and:
         repository.findById(id) >> Optional.empty()
 

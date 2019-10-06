@@ -40,26 +40,27 @@ class ListValidatorTest extends Specification {
 
     def invalidDTOCollection() {
         [
-                newDTO(null, "Valid dto 1"),
-                newDTO(2, ""),
-                newDTO(3, null),
-                newDTO(null, null)
+                newDTO(null, "Valid dto 1", null),
+                newDTO(2, "", ""),
+                newDTO(3, null, null),
+                newDTO(null, null, "")
         ]
     }
 
     def validDTOCollection() {
         [
-                newDTO(1, "Valid dto 1"),
-                newDTO(2, "Valid dto 2"),
-                newDTO(3, "Valid dto 3"),
-                newDTO(4, "Valid dto 4")
+                newDTO(1, "Valid dto 1", "Created"),
+                newDTO(2, "Valid dto 2", "In Progress"),
+                newDTO(3, "Valid dto 3", "Done"),
+                newDTO(4, "Valid dto 4", "Done")
         ]
     }
 
-    def newDTO(Integer id, String description) {
+    def newDTO(Integer id, String description, String status) {
         def dto = new TodoItemRequest()
         dto.setId(id)
         dto.setDescription(description)
+        dto.setStatus(status)
         dto
     }
 }
