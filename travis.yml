@@ -1,4 +1,6 @@
 language: java
+
 jdk:
-  -openjdk12
+  - openjdk12
+
 script: mvn clean verify
