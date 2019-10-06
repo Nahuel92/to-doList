@@ -27,7 +27,7 @@
     <properties>
         <gmavenplus-version>1.8.0</gmavenplus-version>
         <jacoco-version>0.8.4</jacoco-version>
-        <java.version>11</java.version>
+        <java.version>12</java.version>
         <surefire-version>3.0.0-M3</surefire-version>
     </properties>
 
