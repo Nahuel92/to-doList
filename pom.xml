@@ -26,10 +26,20 @@
     </developers>
 
     <properties>
-        <gmavenplus-version>1.8.0</gmavenplus-version>
-        <jacoco-arg-line>surefireArgLine</jacoco-arg-line>
+        <aspectjweaver.version>1.9.4</aspectjweaver.version>
+        <cassandra.driver.extras.version>3.7.2</cassandra.driver.extras.version>
+        <datastax.java.driver.core.version>4.2.1</datastax.java.driver.core.version>
+        <gmavenplus.version>1.8.0</gmavenplus.version>
+        <guava.version>28.1-jre</guava.version>
         <jacoco-version>0.8.4</jacoco-version>
-        <java.version>12</java.version>
+        <java.version>11</java.version>
+        <jedis.version>3.1.0</jedis.version>
+        <spock-core.version>1.3-groovy-2.5</spock-core.version>
+        <spring-aop.version>5.2.0.RELEASE</spring-aop.version>
+        <spring-boot-starter.version>2.1.9.RELEASE</spring-boot-starter.version>
+        <spring-kafka.version>2.3.0.RELEASE</spring-kafka.version>
+        <spring-plugin.version>2.0.0.RELEASE</spring-plugin.version>
+        <springfox-swagger-ui.version>2.9.2</springfox-swagger-ui.version>
         <surefire-version>3.0.0-M3</surefire-version>
     </properties>
 
@@ -37,50 +47,50 @@
         <dependency>
             <groupId>com.datastax.cassandra</groupId>
             <artifactId>cassandra-driver-extras</artifactId>
-            <version>3.7.2</version>
+            <version>${cassandra.driver.extras.version}</version>
         </dependency>
 
         <dependency>
             <groupId>com.datastax.oss</groupId>
             <artifactId>java-driver-core</artifactId>
-            <version>4.1.0</version>
+            <version>${datastax.java.driver.core.version}</version>
         </dependency>
 
         <dependency>
             <groupId>com.google.guava</groupId>
             <artifactId>guava</artifactId>
-            <version>28.0-jre</version>
+            <version>${guava.version}</version>
         </dependency>
 
         <dependency>
             <groupId>io.springfox</groupId>
             <artifactId>springfox-swagger2</artifactId>
-            <version>2.9.2</version>
+            <version>${springfox-swagger-ui.version}</version>
         </dependency>
 
         <dependency>
             <groupId>io.springfox</groupId>
             <artifactId>springfox-swagger-ui</artifactId>
-            <version>2.9.2</version>
+            <version>${springfox-swagger-ui.version}</version>
         </dependency>
 
         <dependency>
             <groupId>org.aspectj</groupId>
             <artifactId>aspectjweaver</artifactId>
-            <version>1.9.4</version>
+            <version>${aspectjweaver.version}</version>
         </dependency>
 
         <dependency>
             <groupId>org.spockframework</groupId>
             <artifactId>spock-core</artifactId>
-            <version>1.3-groovy-2.5</version>
+            <version>${spock-core.version}</version>
             <scope>test</scope>
         </dependency>
 
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-aop</artifactId>
-            <version>5.1.8.RELEASE</version>
+            <version>${spring-aop.version}</version>
         </dependency>
 
         <dependency>
@@ -93,18 +103,19 @@
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-aop</artifactId>
-            <version>2.1.6.RELEASE</version>
+            <version>${spring-boot-starter.version}</version>
         </dependency>
 
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-data-cassandra</artifactId>
+            <version>${spring-boot-starter.version}</version>
         </dependency>
 
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-data-redis</artifactId>
-            <version>2.1.6.RELEASE</version>
+            <version>${spring-boot-starter.version}</version>
         </dependency>
 
         <dependency>
@@ -137,19 +148,19 @@
         <dependency>
             <groupId>org.springframework.kafka</groupId>
             <artifactId>spring-kafka</artifactId>
-            <version>2.2.7.RELEASE</version>
+            <version>${spring-kafka.version}</version>
         </dependency>
 
         <dependency>
             <groupId>org.springframework.plugin</groupId>
             <artifactId>spring-plugin-core</artifactId>
-            <version>1.2.0.RELEASE</version>
+            <version>${spring-plugin.version}</version>
         </dependency>
 
         <dependency>
             <groupId>redis.clients</groupId>
             <artifactId>jedis</artifactId>
-            <version>3.1.0</version>
+            <version>${jedis.version}</version>
         </dependency>
     </dependencies>
 
@@ -160,7 +171,7 @@
                 <artifactId>maven-surefire-plugin</artifactId>
                 <version>${surefire-version}</version>
                 <configuration>
-                    <argLine>${jacoco-arg-line}</argLine>
+                    <argLine>${surefireArgLine}</argLine>
                 </configuration>
                 <dependencies>
                     <dependency>
@@ -174,7 +185,7 @@
             <plugin>
                 <groupId>org.codehaus.gmavenplus</groupId>
                 <artifactId>gmavenplus-plugin</artifactId>
-                <version>${gmavenplus-version}</version>
+                <version>${gmavenplus.version}</version>
                 <executions>
                     <execution>
                         <goals>
@@ -197,7 +208,7 @@
                         </goals>
                         <configuration>
                             <destFile>${project.build.directory}/coverage-reports/jacoco-ut.exec</destFile>
-                            <propertyName>${jacoco-arg-line}</propertyName>
+                            <propertyName>surefireArgLine</propertyName>
                         </configuration>
                     </execution>
                     <execution>
