@@ -6,7 +6,7 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>2.2.0.M4</version>
+        <version>2.1.9.RELEASE</version>
         <relativePath/>
     </parent>
 
@@ -15,17 +15,19 @@
     <version>0.0.1-SNAPSHOT</version>
     <packaging>jar</packaging>
     <name>todo-list</name>
-    <description>Spring Boot API REST project</description>
+    <description>A Spring Boot To Do List API REST project</description>
 
     <developers>
         <developer>
             <id>NRodriguez</id>
             <name>Nahuel Rodríguez</name>
+            <timezone>GMT-3</timezone>
         </developer>
     </developers>
 
     <properties>
         <gmavenplus-version>1.8.0</gmavenplus-version>
+        <jacoco-arg-line>surefireArgLine</jacoco-arg-line>
         <jacoco-version>0.8.4</jacoco-version>
         <java.version>12</java.version>
         <surefire-version>3.0.0-M3</surefire-version>
@@ -158,7 +160,7 @@
                 <artifactId>maven-surefire-plugin</artifactId>
                 <version>${surefire-version}</version>
                 <configuration>
-                    <argLine>${surefireArgLine}</argLine>
+                    <argLine>${jacoco-arg-line}</argLine>
                 </configuration>
                 <dependencies>
                     <dependency>
@@ -195,7 +197,7 @@
                         </goals>
                         <configuration>
                             <destFile>${project.build.directory}/coverage-reports/jacoco-ut.exec</destFile>
-                            <propertyName>surefireArgLine</propertyName>
+                            <propertyName>${jacoco-arg-line}</propertyName>
                         </configuration>
                     </execution>
                     <execution>
@@ -219,23 +221,6 @@
         </plugins>
     </build>
 
-    <repositories>
-        <repository>
-            <id>spring-snapshots</id>
-            <name>Spring Snapshots</name>
-            <url>https://repo.spring.io/snapshot</url>
-            <snapshots>
-                <enabled>true</enabled>
-            </snapshots>
-        </repository>
-
-        <repository>
-            <id>spring-milestones</id>
-            <name>Spring Milestones</name>
-            <url>https://repo.spring.io/milestone</url>
-        </repository>
-    </repositories>
-
     <pluginRepositories>
         <pluginRepository>
             <id>spring-snapshots</id>
@@ -252,4 +237,21 @@
             <url>https://repo.spring.io/milestone</url>
         </pluginRepository>
     </pluginRepositories>
+
+    <repositories>
+        <repository>
+            <id>spring-snapshots</id>
+            <name>Spring Snapshots</name>
+            <url>https://repo.spring.io/snapshot</url>
+            <snapshots>
+                <enabled>true</enabled>
+            </snapshots>
+        </repository>
+
+        <repository>
+            <id>spring-milestones</id>
+            <name>Spring Milestones</name>
+            <url>https://repo.spring.io/milestone</url>
+        </repository>
+    </repositories>
 </project>
