@@ -7,7 +7,7 @@ cache:
     - $HOME/.m2
 
 jdk:
-  - openjdk12
+  - openjdk13
 
 script: mvn clean verify
 
