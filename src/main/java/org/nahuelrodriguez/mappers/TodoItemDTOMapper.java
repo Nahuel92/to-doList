@@ -13,7 +13,7 @@ public class TodoItemDTOMapper {
 
     public TodoItemDTO from(final TodoItem entity) {
         final var dto = new TodoItemDTO();
-        dto.setId(entity.getId());
+        dto.setId(entity.getId().toString());
         dto.setDescription(entity.getDescription());
         dto.setStatus(entity.getStatus());
         dto.setCreatedDatetime(dtf.format(entity.getCreatedDatetime()));

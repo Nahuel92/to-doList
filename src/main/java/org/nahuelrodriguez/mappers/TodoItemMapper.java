@@ -1,12 +1,11 @@
 package org.nahuelrodriguez.mappers;
 
 import org.nahuelrodriguez.entities.TodoItem;
-import org.nahuelrodriguez.requests.dtos.TodoItemRequest;
+import org.nahuelrodriguez.requests.dtos.NewTodoItemRequest;
 
 public class TodoItemMapper {
-    public TodoItem from(final TodoItemRequest dto) {
+    public TodoItem from(final NewTodoItemRequest dto) {
         final var entity = new TodoItem();
-        entity.setId(dto.getId());
         entity.setDescription(dto.getDescription());
         entity.setStatus(dto.getStatus());
 

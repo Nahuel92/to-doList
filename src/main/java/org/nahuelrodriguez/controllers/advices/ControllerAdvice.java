@@ -75,4 +75,9 @@ public class ControllerAdvice {
         final var error = "Entity not found.";
         return new ResponseEntity<>(new DTOErrors(error), HttpStatus.NOT_FOUND);
     }
+
+    @ExceptionHandler({IllegalArgumentException.class})
+    public ResponseEntity<DTOErrors> handleIllegalArgumentException(final IllegalArgumentException exception) {
+        return new ResponseEntity<>(new DTOErrors(exception.getMessage()), HttpStatus.BAD_REQUEST);
+    }
 }

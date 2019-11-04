@@ -4,14 +4,16 @@ import org.springframework.data.cassandra.core.mapping.Column;
 import org.springframework.data.cassandra.core.mapping.PrimaryKey;
 import org.springframework.data.cassandra.core.mapping.Table;
 
+import java.io.Serializable;
 import java.time.Instant;
 import java.util.Objects;
+import java.util.UUID;
 
 @Table("to_do_items")
-public class TodoItem {
+public class TodoItem implements Serializable {
     @PrimaryKey
     @Column
-    private Long id;
+    private UUID id;
 
     @Column
     private String description;
@@ -25,11 +27,11 @@ public class TodoItem {
     public TodoItem() {
     }
 
-    public Long getId() {
+    public UUID getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(UUID id) {
         this.id = id;
     }
 

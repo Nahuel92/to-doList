@@ -1,6 +1,7 @@
 package org.nahuelrodriguez.controllers;
 
-import org.nahuelrodriguez.requests.dtos.TodoItemRequest;
+import org.nahuelrodriguez.requests.dtos.NewTodoItemRequest;
+import org.nahuelrodriguez.requests.dtos.UpdateTodoItemRequest;
 import org.nahuelrodriguez.responses.dtos.TodoItemDTO;
 import org.nahuelrodriguez.services.TodoListService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,7 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
+import java.util.Collection;
 
 @RestController
 @CrossOrigin(origins = "*")
@@ -23,13 +24,12 @@ public class TodoListController {
     }
 
     @PostMapping(path = "/item")
-    public ResponseEntity addNewTodoItem(@RequestBody @Validated final TodoItemRequest dto) {
-        service.addNewTodoItem(dto);
-        return new ResponseEntity<>(HttpStatus.CREATED);
+    public ResponseEntity addNewTodoItem(@RequestBody @Validated final NewTodoItemRequest dto) {
+        return new ResponseEntity<>(service.addNewTodoItem(dto), HttpStatus.CREATED);
     }
 
     @DeleteMapping(path = "/item/{id}")
-    public ResponseEntity deleteTodoItem(@PathVariable("id") final Long id) {
+    public ResponseEntity deleteTodoItem(@PathVariable("id") String id) {
         service.deleteTodoItem(id);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
@@ -41,12 +41,12 @@ public class TodoListController {
     }
 
     @GetMapping(path = "/items")
-    public List<TodoItemDTO> getAllTodoItems() {
-        return service.getAllTodoItems();
+    public ResponseEntity<Collection<TodoItemDTO>> getAllTodoItems() {
+        return new ResponseEntity<>(service.getAllTodoItems(), HttpStatus.OK);
     }
 
     @PatchMapping(path = "/item")
-    public ResponseEntity updateTodoItem(@RequestBody @Validated final TodoItemRequest dto) {
+    public ResponseEntity updateTodoItem(@RequestBody @Validated final UpdateTodoItemRequest dto) {
         service.updateTodoItem(dto);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }

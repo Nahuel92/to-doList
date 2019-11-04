@@ -2,12 +2,11 @@ package org.nahuelrodriguez.requests.dtos;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
-import java.io.Serializable;
 import java.util.Objects;
 
-public class TodoItemRequest implements Serializable {
-    @NotNull(message = "Id can not be null")
-    private Long id;
+public class UpdateTodoItemRequest {
+    @NotNull
+    private String id;
 
     @NotBlank(message = "Description can not be null or empty")
     private String description;
@@ -15,14 +14,14 @@ public class TodoItemRequest implements Serializable {
     @NotBlank(message = "Status can not be null or empty")
     private String status;
 
-    public TodoItemRequest() {
+    public UpdateTodoItemRequest() {
     }
 
-    public Long getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(String id) {
         this.id = id;
     }
 
@@ -46,7 +45,7 @@ public class TodoItemRequest implements Serializable {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        TodoItemRequest that = (TodoItemRequest) o;
+        UpdateTodoItemRequest that = (UpdateTodoItemRequest) o;
         return Objects.equals(id, that.id) &&
                 Objects.equals(description, that.description) &&
                 Objects.equals(status, that.status);
@@ -59,8 +58,8 @@ public class TodoItemRequest implements Serializable {
 
     @Override
     public String toString() {
-        return "TodoItemRequest{" +
-                "id=" + id +
+        return "UpdateTodoItemRequest{" +
+                "id='" + id + '\'' +
                 ", description='" + description + '\'' +
                 ", status='" + status + '\'' +
                 '}';
