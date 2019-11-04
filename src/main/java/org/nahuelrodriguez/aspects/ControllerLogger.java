@@ -14,20 +14,16 @@ public class ControllerLogger {
 
     @Around("execution(public * *(..)) && within(org.nahuelrodriguez.controllers.*)")
     public Object logControllerMethodExecution(final ProceedingJoinPoint pjp) throws Throwable {
-        if (logger.isInfoEnabled())
-            logger.info("Executing method {}", pjp.getSignature());
-
+        logger.debug("Executing method {}", pjp.getSignature());
         final Object retVal;
 
         try {
             retVal = pjp.proceed();
-
-            if (logger.isInfoEnabled())
-                logger.info("Method {} executed correctly", pjp.getSignature());
+            logger.debug("Method {} executed correctly", pjp.getSignature());
         } catch (final Throwable throwable) {
-            if (logger.isErrorEnabled())
-                logger.error("Method {} has failed with exception message {}",
-                        pjp.getSignature(), throwable.getMessage());
+            logger.error("Method {} has failed with exception message {}",
+                    pjp.getSignature(),
+                    throwable.getMessage());
             throw throwable;
         }
         return retVal;
