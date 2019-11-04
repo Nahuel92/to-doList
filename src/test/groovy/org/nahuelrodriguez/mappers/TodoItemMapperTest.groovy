@@ -1,6 +1,6 @@
 package org.nahuelrodriguez.mappers
 
-import org.nahuelrodriguez.requests.dtos.TodoItemRequest
+import org.nahuelrodriguez.requests.dtos.NewTodoItemRequest
 import spock.lang.Specification
 
 class TodoItemMapperTest extends Specification {
@@ -12,16 +12,16 @@ class TodoItemMapperTest extends Specification {
 
     def "When invocked from method with valid dto -> returns a valid entity"() {
         given:
-        def dto = new TodoItemRequest()
-        dto.setId(1)
+        def dto = new NewTodoItemRequest()
         dto.setDescription("DTO description")
+        dto.setStatus("Pending")
 
         when:
         def entity = mapper.from(dto)
 
         then:
-        entity.getId() == dto.getId()
-        and:
         entity.getDescription() == dto.getDescription()
+        and:
+        entity.getStatus() == dto.getStatus()
     }
 }

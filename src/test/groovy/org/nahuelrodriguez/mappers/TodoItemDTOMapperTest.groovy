@@ -20,7 +20,7 @@ class TodoItemDTOMapperTest extends Specification {
     def "When invocked from method with valid entity -> returns a valid dto"() {
         given:
         def entity = new TodoItem()
-        entity.setId(1)
+        entity.setId(UUID.fromString("a056fb54-317e-4982-bd83-ccb0b8b97d74"))
         entity.setDescription("Entity description")
         entity.setCreatedDatetime(Instant.now())
 
@@ -28,7 +28,7 @@ class TodoItemDTOMapperTest extends Specification {
         def dto = mapper.from(entity)
 
         then:
-        dto.getId() == entity.getId()
+        UUID.fromString(dto.getId()) == entity.getId()
         dto.getDescription() == entity.getDescription()
         dto.getCreatedDatetime() == dtf.format(entity.getCreatedDatetime())
     }

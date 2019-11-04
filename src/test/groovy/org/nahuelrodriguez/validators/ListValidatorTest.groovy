@@ -1,12 +1,12 @@
 package org.nahuelrodriguez.validators
 
-import org.nahuelrodriguez.requests.dtos.TodoItemRequest
+import org.nahuelrodriguez.requests.dtos.NewTodoItemRequest
 import spock.lang.Specification
 
 import javax.validation.Validation
 
 class ListValidatorTest extends Specification {
-    private ListValidator<TodoItemRequest> listValidator
+    private ListValidator<NewTodoItemRequest> listValidator
 
     void setup() {
         def validator = Validation.buildDefaultValidatorFactory().getValidator()
@@ -28,36 +28,35 @@ class ListValidatorTest extends Specification {
         then:
         !results.isEmpty()
         and:
-        results.get(0).toList().contains("Id can not be null")
+        results.get(0).toList().contains("Description can not be null or empty")
         and:
         results.get(1).toList().contains("Description can not be null or empty")
         and:
         results.get(2).toList().contains("Description can not be null or empty")
         and:
-        results.get(3).toList().contains("Id can not be null")
         results.get(3).toList().contains("Description can not be null or empty")
     }
 
     def invalidDTOCollection() {
         [
-                newDTO(null, "Valid dto 1", null),
-                newDTO(2, "", ""),
-                newDTO(3, null, null),
-                newDTO(null, null, "")
+                newDTO("a056fb54-317e-4982-bd83-ccb0b8b97d74", "", ""),
+                newDTO("a056fb54-317e-4982-bd83-ccb0b8b97d73", null, null),
+                newDTO(null, null, ""),
+                newDTO("x56a4180-h5aa-42ec-a945-5fd21dec0538", null, "")
         ]
     }
 
     def validDTOCollection() {
         [
-                newDTO(1, "Valid dto 1", "Created"),
-                newDTO(2, "Valid dto 2", "In Progress"),
-                newDTO(3, "Valid dto 3", "Done"),
-                newDTO(4, "Valid dto 4", "Done")
+                newDTO("a056fb54-317e-4982-bd83-ccb0b8b97d74", "Valid dto 1", "Created"),
+                newDTO("a056fb54-317e-4982-bd83-ccb0b8b97d73", "Valid dto 2", "In Progress"),
+                newDTO("a056fb54-317e-4982-bd83-ccb0b8b97d72", "Valid dto 3", "Done"),
+                newDTO("a056fb54-317e-4982-bd83-ccb0b8b97d71", "Valid dto 4", "Done")
         ]
     }
 
-    def newDTO(Integer id, String description, String status) {
-        def dto = new TodoItemRequest()
+    def newDTO(String id, String description, String status) {
+        def dto = new NewTodoItemRequest()
         dto.setId(id)
         dto.setDescription(description)
         dto.setStatus(status)

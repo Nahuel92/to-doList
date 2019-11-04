@@ -1,9 +1,10 @@
 package org.nahuelrodriguez.controllers
 
+
 import org.nahuelrodriguez.controllers.advices.ControllerAdvice
 import org.nahuelrodriguez.daos.Repository
 import org.nahuelrodriguez.entities.TodoItem
-import org.nahuelrodriguez.requests.dtos.TodoItemRequest
+import org.nahuelrodriguez.requests.dtos.NewTodoItemRequest
 import org.nahuelrodriguez.services.TodoListService
 import org.nahuelrodriguez.services.implementation.CassandraDBService
 import org.springframework.http.MediaType
@@ -14,6 +15,7 @@ import spock.lang.Specification
 import java.time.Instant
 
 import static groovy.json.JsonOutput.toJson
+import static org.hamcrest.Matchers.containsInAnyOrder
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status
@@ -35,8 +37,8 @@ class TodoListControllerTest extends Specification {
 
     def "When invocked addNewTodoItem method with valid DTO -> returns 201 created"() {
         given:
-        def dto = new TodoItemRequest()
-        dto.setId(1)
+        def dto = new NewTodoItemRequest()
+        dto.setId("a056fb54-317e-4982-bd83-ccb0b8b97d74")
         dto.setDescription("valid dto")
         dto.setStatus("Created")
 
@@ -51,7 +53,7 @@ class TodoListControllerTest extends Specification {
 
     def "When invocked addNewTodoItem method with invalid DTO -> returns 400 bad request"() {
         given:
-        def dto = new TodoItemRequest()
+        def dto = new NewTodoItemRequest()
 
         when:
         def results = mockMvc.perform(post('/todo-list/item')
@@ -59,16 +61,16 @@ class TodoListControllerTest extends Specification {
                 .content(toJson(dto)))
 
         then:
-        0 * service.addNewTodoItem(_ as TodoItemRequest)
+        0 * service.addNewTodoItem(_ as NewTodoItemRequest)
         and:
         results.andExpect(status().isBadRequest())
     }
 
     def "When invocked deleteTodoItem method with valid id and there's a saved item having that id -> returns 204 no content"() {
         given:
-        def id = 1
+        def id = "a056fb54-317e-4982-bd83-ccb0b8b97d74"
         and:
-        repository.findById(id) >> Optional.of(newEntity(id, "valid entity"))
+        repository.findById(UUID.fromString(id)) >> Optional.of(newEntity(id, "valid entity"))
 
         when:
         def results = mockMvc.perform(delete('/todo-list/item/{id}', id))
@@ -79,9 +81,9 @@ class TodoListControllerTest extends Specification {
 
     def "When invocked deleteTodoItem method with valid id and there isn't a saved item having that id -> returns 404 not found"() {
         given:
-        def id = 1
+        def id = "a056fb54-317e-4982-bd83-ccb0b8b97d74"
         and:
-        repository.findById(id) >> Optional.empty()
+        repository.findById(UUID.fromString(id)) >> Optional.empty()
 
         when:
         def results = mockMvc.perform(delete('/todo-list/item/{id}', id))
@@ -95,7 +97,7 @@ class TodoListControllerTest extends Specification {
 
     def "When invocked deleteTodoItem method with invalid id -> returns 400 bad request"() {
         given:
-        def id = "invalid id"
+        def id = "a056fb54-317e-4982-bd83-ccb0b8b97d7x"
 
         when:
         def results = mockMvc.perform(delete('/todo-list/item/{id}', id))
@@ -116,10 +118,22 @@ class TodoListControllerTest extends Specification {
 
     def "When invocked getAllTodoItems method -> returns 200 OK and an entity collection"() {
         given:
-        repository.findAll() >> List.of(newEntity(1, "entity 1"),
-                newEntity(2, "entity 2"),
-                newEntity(3, "entity 3"),
-                newEntity(4, "entity 4"))
+        def idCollection = [
+                "a056fb54-317e-4982-bd83-ccb0b8b97d74",
+                "a056fb54-317e-4982-bd83-ccb0b8b97d73",
+                "a056fb54-317e-4982-bd83-ccb0b8b97d72",
+                "a056fb54-317e-4982-bd83-ccb0b8b97d71"
+        ]
+        and:
+        def descriptions = ["entity 1",
+                            "entity 2",
+                            "entity 3",
+                            "entity 4"]
+        and:
+        repository.findAll() >> List.of(newEntity(idCollection[0], descriptions[0]),
+                newEntity(idCollection[1], descriptions[1]),
+                newEntity(idCollection[2], descriptions[2]),
+                newEntity(idCollection[3], descriptions[3]))
 
         when:
         def results = mockMvc.perform(get('/todo-list/items')
@@ -128,29 +142,21 @@ class TodoListControllerTest extends Specification {
         then:
         results.andExpect(status().isOk())
         and:
-        results.andExpect(jsonPath('$[0].id').value('1'))
-        results.andExpect(jsonPath('$[0].description').value("entity 1"))
+        results.andExpect(jsonPath('$[*].id').value(containsInAnyOrder(idCollection.toArray())))
         and:
-        results.andExpect(jsonPath('$[1].id').value('2'))
-        results.andExpect(jsonPath('$[1].description').value("entity 2"))
-        and:
-        results.andExpect(jsonPath('$[2].id').value('3'))
-        results.andExpect(jsonPath('$[2].description').value("entity 3"))
-        and:
-        results.andExpect(jsonPath('$[3].id').value('4'))
-        results.andExpect(jsonPath('$[3].description').value("entity 4"))
+        results.andExpect(jsonPath('$[*].description').value(containsInAnyOrder(descriptions.toArray())))
     }
 
     def "When invocked updateTodoItem method with valid dto -> returns 204 no content"() {
         given:
-        def id = 1
+        def id = "a056fb54-317e-4982-bd83-ccb0b8b97d74"
         and:
-        def dto = new TodoItemRequest()
+        def dto = new NewTodoItemRequest()
         dto.setId(id)
         dto.setDescription("valid dto")
         dto.setStatus("Created")
         and:
-        repository.findById(id) >> Optional.of(newEntity(id, "valid entity"))
+        repository.findById(UUID.fromString(id)) >> Optional.of(newEntity(id, "valid entity"))
 
         when:
         def results = mockMvc.perform(patch('/todo-list/item')
@@ -163,14 +169,14 @@ class TodoListControllerTest extends Specification {
 
     def "When invocked updateTodoItem method with valid dto but there isn't an entity saved -> returns 404 not found"() {
         given:
-        def id = 1
+        def id = "a056fb54-317e-4982-bd83-ccb0b8b97d74"
         and:
-        def dto = new TodoItemRequest()
+        def dto = new NewTodoItemRequest()
         dto.setId(id)
         dto.setDescription("valid dto")
         dto.setStatus("Created")
         and:
-        repository.findById(id) >> Optional.empty()
+        repository.findById(UUID.fromString(id)) >> Optional.empty()
 
         when:
         def results = mockMvc.perform(patch('/todo-list/item')
@@ -184,9 +190,9 @@ class TodoListControllerTest extends Specification {
         results.andExpect(jsonPath('$.errorMessages').value('Entity not found.'))
     }
 
-    def newEntity(int id, String description) {
+    def newEntity(String id, String description) {
         def entity = new TodoItem()
-        entity.setId(id)
+        entity.setId(UUID.fromString(id))
         entity.setDescription(description)
         entity.setCreatedDatetime(Instant.now())
         entity

@@ -1,7 +1,7 @@
 package org.nahuelrodriguez.controllers
 
 import org.hamcrest.Matchers
-import org.nahuelrodriguez.requests.dtos.TodoItemRequest
+import org.nahuelrodriguez.requests.dtos.NewTodoItemRequest
 import org.nahuelrodriguez.services.MessagingQueueProducer
 import org.nahuelrodriguez.validators.ListValidator
 import org.springframework.http.MediaType
@@ -16,7 +16,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 class MessagingQueueControllerTest extends Specification {
     private MockMvc mockMvc
-    private ListValidator<TodoItemRequest> listValidator
+    private ListValidator<NewTodoItemRequest> listValidator
     private MessagingQueueProducer producer
     private MessagingQueueController controller
 
@@ -29,7 +29,7 @@ class MessagingQueueControllerTest extends Specification {
 
     def "When invocked AddNewTodoItems method with empty collection -> returns 400 bad request"() {
         given:
-        def emptyCollection = new ArrayList<TodoItemRequest>()
+        def emptyCollection = new ArrayList<NewTodoItemRequest>()
 
         when:
         def results = mockMvc.perform(post('/todo-list/items')
@@ -46,7 +46,7 @@ class MessagingQueueControllerTest extends Specification {
 
     def "When invocked AddNewTodoItems method with invalid data collection -> returns 400 bad request"() {
         given:
-        def invalidDataCollection = List.of(new TodoItemRequest(), new TodoItemRequest())
+        def invalidDataCollection = List.of(new NewTodoItemRequest(), new NewTodoItemRequest())
         and:
         listValidator.validate(invalidDataCollection) >> errorsMap()
 
@@ -67,9 +67,9 @@ class MessagingQueueControllerTest extends Specification {
 
     def "When invocked AddNewTodoItems method with valid data collection -> producer.send() invocked and returns 201 created"() {
         given:
-        def validDataCollection = List.of(newRequest(1, "Valid request"),
-                newRequest(2, "Valid request 2"),
-                newRequest(3, "Valid request 3"))
+        def validDataCollection = List.of(newRequest("a056fb54-317e-4982-bd83-ccb0b8b97d74", "Valid request"),
+                newRequest("a056fb54-317e-4982-bd83-ccb0b8b97d73", "Valid request 2"),
+                newRequest("a056fb54-317e-4982-bd83-ccb0b8b97d72", "Valid request 3"))
         and:
         listValidator.validate(validDataCollection) >> Map.of()
 
@@ -84,8 +84,8 @@ class MessagingQueueControllerTest extends Specification {
         results.andExpect(status().isCreated())
     }
 
-    def newRequest(Integer id, String description) {
-        def request = new TodoItemRequest()
+    def newRequest(String id, String description) {
+        def request = new NewTodoItemRequest()
         request.setId(id)
         request.setDescription(description)
         request

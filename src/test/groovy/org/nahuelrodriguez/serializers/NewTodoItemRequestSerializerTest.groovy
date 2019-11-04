@@ -1,10 +1,10 @@
 package org.nahuelrodriguez.serializers
 
 import com.fasterxml.jackson.databind.ObjectMapper
-import org.nahuelrodriguez.requests.dtos.TodoItemRequest
+import org.nahuelrodriguez.requests.dtos.NewTodoItemRequest
 import spock.lang.Specification
 
-class TodoItemRequestSerializerTest extends Specification {
+class NewTodoItemRequestSerializerTest extends Specification {
     private TodoItemRequestSerializer todoItemRequestSerializer
 
     void setup() {
@@ -13,8 +13,8 @@ class TodoItemRequestSerializerTest extends Specification {
 
     def "When invocked Serialize method with valid DTO -> returning value OK"() {
         given:
-        def dto = new TodoItemRequest()
-        dto.setId(1)
+        def dto = new NewTodoItemRequest()
+        dto.setId("a056fb54-317e-4982-bd83-ccb0b8b97d74")
         dto.setDescription("Valid DTO")
         and:
         def expectedValue = new ObjectMapper().writeValueAsString(dto).getBytes()
