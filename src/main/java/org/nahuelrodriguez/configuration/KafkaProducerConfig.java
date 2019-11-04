@@ -2,7 +2,7 @@ package org.nahuelrodriguez.configuration;
 
 import org.apache.kafka.clients.consumer.ConsumerConfig;
 import org.apache.kafka.clients.producer.ProducerConfig;
-import org.nahuelrodriguez.requests.dtos.TodoItemRequest;
+import org.nahuelrodriguez.requests.dtos.NewTodoItemRequest;
 import org.nahuelrodriguez.serializers.TodoItemRequestSerializer;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
@@ -32,12 +32,12 @@ public class KafkaProducerConfig {
     }
 
     @Bean
-    public ProducerFactory<String, TodoItemRequest> producerFactory() {
+    public ProducerFactory<String, NewTodoItemRequest> producerFactory() {
         return new DefaultKafkaProducerFactory<>(producerConfigs());
     }
 
     @Bean
-    public KafkaTemplate<String, TodoItemRequest> kafkaTemplate() {
+    public KafkaTemplate<String, NewTodoItemRequest> kafkaTemplate() {
         return new KafkaTemplate<>(producerFactory());
     }
 }

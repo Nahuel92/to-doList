@@ -1,6 +1,6 @@
 package org.nahuelrodriguez.controllers;
 
-import org.nahuelrodriguez.requests.dtos.TodoItemRequest;
+import org.nahuelrodriguez.requests.dtos.NewTodoItemRequest;
 import org.nahuelrodriguez.responses.DTOErrors;
 import org.nahuelrodriguez.responses.ErrorList;
 import org.nahuelrodriguez.services.MessagingQueueProducer;
@@ -16,17 +16,17 @@ import java.util.List;
 @CrossOrigin(origins = "*")
 @RequestMapping(path = "/todo-list")
 public class MessagingQueueController {
-    private final ListValidator<TodoItemRequest> validator;
+    private final ListValidator<NewTodoItemRequest> validator;
     private final MessagingQueueProducer producer;
 
     @Autowired
-    public MessagingQueueController(final ListValidator<TodoItemRequest> validator, final MessagingQueueProducer producer) {
+    public MessagingQueueController(final ListValidator<NewTodoItemRequest> validator, final MessagingQueueProducer producer) {
         this.validator = validator;
         this.producer = producer;
     }
 
     @PostMapping(path = "/items")
-    public ResponseEntity addNewTodoItems(@RequestBody final List<TodoItemRequest> dtos) {
+    public ResponseEntity addNewTodoItems(@RequestBody final List<NewTodoItemRequest> dtos) {
         if (dtos.isEmpty())
             return new ResponseEntity<>(new DTOErrors("Empty request"), HttpStatus.BAD_REQUEST);
 

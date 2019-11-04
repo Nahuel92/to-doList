@@ -1,7 +1,7 @@
 package org.nahuelrodriguez.configuration;
 
 import org.apache.kafka.clients.consumer.ConsumerConfig;
-import org.nahuelrodriguez.requests.dtos.TodoItemRequest;
+import org.nahuelrodriguez.requests.dtos.NewTodoItemRequest;
 import org.nahuelrodriguez.serializers.TodoItemRequestDeserializer;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
@@ -31,7 +31,7 @@ public class KafkaConsumerConfig {
     }
 
     @Bean
-    public ConsumerFactory<TodoItemRequest, TodoItemRequest> consumerFactory() {
+    public ConsumerFactory<NewTodoItemRequest, NewTodoItemRequest> consumerFactory() {
         return new DefaultKafkaConsumerFactory<>(
                 consumerConfigs(),
                 new TodoItemRequestDeserializer(),
@@ -40,8 +40,8 @@ public class KafkaConsumerConfig {
     }
 
     @Bean
-    public ConcurrentKafkaListenerContainerFactory<TodoItemRequest, TodoItemRequest> kafkaListenerContainerFactory() {
-        final var factory = new ConcurrentKafkaListenerContainerFactory<TodoItemRequest, TodoItemRequest>();
+    public ConcurrentKafkaListenerContainerFactory<NewTodoItemRequest, NewTodoItemRequest> kafkaListenerContainerFactory() {
+        final var factory = new ConcurrentKafkaListenerContainerFactory<NewTodoItemRequest, NewTodoItemRequest>();
         factory.setConsumerFactory(consumerFactory());
         return factory;
     }
