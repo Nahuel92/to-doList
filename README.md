@@ -101,12 +101,12 @@ spring.cache.redis.time-to-live=600000
 ## API Operations
 
 The following is a list of supported operations:
-- Save a to-do item:`POST /todo-list/item`
-- Save a collection of to-do item:`POST /todo-list/items`
-- Delete a to-do item:`DELETE /todo-list/item/{id}`
-- Delete all to-do items:`DELETE /todo-list/items`
-- Retrieve all to-do items:`GET /todo-list/items`
-- Update a to-do item:`PATCH /todo-list/item`
+- Save a to-do item:`POST /v1/todo-list/items`
+- Save a collection of to-do item:`POST /v1/todo-list/batch/items`
+- Delete a to-do item:`DELETE /v1/todo-list/items/{id}`
+- Delete all to-do items:`DELETE /v1/todo-list/items`
+- Retrieve all to-do items:`GET /v1/todo-list/items`
+- Update a to-do item:`PATCH /v1/todo-list/items`
 
 ## Examples
 
