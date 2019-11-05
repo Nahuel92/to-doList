@@ -14,14 +14,11 @@ class TodoItemMapperTest extends Specification {
         given:
         def dto = new NewTodoItemRequest()
         dto.setDescription("DTO description")
-        dto.setStatus("Pending")
 
         when:
         def entity = mapper.from(dto)
 
         then:
         entity.getDescription() == dto.getDescription()
-        and:
-        entity.getStatus() == dto.getStatus()
     }
 }

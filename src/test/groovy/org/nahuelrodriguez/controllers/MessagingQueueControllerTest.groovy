@@ -32,7 +32,7 @@ class MessagingQueueControllerTest extends Specification {
         def emptyCollection = new ArrayList<NewTodoItemRequest>()
 
         when:
-        def results = mockMvc.perform(post('/todo-list/items')
+        def results = mockMvc.perform(post('/v1/todo-list/batch/items')
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(toJson(emptyCollection)))
 
@@ -51,7 +51,7 @@ class MessagingQueueControllerTest extends Specification {
         listValidator.validate(invalidDataCollection) >> errorsMap()
 
         when:
-        def results = mockMvc.perform(post('/todo-list/items')
+        def results = mockMvc.perform(post('/v1/todo-list/batch/items')
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(toJson(invalidDataCollection)))
 
@@ -60,21 +60,21 @@ class MessagingQueueControllerTest extends Specification {
         and:
         results.andExpect(status().isBadRequest())
         and:
-        results.andExpect(jsonPath('$.errorMessages.0', Matchers.containsInAnyOrder("Id can not be null", "Description can not be null or empty")))
+        results.andExpect(jsonPath('$.errorMessages.0', Matchers.containsInAnyOrder("Description can not be null or empty")))
         and:
-        results.andExpect(jsonPath('$.errorMessages.1[0]').value('Id can not be null'))
+        results.andExpect(jsonPath('$.errorMessages.1[0]').value("Description can not be null or empty"))
     }
 
     def "When invocked AddNewTodoItems method with valid data collection -> producer.send() invocked and returns 201 created"() {
         given:
-        def validDataCollection = List.of(newRequest("a056fb54-317e-4982-bd83-ccb0b8b97d74", "Valid request"),
-                newRequest("a056fb54-317e-4982-bd83-ccb0b8b97d73", "Valid request 2"),
-                newRequest("a056fb54-317e-4982-bd83-ccb0b8b97d72", "Valid request 3"))
+        def validDataCollection = List.of(newRequest("Valid request"),
+                newRequest("Valid request 2"),
+                newRequest("Valid request 3"))
         and:
         listValidator.validate(validDataCollection) >> Map.of()
 
         when:
-        def results = mockMvc.perform(post('/todo-list/items')
+        def results = mockMvc.perform(post('/v1/todo-list/batch/items')
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(toJson(validDataCollection)))
 
@@ -84,17 +84,16 @@ class MessagingQueueControllerTest extends Specification {
         results.andExpect(status().isCreated())
     }
 
-    def newRequest(String id, String description) {
+    def newRequest(String description) {
         def request = new NewTodoItemRequest()
-        request.setId(id)
         request.setDescription(description)
         request
     }
 
     def errorsMap() {
         def errors = new HashMap<Integer, Set<String>>()
-        errors.put(0, Set.of("Id can not be null", "Description can not be null or empty"))
-        errors.put(1, Set.of("Id can not be null"))
+        errors.put(0, Set.of("Description can not be null or empty"))
+        errors.put(1, Set.of("Description can not be null or empty"))
         errors
     }
 }

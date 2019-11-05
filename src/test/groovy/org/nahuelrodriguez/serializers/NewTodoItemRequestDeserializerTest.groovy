@@ -14,7 +14,6 @@ class NewTodoItemRequestDeserializerTest extends Specification {
     def "When invocked Deserialize method -> returning value OK"() {
         given:
         def dto = new NewTodoItemRequest()
-        dto.setId("a056fb54-317e-4982-bd83-ccb0b8b97d74")
         dto.setDescription("Valid DTO")
         and:
         def serializedDto = new ObjectMapper().writeValueAsString(dto).getBytes()
