@@ -114,7 +114,7 @@ The following is a list of supported operations:
 
 Used to persist a to-do item on database.
 
-**URL:** `/todo-list/item`
+**URL:** `/v1/todo-list/items`
 
 **Method:** `POST`
 
@@ -182,7 +182,7 @@ Used to persist a to-do item on database.
 
 Used to persist a to-do items collection on database.
 
-**URL:** `/todo-list/items`
+**URL:** `/v1/todo-list/batch/items`
 
 **Method:** `POST`
 
@@ -295,7 +295,7 @@ Used to persist a to-do items collection on database.
 
 Used to delete a specific to-do item on database.
 
-**URL:** `/todo-list/item/{id}`
+**URL:** `/v1/todo-list/items/{id}`
 
 **Method:** `DELETE`
 
@@ -353,7 +353,7 @@ Used to delete a specific to-do item on database.
 
 Used to delete all to-do items saved on database.
 
-**URL:** `/todo-list/items`
+**URL:** `/v1/todo-list/items`
 
 **Method:** `DELETE`
 
@@ -373,7 +373,7 @@ Used to delete all to-do items saved on database.
 
 Used to retrieve all to-do items on database.
 
-**URL:** `/todo-list/items`
+**URL:** `/v1/todo-list/items`
 
 **Method:** `GET`
 
@@ -408,7 +408,7 @@ Used to retrieve all to-do items on database.
 
 Used to update a to-do item saved on database.
 
-**URL:** `/todo-list/item`
+**URL:** `/v1/todo-list/items`
 
 **Method:** `PATCH`
 
