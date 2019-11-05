@@ -124,7 +124,6 @@ Used to persist a to-do item on database.
 
 ```json
 {
-	"id": "[Valid number value, different for each item (WIP to avoid sending this parameter)]",
 	"description": "[Valid text, not null or empty]"
 }
 ```
@@ -133,7 +132,6 @@ Used to persist a to-do item on database.
 
 ```json
 {
-	"id": 1,
 	"description": "To do item example"
 }
 ```
@@ -142,20 +140,39 @@ Used to persist a to-do item on database.
 
 **Code:** `201 CREATED`
 
-**Content:** No.
+**Content:** 
+
+```json
+{
+  "id": "[Valid UUID value]",
+	"description": "[Valid text]",
+  "status": "Created",
+  "createdDateTime": "[yyyy mm dd HH:MM:SS]"
+}
+```
+
+**Data example:**
+
+```json
+{
+	"id": "a056fb54-317e-4982-bd83-ccb0b8b97d74",
+  "description": "To do item example",
+  "status": "Created",
+  "createdDateTime": "2019 11 04 16:50:00"
+}
+```
 
 #### Error response
 
 **Code:** `400 BAD REQUEST`
 
-**Condition:** If 'id' or 'description' are null or empty.
+**Condition:** If 'description' is null or empty.
 
 **Content:**
 
 ```json
 {
     "errorMessages": [
-        "Id can not be null",
         "Description can not be null or empty"
     ]
 }
@@ -176,7 +193,9 @@ Used to persist a to-do items collection on database.
 ```json
 [
   {
-    "id": "[Valid number value, different for each item (WIP to avoid sending this parameter)]",
+    "description": "[Valid text, not null or empty]"
+  },
+  {
     "description": "[Valid text, not null or empty]"
   }
 ]
@@ -187,11 +206,9 @@ Used to persist a to-do items collection on database.
 ```json
 [
   {
-    "id": 1,
 		"description": "To do item example"
 	},
   {
-    "id": 2,
 		"description": "To do item example 2"
 	}
 ]
@@ -201,7 +218,43 @@ Used to persist a to-do items collection on database.
 
 **Code:** `201 CREATED`
 
-**Content:** No.
+**Content:**
+
+```json
+[
+  {
+    "id": "[Valid UUID value]",
+		"description": "[Valid text]",
+  	"status": "Created",
+	  "createdDateTime": "[yyyy mm dd HH:MM:SS]"
+	},
+  {
+    "id": "[Valid UUID value]",
+		"description": "[Valid text]",
+  	"status": "Created",
+	  "createdDateTime": "[yyyy mm dd HH:MM:SS]"
+	}
+]
+```
+
+**Data example:**
+
+```json
+[
+  {
+    "id": "a056fb54-317e-4982-bd83-ccb0b8b97d74",
+    "description": "To do item example",
+    "status": "Created",
+    "createdDateTime": "2019 11 04 16:50:00"
+  },
+  {
+    "id": "a056fb54-317e-4982-bd83-ccb0b8b97d74",
+    "description": "To do item example 2",
+    "status": "Created",
+    "createdDateTime": "2019 11 04 16:50:01"
+  }
+]
+```
 
 #### Error response
 
@@ -250,12 +303,12 @@ Used to delete a specific to-do item on database.
 
 **Data constraints:**
 
-`{id} must be a valid number value.`
+`{id} must be a valid UUID value.`
 
 **Data example:**
 
 ```
-/todoList/items/1
+/todoList/items/a056fb54-317e-4982-bd83-ccb0b8b97d74
 ```
 
 #### Success response
@@ -268,7 +321,7 @@ Used to delete a specific to-do item on database.
 
 **Code:** `400 BAD REQUEST`
 
-**Condition:** Sending a non number id param.
+**Condition:** Sending a non UUID id param.
 
 **Content:**
 
@@ -337,14 +390,16 @@ Used to retrieve all to-do items on database.
 ```json
 [
   {
-    "id": 1,
+    "id": "a056fb54-317e-4982-bd83-ccb0b8b97d74",
     "description": "To do item example",
-    "createdDatetime": "2019 26 25 11:07:03"
+    "createdDatetime": "2019 26 25 11:07:03",
+    "status": "Created"
   },
   {
-    "id": 2,
+    "id": "a056fb54-317e-4982-bd83-ccb0b8b97d73",
     "description": "To do item example 2",
-    "createdDatetime": "2019 57 25 11:07:49"
+    "createdDatetime": "2019 57 25 11:07:49",
+    "status": "In Progress"
   }
 ]
 ```
@@ -363,8 +418,9 @@ Used to update a to-do item saved on database.
 
 ```json
 {
-	"id": "[Valid number value, unique for each item]",
-	"description": "[Valid text, not null or empty]"
+	"id": "[Valid UUID value]",
+	"description": "[Valid text, not null or empty]",
+  "status": "[Created, In Progress, Done]"
 }
 ```
 
@@ -372,8 +428,9 @@ Used to update a to-do item saved on database.
 
 ```json
 {
-	"id": 1,
-	"description": "New description for to-do item with id = 1"
+	"id": "a056fb54-317e-4982-bd83-ccb0b8b97d73",
+	"description": "New description",
+  "status": "Done"
 }
 ```
 
@@ -387,16 +444,17 @@ Used to update a to-do item saved on database.
 
 **Code:** `400 BAD REQUEST`
 
-**Condition:** If 'id' or 'description' are null or empty.
+**Condition:** If 'id', 'description' or 'status' are null, empty or invalid.
 
 **Content:**
 
 ```json
 {
-    "errorMessages": [
-        "Description can not be null or empty",
-        "Id can not be null"
-    ]
+  "errorMessages": [
+    "Description can not be null or empty",
+    "Id can not be null",
+    "Status can not be null"
+  ]
 }
 ```
 
@@ -436,11 +494,16 @@ This project uses the following technologies:
 
 This project was made using the following tools:
 
+- [Code Climate](https://codeclimate.com).
+- [Codecov](https://codecov.io).
 - [Conventional Commits](https://www.conventionalcommits.org/en/v1.0.0-beta.4).
-- [IntelliJ IDEA](https://www.jetbrains.com/idea).
 - [gh-md-toc](https://github.com/ekalinin/github-markdown-toc)
 - [Gitignore.io](https://www.gitignore.io).
+- [IntelliJ IDEA](https://www.jetbrains.com/idea).
+- [Open Source Badges](https://github.com/ellerbrock/open-source-badges).
 - [Postman](https://www.getpostman.com/).
+- [Snyk io](https://snyk.io).
+- [Travis CI](https://travis-ci.org).
 - [Typora](https://typora.io).
 
 ## License
