@@ -14,7 +14,7 @@ import java.util.List;
 
 @RestController
 @CrossOrigin(origins = "*")
-@RequestMapping(path = "/todo-list")
+@RequestMapping(path = "/v1/todo-list/batch")
 public class MessagingQueueController {
     private final ListValidator<NewTodoItemRequest> validator;
     private final MessagingQueueProducer producer;

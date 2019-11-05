@@ -1,7 +1,6 @@
 package org.nahuelrodriguez.services.implementation;
 
 import org.nahuelrodriguez.daos.Repository;
-import org.nahuelrodriguez.entities.TodoItem;
 import org.nahuelrodriguez.exceptions.NotFoundException;
 import org.nahuelrodriguez.mappers.TodoItemDTOMapper;
 import org.nahuelrodriguez.mappers.TodoItemMapper;
@@ -34,21 +33,18 @@ public class CassandraDBService implements TodoListService {
     }
 
     @CachePut(value = "tasks", key = "#result.id")
-    public TodoItem addNewTodoItem(final NewTodoItemRequest dto) {
+    public TodoItemDTO addNewTodoItem(final NewTodoItemRequest dto) {
         final var entity = toEntityMapper.from(dto);
         entity.setId(UUID.randomUUID());
+        entity.setStatus("Created");
         entity.setCreatedDatetime(Instant.now());
-        return repository.save(entity);
+        return toDtoMapper.from(repository.save(entity));
     }
 
     @CacheEvict(value = "tasks", key = "#result.id")
-    public void deleteTodoItem(final String id) {
-        if (id == null || !id.matches("^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$"))
-            throw new IllegalArgumentException("The id can not be null");
-
-        final var idFromString = UUID.fromString(id);
-        final var entity = repository.findById(idFromString);
-        repository.deleteById(idFromString);
+    public void deleteTodoItem(final UUID id) {
+        final var entity = repository.findById(id);
+        repository.deleteById(id);
         entity.orElseThrow(NotFoundException::new);
     }
 

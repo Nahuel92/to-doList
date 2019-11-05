@@ -7,8 +7,6 @@ public class TodoItemMapper {
     public TodoItem from(final NewTodoItemRequest dto) {
         final var entity = new TodoItem();
         entity.setDescription(dto.getDescription());
-        entity.setStatus(dto.getStatus());
-
         return entity;
     }
 }

@@ -11,10 +11,11 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Collection;
+import java.util.UUID;
 
 @RestController
 @CrossOrigin(origins = "*")
-@RequestMapping(path = "/todo-list")
+@RequestMapping(path = "/v1/todo-list")
 public class TodoListController {
     private final TodoListService service;
 
@@ -23,13 +24,13 @@ public class TodoListController {
         this.service = service;
     }
 
-    @PostMapping(path = "/item")
-    public ResponseEntity addNewTodoItem(@RequestBody @Validated final NewTodoItemRequest dto) {
+    @PostMapping(path = "/items")
+    public ResponseEntity<TodoItemDTO> addNewTodoItem(@RequestBody @Validated final NewTodoItemRequest dto) {
         return new ResponseEntity<>(service.addNewTodoItem(dto), HttpStatus.CREATED);
     }
 
-    @DeleteMapping(path = "/item/{id}")
-    public ResponseEntity deleteTodoItem(@PathVariable("id") String id) {
+    @DeleteMapping(path = "/items/{id}")
+    public ResponseEntity deleteTodoItem(@PathVariable("id") UUID id) {
         service.deleteTodoItem(id);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
@@ -45,7 +46,7 @@ public class TodoListController {
         return new ResponseEntity<>(service.getAllTodoItems(), HttpStatus.OK);
     }
 
-    @PatchMapping(path = "/item")
+    @PatchMapping(path = "/items")
     public ResponseEntity updateTodoItem(@RequestBody @Validated final UpdateTodoItemRequest dto) {
         service.updateTodoItem(dto);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
