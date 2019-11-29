@@ -2,10 +2,9 @@ version: '3.7'
 services:
   app:
     container_name: todo-list
+    image: todo-list:latest
     build:
       context: .
-      args:
-        JAR_FILE: /target/to-doList-0.0.1-SNAPSHOT.jar
     environment:
       SPRING_DATA_CASSANDRA_CONTACTPOINTS: cassandra
       SPRING_KAFKA_BOOTSTRAPSERVERS: kafka:29092
@@ -19,17 +18,17 @@ services:
     restart: always
   cassandra:
     container_name: cassandra
-    image: cassandra:latest
+    image: cassandra:3.11.5
     ports:
       - "9042:9042"
   redis:
     container_name: redis
-    image: redis:5.0.5-alpine3.10
+    image: redis:5.0.7-alpine
     ports:
       - "6379:6379"
   kafka:
     container_name: kafka
-    image: confluentinc/cp-kafka:latest
+    image: confluentinc/cp-kafka:5.3.1
     depends_on:
       - zookeeper
     ports:
@@ -37,13 +36,13 @@ services:
     environment:
       KAFKA_BROKER_ID: 1
       KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
-      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka:29092,PLAINTEXT_HOST://localhost:9092
-      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: PLAINTEXT:PLAINTEXT,PLAINTEXT_HOST:PLAINTEXT
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka:29092, PLAINTEXT_HOST://localhost:9092
+      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: PLAINTEXT:PLAINTEXT, PLAINTEXT_HOST:PLAINTEXT
       KAFKA_INTER_BROKER_LISTENER_NAME: PLAINTEXT
       KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
   zookeeper:
     container_name: zookeeper
-    image: confluentinc/cp-zookeeper:latest
+    image: confluentinc/cp-zookeeper:5.3.1
     environment:
       ZOOKEEPER_CLIENT_PORT: 2181
       ZOOKEEPER_TICK_TIME: 2000
