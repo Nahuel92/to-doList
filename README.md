@@ -50,24 +50,23 @@ In this case, I chose Cassandra DB for storing data.
 - [x] Caching with Redis (some operations only).
 - [x] CRUD operations for a to-do list.
 - [x] Exception handling with controller advice.
-- [ ] Jenkins pipeline.
+- [ ] Jenkins basic pipeline.
 - [x] Kafka integration for massive creation operations.
 - [x] Request data validation.
 - [x] Support for Cassandra DB.
 - [x] Swagger for API documentation.
+- [x] Travis basic pipeline.
 - [x] Unit tests.
 
 ## Running the application
 
-This app is dockerized. This mean that the only thing you have to do is clone this repo and build the project with Maven (I'm working to avoid this and let Docker build the project too).
-
-After that, you can run the following command on the project root to have all up and running:
+This app is dockerized. This mean that the only things you have to do is clone this repo and run the following command on the project root to have all up and running:
 
 ```bash
 docker-compose up
 ```
 
-You can run this app locally too, but you have to configure all the dependencies described on the Requisites section.
+You can run this app locally too, but you have to manually configure all the dependencies described on the [Requisites (only for local deployment)](#requisites-only-for-local-deployment) section.
 
 ## Requisites (only for Docker deployment)
 

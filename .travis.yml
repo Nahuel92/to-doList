@@ -1,15 +1,13 @@
 language: java
-
 sudo: false
 
 cache:
   directories:
     - $HOME/.m2
-
 jdk:
   - openjdk13
 
 script: mvn clean verify
 
 after_success:
-  - bash <(curl -s https://codecov.io/bash)
+  - bash < (curl -s https://codecov.io/bash)
