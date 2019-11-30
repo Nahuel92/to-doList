@@ -17,7 +17,7 @@ class TodoItemDTOMapperTest extends Specification {
         mapper = new TodoItemDTOMapper()
     }
 
-    def "When invocked from method with valid entity -> returns a valid dto"() {
+    def "When invoked from method with valid entity -> returns a valid dto"() {
         given:
         def entity = new TodoItem()
         entity.setId(UUID.fromString("a056fb54-317e-4982-bd83-ccb0b8b97d74"))

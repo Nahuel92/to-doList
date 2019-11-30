@@ -10,7 +10,7 @@ class TodoItemMapperTest extends Specification {
         mapper = new TodoItemMapper()
     }
 
-    def "When invocked from method with valid dto -> returns a valid entity"() {
+    def "When invoked from method with valid dto -> returns a valid entity"() {
         given:
         def dto = new NewTodoItemRequest()
         dto.setDescription("DTO description")

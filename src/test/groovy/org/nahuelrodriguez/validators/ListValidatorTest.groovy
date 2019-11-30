@@ -13,7 +13,7 @@ class ListValidatorTest extends Specification {
         listValidator = new ListValidator<>(validator)
     }
 
-    def "When invocking validate method with valid DTO collection -> returns empty map"() {
+    def "When invoking validate method with valid DTO collection -> returns empty map"() {
         when:
         def results = listValidator.validate(validDTOCollection())
 
@@ -21,7 +21,7 @@ class ListValidatorTest extends Specification {
         results.isEmpty()
     }
 
-    def "When invocking validate method with invalid DTO collection -> returns map with errors"() {
+    def "When invoking validate method with invalid DTO collection -> returns map with errors"() {
         when:
         def results = listValidator.validate(invalidDTOCollection())
 

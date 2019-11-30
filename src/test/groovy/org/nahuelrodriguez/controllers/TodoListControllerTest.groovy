@@ -35,7 +35,7 @@ class TodoListControllerTest extends Specification {
                 .build()
     }
 
-    def "When invocked addNewTodoItem method with valid DTO -> returns 201 created"() {
+    def "When invoked addNewTodoItem method with valid DTO -> returns 201 created"() {
         given:
         def dto = new NewTodoItemRequest()
         dto.setDescription("valid dto")
@@ -53,7 +53,7 @@ class TodoListControllerTest extends Specification {
         results.andExpect(status().isCreated())
     }
 
-    def "When invocked addNewTodoItem method with invalid DTO -> returns 400 bad request"() {
+    def "When invoked addNewTodoItem method with invalid DTO -> returns 400 bad request"() {
         given:
         def dto = new NewTodoItemRequest()
 
@@ -68,7 +68,7 @@ class TodoListControllerTest extends Specification {
         results.andExpect(status().isBadRequest())
     }
 
-    def "When invocked deleteTodoItem method with valid id and there's a saved item having that id -> returns 204 no content"() {
+    def "When invoked deleteTodoItem method with valid id and there's a saved item having that id -> returns 204 no content"() {
         given:
         def id = "a056fb54-317e-4982-bd83-ccb0b8b97d74"
         and:
@@ -81,7 +81,7 @@ class TodoListControllerTest extends Specification {
         results.andExpect(status().isNoContent())
     }
 
-    def "When invocked deleteTodoItem method with valid id and there isn't a saved item having that id -> returns 404 not found"() {
+    def "When invoked deleteTodoItem method with valid id and there isn't a saved item having that id -> returns 404 not found"() {
         given:
         def id = "a056fb54-317e-4982-bd83-ccb0b8b97d74"
         and:
@@ -97,7 +97,7 @@ class TodoListControllerTest extends Specification {
         results.andExpect(jsonPath('$.errorMessages').value('Entity not found.'))
     }
 
-    def "When invocked deleteTodoItem method with invalid id -> returns 400 bad request"() {
+    def "When invoked deleteTodoItem method with invalid id -> returns 400 bad request"() {
         given:
         def id = "a056fb54-317e-4982-bd83-ccb0b8b97d7x"
 
@@ -110,7 +110,7 @@ class TodoListControllerTest extends Specification {
         results.andExpect(status().isBadRequest())
     }
 
-    def "When invocked deleteAllTodoItems method  -> returns 204 no content"() {
+    def "When invoked deleteAllTodoItems method  -> returns 204 no content"() {
         when:
         def results = mockMvc.perform(delete('/v1/todo-list/items'))
 
@@ -118,7 +118,7 @@ class TodoListControllerTest extends Specification {
         results.andExpect(status().isNoContent())
     }
 
-    def "When invocked getAllTodoItems method -> returns 200 OK and an entity collection"() {
+    def "When invoked getAllTodoItems method -> returns 200 OK and an entity collection"() {
         given:
         def idCollection = [
                 "a056fb54-317e-4982-bd83-ccb0b8b97d74",
@@ -149,7 +149,7 @@ class TodoListControllerTest extends Specification {
         results.andExpect(jsonPath('$[*].description').value(containsInAnyOrder(descriptions.toArray())))
     }
 
-    def "When invocked updateTodoItem method with valid dto -> returns 204 no content"() {
+    def "When invoked updateTodoItem method with valid dto -> returns 204 no content"() {
         given:
         def id = "a056fb54-317e-4982-bd83-ccb0b8b97d74"
         and:
@@ -169,7 +169,7 @@ class TodoListControllerTest extends Specification {
         results.andExpect(status().isNoContent())
     }
 
-    def "When invocked updateTodoItem method with valid dto but there isn't an entity saved -> returns 404 not found"() {
+    def "When invoked updateTodoItem method with valid dto but there isn't an entity saved -> returns 404 not found"() {
         given:
         def id = "a056fb54-317e-4982-bd83-ccb0b8b97d74"
         and:

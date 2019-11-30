@@ -11,7 +11,7 @@ class NewTodoItemRequestDeserializerTest extends Specification {
         todoItemRequestDeserializer = new TodoItemRequestDeserializer()
     }
 
-    def "When invocked Deserialize method -> returning value OK"() {
+    def "When invoked Deserialize method -> returning value OK"() {
         given:
         def dto = new NewTodoItemRequest()
         dto.setDescription("Valid DTO")

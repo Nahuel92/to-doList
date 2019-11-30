@@ -27,9 +27,8 @@ public class CassandraConfig extends AbstractClusterConfiguration {
 
     @Override
     protected List<String> getStartupScripts() {
-        final var createKeyspace =
-                "CREATE KEYSPACE IF NOT EXISTS " + keySpace + " WITH durable_writes = true" +
-                        " AND replication = {'class' : 'SimpleStrategy', 'replication_factor' : 1};";
+        final var createKeyspace = "CREATE KEYSPACE IF NOT EXISTS " + keySpace + " WITH durable_writes = true" +
+                " AND replication = {'class' : 'SimpleStrategy', 'replication_factor' : 1};";
 
         final var createTable = "CREATE TABLE IF NOT EXISTS todolist.to_do_items " +
                 "(id UUID PRIMARY KEY, description TEXT, status TEXT, createddatetime TIMESTAMP) ";

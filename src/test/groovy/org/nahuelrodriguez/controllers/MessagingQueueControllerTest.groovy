@@ -27,7 +27,7 @@ class MessagingQueueControllerTest extends Specification {
         mockMvc = MockMvcBuilders.standaloneSetup(controller).build()
     }
 
-    def "When invocked AddNewTodoItems method with empty collection -> returns 400 bad request"() {
+    def "When invoked AddNewTodoItems method with empty collection -> returns 400 bad request"() {
         given:
         def emptyCollection = new ArrayList<NewTodoItemRequest>()
 
@@ -44,7 +44,7 @@ class MessagingQueueControllerTest extends Specification {
         results.andExpect(jsonPath('$.errorMessages').value('Empty request'))
     }
 
-    def "When invocked AddNewTodoItems method with invalid data collection -> returns 400 bad request"() {
+    def "When invoked AddNewTodoItems method with invalid data collection -> returns 400 bad request"() {
         given:
         def invalidDataCollection = List.of(new NewTodoItemRequest(), new NewTodoItemRequest())
         and:
@@ -65,7 +65,7 @@ class MessagingQueueControllerTest extends Specification {
         results.andExpect(jsonPath('$.errorMessages.1[0]').value("Description can not be null or empty"))
     }
 
-    def "When invocked AddNewTodoItems method with valid data collection -> producer.send() invocked and returns 201 created"() {
+    def "When invoked AddNewTodoItems method with valid data collection -> producer.send() invoked and returns 201 created"() {
         given:
         def validDataCollection = List.of(newRequest("Valid request"),
                 newRequest("Valid request 2"),
