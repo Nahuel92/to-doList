@@ -8,6 +8,8 @@ I made this project firstly for training myself on new Java features like lambda
 
 In this case, I chose Cassandra DB for storing data.
 
+------
+
 ## Table of Contents
 
 - [To-do List Project (WIP)](#to-do-list-project-wip)
@@ -42,6 +44,8 @@ In this case, I chose Cassandra DB for storing data.
   - [Tools](#tools)
   - [License](#license)
 
+-----
+
 ## Project Status
 
 - [x] App Dockerized.
@@ -58,6 +62,8 @@ In this case, I chose Cassandra DB for storing data.
 - [x] Travis basic pipeline.
 - [x] Unit tests.
 
+-----
+
 ## Running the application
 
 This app is dockerized. This mean that the only things you have to do is clone this repo and run the following command on the project root to have all up and running:
@@ -68,9 +74,13 @@ docker-compose up
 
 You can run this app locally too, but you have to manually configure all the dependencies described on the [Requisites (only for local deployment)](#requisites-only-for-local-deployment) section.
 
+----
+
 ## Requisites (only for Docker deployment)
 
 The only requisite is have installed Docker and Docker-compose.
+
+----
 
 ## Requisites (only for local deployment)
 
@@ -97,6 +107,8 @@ spring.cache.type=redis
 spring.cache.redis.time-to-live=600000
 ```
 
+-----
+
 ## API Operations
 
 The following is a list of supported operations:
@@ -106,6 +118,8 @@ The following is a list of supported operations:
 - Delete all to-do items:`DELETE /v1/todo-list/items`
 - Retrieve all to-do items:`GET /v1/todo-list/items`
 - Update a to-do item:`PATCH /v1/todo-list/items`
+
+----
 
 ## Examples
 
@@ -176,6 +190,8 @@ Used to persist a to-do item on database.
     ]
 }
 ```
+
+---
 
 ### Save an items collection
 
@@ -290,6 +306,8 @@ Used to persist a to-do items collection on database.
 }
 ```
 
+---
+
 ### Delete item
 
 Used to delete a specific to-do item on database.
@@ -348,6 +366,8 @@ Used to delete a specific to-do item on database.
 }
 ```
 
+---
+
 ### Delete all items
 
 Used to delete all to-do items saved on database.
@@ -367,6 +387,8 @@ Used to delete all to-do items saved on database.
 **Code:** `204 NO CONTENT`
 
 **Content:** No.
+
+---
 
 ### Retrieve all items
 
@@ -402,6 +424,8 @@ Used to retrieve all to-do items on database.
   }
 ]
 ```
+
+---
 
 ### Update item
 
@@ -473,9 +497,13 @@ Used to update a to-do item saved on database.
 }
 ```
 
+-----
+
 ## Swagger
 
 [Here](http://localhost:8080/swagger-ui.html) is the Swagger-generated API documentation. The project have to be running to access the page.
+
+-----
 
 ## Technologies
 
@@ -488,6 +516,8 @@ This project uses the following technologies:
 - [Redis](https://redis.io/).
 - [Spring Boot](https://spring.io/projects/spring-boot).
 - [Swagger](https://swagger.io/).
+
+-----
 
 ## Tools
 
@@ -504,6 +534,8 @@ This project was made using the following tools:
 - [Snyk io](https://snyk.io).
 - [Travis CI](https://travis-ci.org).
 - [Typora](https://typora.io).
+
+-----
 
 ## License
 
