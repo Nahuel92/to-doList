@@ -7,7 +7,7 @@ import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 
 public class TodoItemDTOMapper {
-    private final static DateTimeFormatter dtf = DateTimeFormatter
+    private static final DateTimeFormatter DATE_TIME_FORMATTER = DateTimeFormatter
             .ofPattern("yyyy mm dd HH:MM:SS")
             .withZone(ZoneId.systemDefault());
 
@@ -16,7 +16,7 @@ public class TodoItemDTOMapper {
         dto.setId(entity.getId().toString());
         dto.setDescription(entity.getDescription());
         dto.setStatus(entity.getStatus());
-        dto.setCreatedDatetime(dtf.format(entity.getCreatedDatetime()));
+        dto.setCreatedDatetime(DATE_TIME_FORMATTER.format(entity.getCreatedDatetime()));
 
         return dto;
     }

@@ -5,13 +5,8 @@ import org.apache.kafka.common.serialization.Deserializer;
 import org.nahuelrodriguez.requests.dtos.NewTodoItemRequest;
 
 import java.io.IOException;
-import java.util.Map;
 
 public class TodoItemRequestDeserializer implements Deserializer<NewTodoItemRequest> {
-    @Override
-    public void configure(Map<String, ?> map, boolean b) {
-    }
-
     @Override
     public NewTodoItemRequest deserialize(final String topic, final byte[] data) {
         final NewTodoItemRequest dto;
@@ -21,9 +16,5 @@ public class TodoItemRequestDeserializer implements Deserializer<NewTodoItemRequ
             throw new RuntimeException("Failed to deserialize data of topic: " + topic);
         }
         return dto;
-    }
-
-    @Override
-    public void close() {
     }
 }
