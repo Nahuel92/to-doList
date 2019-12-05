@@ -57,6 +57,7 @@ In this case, I chose Cassandra DB for storing data.
 - [ ] Jenkins basic pipeline.
 - [x] Kafka integration for massive creation operations.
 - [x] Request data validation.
+- [x] Spring Actuator (default configuration).
 - [x] Support for Cassandra DB.
 - [x] Swagger for API documentation.
 - [x] Travis basic pipeline.
