@@ -1,21 +1,26 @@
 package org.nahuelrodriguez.controllers;
 
+import org.nahuelrodriguez.representationModelAssemblers.TodoItemDTORepresentationModelAssembler;
 import org.nahuelrodriguez.requests.dtos.NewTodoItemRequest;
 import org.nahuelrodriguez.requests.dtos.UpdateTodoItemRequest;
 import org.nahuelrodriguez.responses.dtos.TodoItemDTO;
 import org.nahuelrodriguez.services.TodoListService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.hateoas.CollectionModel;
+import org.springframework.hateoas.EntityModel;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Collection;
 import java.util.UUID;
+
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
 @RestController
 @CrossOrigin(origins = "*")
-@RequestMapping(path = "/v1/todo-list")
+@RequestMapping(path = "/v1/todo-list/items", produces = {"application/json", "text/xml"})
 public class TodoListController {
     private final TodoListService service;
 
@@ -24,31 +29,41 @@ public class TodoListController {
         this.service = service;
     }
 
-    @PostMapping(path = "/items")
-    public ResponseEntity<TodoItemDTO> addNewTodoItem(@RequestBody @Validated final NewTodoItemRequest dto) {
-        return new ResponseEntity<>(service.addNewTodoItem(dto), HttpStatus.CREATED);
+    @PostMapping(consumes = "application/json")
+    @ResponseStatus(HttpStatus.CREATED)
+    public TodoItemDTO addNewTodoItem(@RequestBody @Validated final NewTodoItemRequest dto) {
+        return service.addNewTodoItem(dto);
     }
 
-    @DeleteMapping(path = "/items/{id}")
-    public ResponseEntity<Void> deleteTodoItem(@PathVariable("id") UUID id) {
+    @DeleteMapping(path = "/{id}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void deleteTodoItem(@PathVariable("id") UUID id) {
         service.deleteTodoItem(id);
-        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
-    @DeleteMapping(path = "/items")
-    public ResponseEntity<Void> deleteAllTodoItems() {
+    @DeleteMapping
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void deleteAllTodoItems() {
         service.deleteAllTodoItems();
-        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
-    @GetMapping(path = "/items")
-    public ResponseEntity<Collection<TodoItemDTO>> getAllTodoItems() {
-        return new ResponseEntity<>(service.getAllTodoItems(), HttpStatus.OK);
+    @GetMapping
+    public CollectionModel<EntityModel<TodoItemDTO>> getAllTodoItems() {
+        final var pageRequest = PageRequest.of(0, 15);
+        final var todoItems = service.getAllTodoItems(pageRequest);
+
+        final var todoItemDTOAssembler = new TodoItemDTORepresentationModelAssembler();
+        final var recentResources = CollectionModel.wrap(todoItemDTOAssembler.toCollectionModel(todoItems));
+
+        return recentResources.add(linkTo(methodOn(TodoListController.class)
+                        .getAllTodoItems()
+                ).withRel("allTodoItems")
+        );
     }
 
-    @PatchMapping(path = "/items")
-    public ResponseEntity<Void> updateTodoItem(@RequestBody @Validated final UpdateTodoItemRequest dto) {
+    @PatchMapping(consumes = "application/json")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void updateTodoItem(@RequestBody @Validated final UpdateTodoItemRequest dto) {
         service.updateTodoItem(dto);
-        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 }
