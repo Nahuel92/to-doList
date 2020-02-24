@@ -1,11 +1,9 @@
 package org.nahuelrodriguez.responses.dtos;
 
-import org.springframework.hateoas.RepresentationModel;
-
 import java.io.Serializable;
 import java.util.Objects;
 
-public class TodoItemDTO extends RepresentationModel<TodoItemDTO> implements Serializable {
+public class TodoItemDTO implements Serializable {
     private String id;
     private String description;
     private String status;
@@ -61,5 +59,15 @@ public class TodoItemDTO extends RepresentationModel<TodoItemDTO> implements Ser
     @Override
     public int hashCode() {
         return Objects.hash(super.hashCode(), id, description, status, createdDatetime);
+    }
+
+    @Override
+    public String toString() {
+        return "TodoItemDTO{" +
+                "id='" + id + '\'' +
+                ", description='" + description + '\'' +
+                ", status='" + status + '\'' +
+                ", createdDatetime='" + createdDatetime + '\'' +
+                '}';
     }
 }
