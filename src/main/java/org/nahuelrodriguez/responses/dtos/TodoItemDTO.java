@@ -1,9 +1,11 @@
 package org.nahuelrodriguez.responses.dtos;
 
+import org.springframework.hateoas.RepresentationModel;
+
 import java.io.Serializable;
 import java.util.Objects;
 
-public class TodoItemDTO implements Serializable {
+public class TodoItemDTO extends RepresentationModel<TodoItemDTO> implements Serializable {
     private String id;
     private String description;
     private String status;
@@ -48,6 +50,7 @@ public class TodoItemDTO implements Serializable {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
+        if (!super.equals(o)) return false;
         TodoItemDTO that = (TodoItemDTO) o;
         return Objects.equals(id, that.id) &&
                 Objects.equals(description, that.description) &&
@@ -57,16 +60,6 @@ public class TodoItemDTO implements Serializable {
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, description, status, createdDatetime);
-    }
-
-    @Override
-    public String toString() {
-        return "TodoItemDTO{" +
-                "id=" + id +
-                ", description='" + description + '\'' +
-                ", status='" + status + '\'' +
-                ", createdDatetime='" + createdDatetime + '\'' +
-                '}';
+        return Objects.hash(super.hashCode(), id, description, status, createdDatetime);
     }
 }
