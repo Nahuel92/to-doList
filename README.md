@@ -58,6 +58,7 @@ In this case, I chose Cassandra DB for storing data.
 - [x] Kafka integration for massive creation operations.
 - [x] Request data validation.
 - [x] Spring Actuator (default configuration).
+- [x] Spring HATEOAS.
 - [x] Support for Cassandra DB.
 - [x] Swagger for API documentation.
 - [x] Travis basic pipeline.
@@ -117,6 +118,7 @@ The following is a list of supported operations:
 - Save a collection of to-do item:`POST /v1/todo-list/batch/items`
 - Delete a to-do item:`DELETE /v1/todo-list/items/{id}`
 - Delete all to-do items:`DELETE /v1/todo-list/items`
+- Retrieve a to-do item:`GET /v1/todo-list/items/{id}`
 - Retrieve all to-do items:`GET /v1/todo-list/items`
 - Update a to-do item:`PATCH /v1/todo-list/items`
 
