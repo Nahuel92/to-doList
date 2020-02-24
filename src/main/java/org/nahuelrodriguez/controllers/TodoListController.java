@@ -1,6 +1,5 @@
 package org.nahuelrodriguez.controllers;
 
-import org.nahuelrodriguez.representationModelAssemblers.TodoItemDTORepresentationModelAssembler;
 import org.nahuelrodriguez.requests.dtos.NewTodoItemRequest;
 import org.nahuelrodriguez.requests.dtos.UpdateTodoItemRequest;
 import org.nahuelrodriguez.responses.dtos.TodoItemDTO;
@@ -13,7 +12,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.UUID;
+import java.util.stream.Collectors;
 
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
@@ -31,13 +30,15 @@ public class TodoListController {
 
     @PostMapping(consumes = "application/json")
     @ResponseStatus(HttpStatus.CREATED)
-    public TodoItemDTO addNewTodoItem(@RequestBody @Validated final NewTodoItemRequest dto) {
-        return service.addNewTodoItem(dto);
+    public EntityModel<TodoItemDTO> addNewTodoItem(@RequestBody @Validated final NewTodoItemRequest dto) {
+        return new EntityModel<>(service.addNewTodoItem(dto),
+                linkTo(methodOn(TodoListController.class).addNewTodoItem(dto)).withSelfRel()
+        );
     }
 
     @DeleteMapping(path = "/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void deleteTodoItem(@PathVariable("id") UUID id) {
+    public void deleteTodoItem(@PathVariable("id") final String id) {
         service.deleteTodoItem(id);
     }
 
@@ -47,17 +48,28 @@ public class TodoListController {
         service.deleteAllTodoItems();
     }
 
+    @GetMapping(path = "/{id}")
+    public EntityModel<TodoItemDTO> getTodoItem(@PathVariable("id") final String id) {
+        return new EntityModel<>(service.getTodoItem(id),
+                linkTo(methodOn(TodoListController.class).getTodoItem(id)).withSelfRel(),
+                linkTo(methodOn(TodoListController.class).getAllTodoItems()).withRel("todoItems")
+        );
+    }
+
     @GetMapping
     public CollectionModel<EntityModel<TodoItemDTO>> getAllTodoItems() {
         final var pageRequest = PageRequest.of(0, 15);
-        final var todoItems = service.getAllTodoItems(pageRequest);
+        final var todoItems = service.getAllTodoItems(pageRequest)
+                .stream()
+                .map(todoItem -> new EntityModel<>(todoItem,
+                                linkTo(methodOn(TodoListController.class).getTodoItem(todoItem.getId())).withSelfRel()
+                        )
+                )
+                .collect(Collectors.toUnmodifiableSet());
 
-        final var todoItemDTOAssembler = new TodoItemDTORepresentationModelAssembler();
-        final var recentResources = CollectionModel.wrap(todoItemDTOAssembler.toCollectionModel(todoItems));
-
-        return recentResources.add(linkTo(methodOn(TodoListController.class)
-                        .getAllTodoItems()
-                ).withRel("allTodoItems")
+        return new CollectionModel<>(todoItems, linkTo(methodOn(TodoListController.class)
+                .getAllTodoItems())
+                .withSelfRel()
         );
     }
 
