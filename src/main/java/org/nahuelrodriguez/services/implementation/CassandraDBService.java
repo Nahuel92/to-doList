@@ -1,6 +1,7 @@
 package org.nahuelrodriguez.services.implementation;
 
 import org.nahuelrodriguez.daos.Repository;
+import org.nahuelrodriguez.entities.TodoItem;
 import org.nahuelrodriguez.exceptions.NotFoundException;
 import org.nahuelrodriguez.mappers.TodoItemDTOMapper;
 import org.nahuelrodriguez.mappers.TodoItemMapper;
@@ -11,13 +12,13 @@ import org.nahuelrodriguez.services.TodoListService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.CachePut;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import java.time.Instant;
 import java.util.Collection;
 import java.util.UUID;
 import java.util.stream.Collectors;
-import java.util.stream.StreamSupport;
 
 @Service
 public class CassandraDBService implements TodoListService {
@@ -53,9 +54,10 @@ public class CassandraDBService implements TodoListService {
         repository.deleteAll();
     }
 
-    public Collection<TodoItemDTO> getAllTodoItems() {
-        return StreamSupport.stream(repository.findAll().spliterator(), true)
-                .map(toDtoMapper::from)
+    public Collection<TodoItem> getAllTodoItems(final PageRequest pageRequest) {
+        return repository.findAll(pageRequest)
+                .getContent()
+                .stream()
                 .collect(Collectors.toUnmodifiableSet());
     }
 
