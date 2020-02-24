@@ -5,8 +5,11 @@ import org.nahuelrodriguez.daos.Repository
 import org.nahuelrodriguez.entities.TodoItem
 import org.nahuelrodriguez.requests.dtos.NewTodoItemRequest
 import org.nahuelrodriguez.requests.dtos.UpdateTodoItemRequest
+import org.nahuelrodriguez.responses.dtos.TodoItemDTO
 import org.nahuelrodriguez.services.TodoListService
 import org.nahuelrodriguez.services.implementation.CassandraDBService
+import org.springframework.data.domain.PageImpl
+import org.springframework.data.domain.PageRequest
 import org.springframework.http.MediaType
 import org.springframework.test.web.servlet.MockMvc
 import org.springframework.test.web.servlet.setup.MockMvcBuilders
@@ -132,10 +135,12 @@ class TodoListControllerTest extends Specification {
                             "entity 3",
                             "entity 4"]
         and:
-        repository.findAll() >> List.of(newEntity(idCollection[0], descriptions[0]),
+        def data = List.of(newEntity(idCollection[0], descriptions[0]),
                 newEntity(idCollection[1], descriptions[1]),
                 newEntity(idCollection[2], descriptions[2]),
                 newEntity(idCollection[3], descriptions[3]))
+
+        repository.findAll(_ as PageRequest) >> new PageImpl<TodoItemDTO>(data)
 
         when:
         def results = mockMvc.perform(get('/v1/todo-list/items')
@@ -144,9 +149,9 @@ class TodoListControllerTest extends Specification {
         then:
         results.andExpect(status().isOk())
         and:
-        results.andExpect(jsonPath('$[*].id').value(containsInAnyOrder(idCollection.toArray())))
+        results.andExpect(jsonPath('$.content[*].id').value(containsInAnyOrder(idCollection.toArray())))
         and:
-        results.andExpect(jsonPath('$[*].description').value(containsInAnyOrder(descriptions.toArray())))
+        results.andExpect(jsonPath('$.content[*].description').value(containsInAnyOrder(descriptions.toArray())))
     }
 
     def "When invoked updateTodoItem method with valid dto -> returns 204 no content"() {
