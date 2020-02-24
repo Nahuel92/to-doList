@@ -1,7 +1,6 @@
 package org.nahuelrodriguez.services.implementation;
 
 import org.nahuelrodriguez.daos.Repository;
-import org.nahuelrodriguez.entities.TodoItem;
 import org.nahuelrodriguez.exceptions.NotFoundException;
 import org.nahuelrodriguez.mappers.TodoItemDTOMapper;
 import org.nahuelrodriguez.mappers.TodoItemMapper;
@@ -43,9 +42,10 @@ public class CassandraDBService implements TodoListService {
     }
 
     @CacheEvict(value = "tasks", key = "#result.id")
-    public void deleteTodoItem(final UUID id) {
-        final var entity = repository.findById(id);
-        repository.deleteById(id);
+    public void deleteTodoItem(final String id) {
+        final var uuid = UUID.fromString(id);
+        final var entity = repository.findById(uuid);
+        repository.deleteById(uuid);
         entity.orElseThrow(NotFoundException::new);
     }
 
@@ -54,10 +54,17 @@ public class CassandraDBService implements TodoListService {
         repository.deleteAll();
     }
 
-    public Collection<TodoItem> getAllTodoItems(final PageRequest pageRequest) {
+    public TodoItemDTO getTodoItem(final String id) {
+        return repository.findById(UUID.fromString(id))
+                .map(toDtoMapper::from)
+                .orElseThrow(NotFoundException::new);
+    }
+
+    public Collection<TodoItemDTO> getAllTodoItems(final PageRequest pageRequest) {
         return repository.findAll(pageRequest)
                 .getContent()
                 .stream()
+                .map(toDtoMapper::from)
                 .collect(Collectors.toUnmodifiableSet());
     }
 
