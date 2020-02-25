@@ -3,20 +3,19 @@ package org.nahuelrodriguez.services;
 import org.nahuelrodriguez.requests.dtos.NewTodoItemRequest;
 import org.nahuelrodriguez.requests.dtos.UpdateTodoItemRequest;
 import org.nahuelrodriguez.responses.dtos.TodoItemDTO;
-import org.springframework.data.domain.PageRequest;
-
-import java.util.Collection;
+import reactor.core.publisher.Flux;
+import reactor.core.publisher.Mono;
 
 public interface TodoListService {
-    TodoItemDTO addNewTodoItem(final NewTodoItemRequest dto);
+    Mono<TodoItemDTO> addNewTodoItem(final NewTodoItemRequest dto);
 
     void deleteTodoItem(final String id);
 
     void deleteAllTodoItems();
 
-    TodoItemDTO getTodoItem(final String id);
+    Mono<TodoItemDTO> getTodoItem(final String id);
 
-    Collection<TodoItemDTO> getAllTodoItems(final PageRequest pageRequest);
+    Flux<TodoItemDTO> getAllTodoItems();
 
     void updateTodoItem(final UpdateTodoItemRequest dto);
 }
