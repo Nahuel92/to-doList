@@ -1,7 +1,7 @@
 package org.nahuelrodriguez.configuration;
 
 import org.apache.kafka.clients.admin.NewTopic;
-import org.springframework.beans.factory.annotation.Value;
+import org.nahuelrodriguez.properties.KafkaProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.kafka.annotation.EnableKafka;
@@ -9,14 +9,14 @@ import org.springframework.kafka.annotation.EnableKafka;
 @Configuration
 @EnableKafka
 public class KafkaTopicConfig {
-    private final String topic;
+    private final KafkaProperties properties;
 
-    public KafkaTopicConfig(@Value("${spring.kafka.template.default-topic}") final String topic) {
-        this.topic = topic;
+    public KafkaTopicConfig(final KafkaProperties properties) {
+        this.properties = properties;
     }
 
     @Bean
     public NewTopic todoListUsersTopic() {
-        return new NewTopic(topic, 1, (short) 1);
+        return new NewTopic(properties.getDefaultTopic(), 1, (short) 1);
     }
 }

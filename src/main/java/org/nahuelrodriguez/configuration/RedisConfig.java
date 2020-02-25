@@ -1,6 +1,6 @@
 package org.nahuelrodriguez.configuration;
 
-import org.springframework.beans.factory.annotation.Value;
+import org.nahuelrodriguez.properties.RedisProperties;
 import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -12,18 +12,16 @@ import org.springframework.data.redis.core.RedisTemplate;
 @Configuration
 @EnableCaching
 public class RedisConfig {
-    private final String url;
-    private final String password;
+    private final RedisProperties properties;
 
-    public RedisConfig(@Value("${spring.redis.host}") final String url, @Value("${spring.redis.password}") final String password) {
-        this.url = url;
-        this.password = password;
+    public RedisConfig(final RedisProperties properties) {
+        this.properties = properties;
     }
 
     @Bean
     public JedisConnectionFactory jedisConnectionFactory() {
-        final var redisConfig = new RedisStandaloneConfiguration(url);
-        redisConfig.setPassword(RedisPassword.of(password));
+        final var redisConfig = new RedisStandaloneConfiguration(properties.getHost());
+        redisConfig.setPassword(RedisPassword.of(properties.getPassword()));
         return new JedisConnectionFactory(redisConfig);
     }
 

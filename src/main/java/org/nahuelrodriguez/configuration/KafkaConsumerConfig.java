@@ -1,9 +1,9 @@
 package org.nahuelrodriguez.configuration;
 
 import org.apache.kafka.clients.consumer.ConsumerConfig;
+import org.nahuelrodriguez.properties.KafkaProperties;
 import org.nahuelrodriguez.requests.dtos.NewTodoItemRequest;
 import org.nahuelrodriguez.serializers.TodoItemRequestDeserializer;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.kafka.config.ConcurrentKafkaListenerContainerFactory;
@@ -15,16 +15,16 @@ import java.util.Map;
 
 @Configuration
 public class KafkaConsumerConfig {
-    private final String bootstrapServers;
+    private final KafkaProperties properties;
 
-    public KafkaConsumerConfig(@Value("${spring.kafka.bootstrap-servers}") final String bootstrapServers) {
-        this.bootstrapServers = bootstrapServers;
+    public KafkaConsumerConfig(final KafkaProperties properties) {
+        this.properties = properties;
     }
 
     @Bean
     public Map<String, Object> consumerConfigs() {
         final var props = new HashMap<String, Object>();
-        props.put(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, bootstrapServers);
+        props.put(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, properties.getBootstrapServers());
         props.put(ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG, TodoItemRequestDeserializer.class);
         props.put(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, TodoItemRequestDeserializer.class);
         return props;
