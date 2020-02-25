@@ -28,7 +28,6 @@
 
     <properties>
         <aspectjweaver.version>1.9.5</aspectjweaver.version>
-        <cassandra.driver.extras.version>3.8.0</cassandra.driver.extras.version>
         <datastax.java.driver.core.version>4.3.1</datastax.java.driver.core.version>
         <gmavenplus.version>1.8.1</gmavenplus.version>
         <guava.version>28.1-jre</guava.version>
@@ -46,18 +45,6 @@
     </properties>
 
     <dependencies>
-        <dependency>
-            <groupId>com.datastax.cassandra</groupId>
-            <artifactId>cassandra-driver-extras</artifactId>
-            <version>${cassandra.driver.extras.version}</version>
-        </dependency>
-
-        <dependency>
-            <groupId>com.datastax.oss</groupId>
-            <artifactId>java-driver-core</artifactId>
-            <version>${datastax.java.driver.core.version}</version>
-        </dependency>
-
         <dependency>
             <groupId>com.google.guava</groupId>
             <artifactId>guava</artifactId>
@@ -124,7 +111,7 @@
 
         <dependency>
             <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-data-cassandra</artifactId>
+            <artifactId>spring-boot-starter-data-cassandra-reactive</artifactId>
         </dependency>
 
         <dependency>
