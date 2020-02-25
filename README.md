@@ -59,6 +59,7 @@ In this case, I chose Cassandra DB for storing data.
 - [x] Request data validation.
 - [x] Spring Actuator (default configuration).
 - [x] Spring HATEOAS.
+- [x] Spring WebFlux.
 - [x] Support for Cassandra DB.
 - [x] Swagger for API documentation.
 - [x] Travis basic pipeline.
