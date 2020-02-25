@@ -1,9 +1,9 @@
 package org.nahuelrodriguez.daos;
 
 import org.nahuelrodriguez.entities.TodoItem;
-import org.springframework.data.cassandra.repository.CassandraRepository;
+import org.springframework.data.cassandra.repository.ReactiveCassandraRepository;
 
 import java.util.UUID;
 
-public interface Repository extends CassandraRepository<TodoItem, UUID> {
+public interface Repository extends ReactiveCassandraRepository<TodoItem, UUID> {
 }
