@@ -5,14 +5,15 @@ import org.nahuelrodriguez.requests.dtos.UpdateTodoItemRequest;
 import org.nahuelrodriguez.responses.dtos.TodoItemDTO;
 import org.nahuelrodriguez.services.TodoListService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.hateoas.CollectionModel;
 import org.springframework.hateoas.EntityModel;
 import org.springframework.http.HttpStatus;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+import reactor.core.publisher.Flux;
+import reactor.core.publisher.Mono;
 
-import java.util.stream.Collectors;
+import java.util.function.Function;
 
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
@@ -30,7 +31,7 @@ public class TodoListController {
 
     @PostMapping(consumes = "application/json")
     @ResponseStatus(HttpStatus.CREATED)
-    public EntityModel<TodoItemDTO> addNewTodoItem(@RequestBody @Validated final NewTodoItemRequest dto) {
+    public EntityModel<Mono<TodoItemDTO>> addNewTodoItem(@RequestBody @Validated final NewTodoItemRequest dto) {
         return new EntityModel<>(service.addNewTodoItem(dto),
                 linkTo(methodOn(TodoListController.class).addNewTodoItem(dto)).withSelfRel()
         );
@@ -49,27 +50,26 @@ public class TodoListController {
     }
 
     @GetMapping(path = "/{id}")
-    public EntityModel<TodoItemDTO> getTodoItem(@PathVariable("id") final String id) {
-        return new EntityModel<>(service.getTodoItem(id),
-                linkTo(methodOn(TodoListController.class).getTodoItem(id)).withSelfRel(),
-                linkTo(methodOn(TodoListController.class).getAllTodoItems()).withRel("todoItems")
-        );
+    public Mono<EntityModel<TodoItemDTO>> getTodoItem(@PathVariable("id") final String id) {
+        return service.getTodoItem(id)
+                .map(toEntityModel())
+                .map(entityModel -> entityModel.add(linkTo(methodOn(TodoListController.class).getAllTodoItems())
+                                .withRel("todoItems")
+                        )
+                );
     }
 
+    // TODO: Find the way to return a Flux instead of returning a CollectionModel
     @GetMapping
     public CollectionModel<EntityModel<TodoItemDTO>> getAllTodoItems() {
-        final var pageRequest = PageRequest.of(0, 15);
-        final var todoItems = service.getAllTodoItems(pageRequest)
-                .stream()
-                .map(todoItem -> new EntityModel<>(todoItem,
-                                linkTo(methodOn(TodoListController.class).getTodoItem(todoItem.getId())).withSelfRel()
-                        )
-                )
-                .collect(Collectors.toUnmodifiableSet());
+        final Flux<EntityModel<TodoItemDTO>> todoItems = service.getAllTodoItems()
+                .take(20)
+                .map(toEntityModel());
 
-        return new CollectionModel<>(todoItems, linkTo(methodOn(TodoListController.class)
-                .getAllTodoItems())
-                .withSelfRel()
+        return new CollectionModel<>(todoItems.toIterable(),
+                linkTo(methodOn(TodoListController.class)
+                        .getAllTodoItems()
+                ).withSelfRel()
         );
     }
 
@@ -77,5 +77,11 @@ public class TodoListController {
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void updateTodoItem(@RequestBody @Validated final UpdateTodoItemRequest dto) {
         service.updateTodoItem(dto);
+    }
+
+    private Function<TodoItemDTO, EntityModel<TodoItemDTO>> toEntityModel() {
+        return dto -> new EntityModel<>(dto, linkTo(methodOn(TodoListController.class).getTodoItem(dto.getId()))
+                .withSelfRel()
+        );
     }
 }
