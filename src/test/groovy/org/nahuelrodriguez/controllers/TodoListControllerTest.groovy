@@ -5,14 +5,13 @@ import org.nahuelrodriguez.daos.Repository
 import org.nahuelrodriguez.entities.TodoItem
 import org.nahuelrodriguez.requests.dtos.NewTodoItemRequest
 import org.nahuelrodriguez.requests.dtos.UpdateTodoItemRequest
-import org.nahuelrodriguez.responses.dtos.TodoItemDTO
 import org.nahuelrodriguez.services.TodoListService
 import org.nahuelrodriguez.services.implementation.CassandraDBService
-import org.springframework.data.domain.PageImpl
-import org.springframework.data.domain.PageRequest
 import org.springframework.http.MediaType
 import org.springframework.test.web.servlet.MockMvc
 import org.springframework.test.web.servlet.setup.MockMvcBuilders
+import reactor.core.publisher.Flux
+import reactor.core.publisher.Mono
 import spock.lang.Specification
 
 import java.time.Instant
@@ -45,7 +44,7 @@ class TodoListControllerTest extends Specification {
         and:
         def entitySaved = newEntity("a056fb54-317e-4982-bd83-ccb0b8b97d74", dto.getDescription())
         and:
-        repository.save(_ as TodoItem) >> entitySaved
+        repository.save(_ as TodoItem) >> Mono.just(entitySaved)
 
         when:
         def results = mockMvc.perform(post('/v1/todo-list/items')
@@ -88,7 +87,7 @@ class TodoListControllerTest extends Specification {
         given:
         def id = "a056fb54-317e-4982-bd83-ccb0b8b97d74"
         and:
-        repository.findById(UUID.fromString(id)) >> Optional.empty()
+        repository.findById(UUID.fromString(id)) >> Mono.empty()
 
         when:
         def results = mockMvc.perform(delete('/v1/todo-list/items/{id}', id))
@@ -96,8 +95,7 @@ class TodoListControllerTest extends Specification {
         then:
         0 * service.deleteTodoItem(id)
         and:
-        results.andExpect(status().isNotFound())
-        results.andExpect(jsonPath('$.errorMessages').value('Entity not found.'))
+        results.andExpect(status().isNoContent())
     }
 
     def "When invoked deleteTodoItem method with invalid id -> returns 400 bad request"() {
@@ -140,7 +138,7 @@ class TodoListControllerTest extends Specification {
                 newEntity(idCollection[2], descriptions[2]),
                 newEntity(idCollection[3], descriptions[3]))
 
-        repository.findAll(_ as PageRequest) >> new PageImpl<TodoItemDTO>(data)
+        repository.findAll() >> Flux.fromIterable(data)
 
         when:
         def results = mockMvc.perform(get('/v1/todo-list/items')
@@ -163,7 +161,7 @@ class TodoListControllerTest extends Specification {
         dto.setDescription("valid dto")
         dto.setStatus("Created")
         and:
-        repository.findById(UUID.fromString(id)) >> Optional.of(newEntity(id, "valid entity"))
+        repository.findById(UUID.fromString(id)) >> Mono.just(newEntity(id, "valid entity"))
 
         when:
         def results = mockMvc.perform(patch('/v1/todo-list/items')
@@ -183,7 +181,7 @@ class TodoListControllerTest extends Specification {
         dto.setDescription("valid dto")
         dto.setStatus("Created")
         and:
-        repository.findById(UUID.fromString(id)) >> Optional.empty()
+        repository.findById(UUID.fromString(id)) >> Mono.empty()
 
         when:
         def results = mockMvc.perform(patch('/v1/todo-list/items')
@@ -193,8 +191,7 @@ class TodoListControllerTest extends Specification {
         then:
         0 * service.updateTodoItem(dto)
         and:
-        results.andExpect(status().isNotFound())
-        results.andExpect(jsonPath('$.errorMessages').value('Entity not found.'))
+        results.andExpect(status().isNoContent())
     }
 
     def newEntity(String id, String description) {
