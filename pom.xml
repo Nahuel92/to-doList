@@ -29,6 +29,7 @@
     <properties>
         <aspectjweaver.version>1.9.5</aspectjweaver.version>
         <datastax.java.driver.core.version>4.3.1</datastax.java.driver.core.version>
+        <docker.image.prefix>${project.name}</docker.image.prefix>
         <gmavenplus.version>1.8.1</gmavenplus.version>
         <guava.version>28.1-jre</guava.version>
         <jacoco-version>0.8.5</jacoco-version>
@@ -157,6 +158,22 @@
 
     <build>
         <plugins>
+            <plugin>
+                <groupId>com.spotify</groupId>
+                <artifactId>dockerfile-maven-plugin</artifactId>
+                <version>1.4.13</version>
+                <configuration>
+                    <repository>
+                        ${docker.image.prefix}/${project.artifactId}
+                    </repository>
+                    <buildArgs>
+                        <JAR_FILE>
+                            target/${project.build.finalName}.jar
+                        </JAR_FILE>
+                    </buildArgs>
+                </configuration>
+            </plugin>
+
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-plugin</artifactId>
