@@ -2,7 +2,7 @@ version: '3.7'
 services:
   app:
     container_name: todo-list
-    image: todo-list:latest
+    image: todo-list/todo-list:latest
     build:
       context: .
     environment:
@@ -10,7 +10,7 @@ services:
       SPRING_KAFKA_BOOTSTRAPSERVERS: kafka:29092
       SPRING_REDIS_HOST: redis
     ports:
-      - "8080:8080"
+      - 8080:8080
     depends_on:
       - cassandra
       - redis
@@ -21,13 +21,13 @@ services:
     container_name: cassandra
     image: cassandra:3.11.5
     ports:
-      - "9042:9042"
+      - 9042:9042
 
   redis:
     container_name: redis
     image: redis:5.0.7-alpine
     ports:
-      - "6379:6379"
+      - 6379:6379
 
   kafka:
     container_name: kafka

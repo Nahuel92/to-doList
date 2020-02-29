@@ -3,21 +3,16 @@ spring:
     cassandra:
       contact-points: localhost
       keyspace-name: todoList
-      username:
-      password:
-      port: 9042
       schema-action: CREATE_IF_NOT_EXISTS
 
   kafka:
     consumer:
       group-id: group-id
-    bootstrap-servers: localhost:9092
     template:
       default-topic: todoListUsers
 
   redis:
     host: localhost
-    password:
 
   cache:
     redis:

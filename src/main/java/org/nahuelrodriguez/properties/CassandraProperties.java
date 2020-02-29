@@ -8,7 +8,7 @@ import org.springframework.stereotype.Component;
 public class CassandraProperties {
     private String contactPoints;
     private String keyspaceName;
-    private int port;
+    private Integer port;
 
     public String getContactPoints() {
         return contactPoints;
@@ -26,11 +26,11 @@ public class CassandraProperties {
         this.keyspaceName = keyspaceName;
     }
 
-    public int getPort() {
+    public Integer getPort() {
         return port;
     }
 
-    public void setPort(int port) {
+    public void setPort(Integer port) {
         this.port = port;
     }
 }
