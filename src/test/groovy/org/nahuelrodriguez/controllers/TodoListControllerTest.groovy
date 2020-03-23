@@ -7,12 +7,16 @@ import org.nahuelrodriguez.requests.dtos.NewTodoItemRequest
 import org.nahuelrodriguez.requests.dtos.UpdateTodoItemRequest
 import org.nahuelrodriguez.services.TodoListService
 import org.nahuelrodriguez.services.implementation.CassandraDBService
+import org.springframework.http.HttpStatus
 import org.springframework.http.MediaType
 import org.springframework.test.web.servlet.MockMvc
 import org.springframework.test.web.servlet.setup.MockMvcBuilders
 import reactor.core.publisher.Flux
 import reactor.core.publisher.Mono
 import spock.lang.Specification
+import spock.lang.Subject
+import spock.lang.Title
+import spock.lang.Unroll
 
 import java.time.Instant
 
@@ -22,6 +26,9 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status
 
+@Unroll
+@Subject(TodoListController)
+@Title("Unit test for TodoListController class")
 class TodoListControllerTest extends Specification {
     private MockMvc mockMvc
     private TodoListController controller
@@ -29,7 +36,7 @@ class TodoListControllerTest extends Specification {
     private Repository repository
 
     void setup() {
-        repository = Mock(Repository)
+        repository = Stub(Repository)
         service = new CassandraDBService(repository)
         controller = new TodoListController(service)
         mockMvc = MockMvcBuilders.standaloneSetup(controller)
@@ -37,169 +44,123 @@ class TodoListControllerTest extends Specification {
                 .build()
     }
 
-    def "When invoked addNewTodoItem method with valid DTO -> returns 201 created"() {
-        given:
+    def "Add request with '#description' as description = #status"() {
+        given: "a request"
         def dto = new NewTodoItemRequest()
-        dto.setDescription("valid dto")
-        and:
-        def entitySaved = newEntity("a056fb54-317e-4982-bd83-ccb0b8b97d74", dto.getDescription())
-        and:
-        repository.save(_ as TodoItem) >> Mono.just(entitySaved)
+        dto.setDescription(description)
 
-        when:
+        and: "an entity created with request data"
+        def createdEntity = new TodoItem()
+        createdEntity.with {
+            setId UUID.fromString("a056fb54-317e-4982-bd83-ccb0b8b97d74")
+            setDescription dto.getDescription()
+        }
+        repository.save(_ as TodoItem) >> Mono.just(createdEntity)
+
+        when: "the request is sent to the endpoint to add item"
         def results = mockMvc.perform(post('/v1/todo-list/items')
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(toJson(dto)))
 
-        then:
-        results.andExpect(status().isCreated())
+        then: "the response status is as expected"
+        results.andExpect(status().is(status.value()))
+
+        where: "some request descriptions are"
+        description || status
+        "Valid dto" || HttpStatus.CREATED
+        ""          || HttpStatus.BAD_REQUEST
     }
 
-    def "When invoked addNewTodoItem method with invalid DTO -> returns 400 bad request"() {
-        given:
-        def dto = new NewTodoItemRequest()
-
-        when:
-        def results = mockMvc.perform(post('/v1/todo-list/items')
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(toJson(dto)))
-
-        then:
-        0 * service.addNewTodoItem(_ as NewTodoItemRequest)
-        and:
-        results.andExpect(status().isBadRequest())
-    }
-
-    def "When invoked deleteTodoItem method with valid id and there's a saved item having that id -> returns 204 no content"() {
-        given:
-        def id = "a056fb54-317e-4982-bd83-ccb0b8b97d74"
-        and:
-        repository.findById(UUID.fromString(id)) >> Optional.of(newEntity(id, "valid entity"))
-
-        when:
+    def "Delete request with '#id' as id = #expectedResult"() {
+        when: "the request is sent to the endpoint to delete item"
         def results = mockMvc.perform(delete('/v1/todo-list/items/{id}', id))
 
-        then:
-        results.andExpect(status().isNoContent())
+        then: "the response status is as expected"
+        results.andExpect(status().is(expectedResult.value()))
+
+        where: "some ids are"
+        id                                     || expectedResult
+        "a056fb54-317e-4982-bd83-ccb0b8b97d74" || HttpStatus.NO_CONTENT
+        "a056fb54-317e-4982-bd83-ccb0b8b97d7z" || HttpStatus.BAD_REQUEST
+        //""                                     || HttpStatus.BAD_REQUEST
     }
 
-    def "When invoked deleteTodoItem method with valid id and there isn't a saved item having that id -> returns 404 not found"() {
-        given:
-        def id = "a056fb54-317e-4982-bd83-ccb0b8b97d74"
-        and:
-        repository.findById(UUID.fromString(id)) >> Mono.empty()
-
-        when:
-        def results = mockMvc.perform(delete('/v1/todo-list/items/{id}', id))
-
-        then:
-        0 * service.deleteTodoItem(id)
-        and:
-        results.andExpect(status().isNoContent())
-    }
-
-    def "When invoked deleteTodoItem method with invalid id -> returns 400 bad request"() {
-        given:
-        def id = "a056fb54-317e-4982-bd83-ccb0b8b97d7x"
-
-        when:
-        def results = mockMvc.perform(delete('/v1/todo-list/items/{id}', id))
-
-        then:
-        0 * service.deleteTodoItem(id)
-        and:
-        results.andExpect(status().isBadRequest())
-    }
-
-    def "When invoked deleteAllTodoItems method  -> returns 204 no content"() {
-        when:
+    def "Delete all request = 204 NO CONTENT"() {
+        when: "the request is sent to the endpoint to delete all items"
         def results = mockMvc.perform(delete('/v1/todo-list/items'))
 
-        then:
+        then: "the response status is as expected"
         results.andExpect(status().isNoContent())
     }
 
-    def "When invoked getAllTodoItems method -> returns 200 OK and an entity collection"() {
-        given:
-        def idCollection = [
-                "a056fb54-317e-4982-bd83-ccb0b8b97d74",
-                "a056fb54-317e-4982-bd83-ccb0b8b97d73",
-                "a056fb54-317e-4982-bd83-ccb0b8b97d72",
-                "a056fb54-317e-4982-bd83-ccb0b8b97d71"
+    def "Get request with '#id' as id = #expectedStatus"() {
+        when: "the request is sent to the endpoint to get an item"
+        def results = mockMvc.perform(get('/v1/todo-list/items/{id}', id))
+
+        then: "the response status is as expected"
+        results.andExpect(status().is(expectedStatus.value()))
+
+        where: "some values are"
+        id                                     | description   || expectedStatus
+        "a056fb54-317e-4982-bd83-ccb0b8b97d74" | "valid dto"   || HttpStatus.OK
+        "a056fb54-317e-4982-bd83-ccb0b8b97d7z" | "invalid dto" || HttpStatus.BAD_REQUEST
+    }
+
+    def "Get all request = 200 OK and items"() {
+        given: "a collection of saved items"
+        def data = [
+                new TodoItem(id: UUID.fromString("a056fb54-317e-4982-bd83-ccb0b8b97d71"),
+                        description: "entity 1", createdDatetime: Instant.now(), status: "Created"
+                ),
+                new TodoItem(id: UUID.fromString("a056fb54-317e-4982-bd83-ccb0b8b97d72"),
+                        description: "entity 2", createdDatetime: Instant.now(), status: "Done"
+                ),
+                new TodoItem(id: UUID.fromString("a056fb54-317e-4982-bd83-ccb0b8b97d73"),
+                        description: "entity 3", createdDatetime: Instant.now(), status: "Created"),
+                new TodoItem(id: UUID.fromString("a056fb54-317e-4982-bd83-ccb0b8b97d74"),
+                        description: "entity 4", createdDatetime: Instant.now(), status: "Created"
+                )
         ]
-        and:
-        def descriptions = ["entity 1",
-                            "entity 2",
-                            "entity 3",
-                            "entity 4"]
-        and:
-        def data = List.of(newEntity(idCollection[0], descriptions[0]),
-                newEntity(idCollection[1], descriptions[1]),
-                newEntity(idCollection[2], descriptions[2]),
-                newEntity(idCollection[3], descriptions[3]))
 
         repository.findAll() >> Flux.fromIterable(data)
 
-        when:
+        when: "the request is sent to the endpoint to get items"
         def results = mockMvc.perform(get('/v1/todo-list/items')
                 .contentType(MediaType.APPLICATION_JSON))
 
-        then:
+        then: "the response status is ok"
         results.andExpect(status().isOk())
-        and:
-        results.andExpect(jsonPath('$.content[*].id').value(containsInAnyOrder(idCollection.toArray())))
-        and:
-        results.andExpect(jsonPath('$.content[*].description').value(containsInAnyOrder(descriptions.toArray())))
+
+        and: "data id and description are as expected"
+        results.andExpect(jsonPath('$.content[*].id').value(containsInAnyOrder(data.collect { d -> d.id.toString() }.toArray())))
+        results.andExpect(jsonPath('$.content[*].description').value(containsInAnyOrder(data.collect { d -> d.description }.toArray())))
     }
 
-    def "When invoked updateTodoItem method with valid dto -> returns 204 no content"() {
-        given:
-        def id = "a056fb54-317e-4982-bd83-ccb0b8b97d74"
-        and:
+    def "Update request with '#id' as id and '#description' as description = #expectedStatus"() {
+        given: "an update request object"
         def dto = new UpdateTodoItemRequest()
-        dto.setId(id)
-        dto.setDescription("valid dto")
-        dto.setStatus("Created")
-        and:
-        repository.findById(UUID.fromString(id)) >> Mono.just(newEntity(id, "valid entity"))
+        dto.with {
+            setId id
+            setDescription description
+            setStatus status
+        }
 
-        when:
+        and: "a previously saved entity"
+        repository.findById(_ as UUID) >> Mono.just(
+                new TodoItem(description: description)
+        )
+
+        when: "the request is sent to the endpoint to perform an update"
         def results = mockMvc.perform(patch('/v1/todo-list/items')
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(toJson(dto)))
 
-        then:
-        results.andExpect(status().isNoContent())
-    }
+        then: "the response status is as expected"
+        results.andExpect(status().is(expectedStatus.value()))
 
-    def "When invoked updateTodoItem method with valid dto but there isn't an entity saved -> returns 404 not found"() {
-        given:
-        def id = "a056fb54-317e-4982-bd83-ccb0b8b97d74"
-        and:
-        def dto = new UpdateTodoItemRequest()
-        dto.setId(id)
-        dto.setDescription("valid dto")
-        dto.setStatus("Created")
-        and:
-        repository.findById(UUID.fromString(id)) >> Mono.empty()
-
-        when:
-        def results = mockMvc.perform(patch('/v1/todo-list/items')
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(toJson(dto)))
-
-        then:
-        0 * service.updateTodoItem(dto)
-        and:
-        results.andExpect(status().isNoContent())
-    }
-
-    def newEntity(String id, String description) {
-        def entity = new TodoItem()
-        entity.setId(UUID.fromString(id))
-        entity.setDescription(description)
-        entity.setCreatedDatetime(Instant.now())
-        entity.setStatus("Created")
-        entity
+        where: "some cases are"
+        id                                     | description   | status    || expectedStatus
+        "a056fb54-317e-4982-bd83-ccb0b8b97d74" | "valid dto"   | "Created" || HttpStatus.NO_CONTENT
+        ""                                     | "invalid dto" | "Created" || HttpStatus.BAD_REQUEST
     }
 }
