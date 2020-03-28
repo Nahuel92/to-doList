@@ -32,7 +32,7 @@ class MessagingQueueControllerTest extends Specification {
         mockMvc = MockMvcBuilders.standaloneSetup(controller).build()
     }
 
-    def "Batch add with '#collection' as invalid collection = #status"() {
+    def "Batch add with '#collection' as a collection = #status"() {
         given: "A collection validation data"
         listValidator.validate(data) >> dataValidation
 
