@@ -2,14 +2,14 @@ package org.nahuelrodriguez.configuration;
 
 import org.nahuelrodriguez.properties.CassandraProperties;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.data.cassandra.config.AbstractClusterConfiguration;
+import org.springframework.data.cassandra.config.AbstractCassandraConfiguration;
 import org.springframework.data.cassandra.repository.config.EnableCassandraRepositories;
 
 import java.util.List;
 
 @Configuration
 @EnableCassandraRepositories
-public class CassandraConfig extends AbstractClusterConfiguration {
+public class CassandraConfig extends AbstractCassandraConfiguration {
     private final CassandraProperties properties;
     private static final int defaultPort = 9042;
 
@@ -18,13 +18,13 @@ public class CassandraConfig extends AbstractClusterConfiguration {
     }
 
     @Override
-    protected String getContactPoints() {
-        return properties.getContactPoints();
+    protected String getKeyspaceName() {
+        return properties.getKeyspaceName();
     }
 
     @Override
-    protected boolean getMetricsEnabled() {
-        return false;
+    protected String getContactPoints() {
+        return properties.getContactPoints();
     }
 
     @Override

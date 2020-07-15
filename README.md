@@ -69,7 +69,19 @@ In this case, I chose Cassandra DB for storing data.
 
 ## Running the application
 
-This app is dockerized. This mean that the only things you have to do is clone this repo and run the following command on the project root to have all up and running:
+This app is dockerized. This mean that the only things you have to do is clone this repo and run the following command on the project root to create the Docker image of the project):
+
+```bash
+mvn clean package dockerfile:build
+```
+
+ The mvnw wrapper is available if you don't want to install Maven:
+
+```bash
+./mvnw clean package dockerfile:build
+```
+
+After that, you can have all up and running by executing the following command:
 
 ```bash
 docker-compose up
@@ -81,33 +93,38 @@ You can run this app locally too, but you have to manually configure all the dep
 
 ## Requisites (only for Docker deployment)
 
-The only requisite is have installed Docker and Docker-compose.
+The only requisite is have installed Docker and Docker-compose. Maven is an optional requisite because you can use the provided Maven wrapper instead.
 
 ----
 
 ## Requisites (only for local deployment)
 
 You must have Redis, Cassandra DB and a Kafka instance properly configured.
-Please, configure the project's properties according to your configuration modifying the`application.properties`file.
+Please, configure the project's properties according to your configuration modifying the`application.yaml`file.
 
 The following are the properties you can configure for this application:
 
-```properties
-# Cassandra configuration
-spring.data.cassandra.contact-points=localhost
-spring.data.cassandra.keyspace-name=todoList
-spring.data.cassandra.schema-action=CREATE_IF_NOT_EXISTS
-# Kafka configuration
-spring.kafka.bootstrap-servers=localhost:9092
-spring.kafka.template.default-topic=todoListUsers
-# Kafka consumer configuration
-spring.kafka.consumer.group-id=group-id
-# Redis configuration
-spring.redis.host=localhost
-spring.redis.password=
-# Spring cache
-spring.cache.type=redis
-spring.cache.redis.time-to-live=600000
+```yaml
+spring:
+  data:
+    cassandra:
+      contact-points: localhost
+      keyspace-name: todoList
+      schema-action: CREATE_IF_NOT_EXISTS
+
+  kafka:
+    consumer:
+      group-id: group-id
+    template:
+      default-topic: todoListUsers
+
+  redis:
+    host: localhost
+
+  cache:
+    redis:
+      time-to-live: 600000
+
 ```
 
 -----
