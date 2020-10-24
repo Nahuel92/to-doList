@@ -32,7 +32,7 @@
         <dockerfile-plugin.version>1.4.13</dockerfile-plugin.version>
         <docker-image.prefix>${project.name}</docker-image.prefix>
         <gmavenplus.version>1.9.0</gmavenplus.version>
-        <guava.version>29.0-jre</guava.version>
+        <guava.version>30.0-android</guava.version>
         <hibernate-validator.version>6.1.5.Final</hibernate-validator.version>
         <jacoco.version>0.8.5</jacoco.version>
         <java.version>13</java.version>
