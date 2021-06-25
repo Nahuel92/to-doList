@@ -1,9 +1,9 @@
 package org.nahuelrodriguez.configuration;
 
 import org.apache.kafka.clients.consumer.ConsumerConfig;
-import org.nahuelrodriguez.properties.KafkaProperties;
-import org.nahuelrodriguez.requests.dtos.NewTodoItemRequest;
-import org.nahuelrodriguez.serializers.TodoItemRequestDeserializer;
+import org.nahuelrodriguez.property.KafkaProperties;
+import org.nahuelrodriguez.request.dto.NewTodoItemRequest;
+import org.nahuelrodriguez.serializer.TodoItemRequestDeserializer;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.kafka.config.ConcurrentKafkaListenerContainerFactory;

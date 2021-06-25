@@ -1,4 +1,8 @@
 spring:
+  cache:
+    redis:
+      time-to-live: 600000
+
   data:
     cassandra:
       contact-points: localhost
@@ -13,7 +17,3 @@ spring:
 
   redis:
     host: localhost
-
-  cache:
-    redis:
-      time-to-live: 600000

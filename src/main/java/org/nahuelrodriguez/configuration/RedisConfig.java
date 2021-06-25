@@ -1,6 +1,6 @@
 package org.nahuelrodriguez.configuration;
 
-import org.nahuelrodriguez.properties.RedisProperties;
+import org.nahuelrodriguez.property.RedisProperties;
 import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -14,7 +14,7 @@ import org.springframework.data.redis.core.RedisTemplate;
 public class RedisConfig {
     private final RedisProperties properties;
 
-    public RedisConfig(final RedisProperties properties) {
+    public RedisConfig(RedisProperties properties) {
         this.properties = properties;
     }
 

@@ -7,7 +7,7 @@ import org.springframework.context.annotation.EnableAspectJAutoProxy;
 @SpringBootApplication
 @EnableAspectJAutoProxy
 public class TodoListApplication {
-    public static void main(String[] args) {
+    public static void main(final String[] args) {
         SpringApplication.run(TodoListApplication.class, args);
     }
 }

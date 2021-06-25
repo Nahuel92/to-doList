@@ -2,9 +2,9 @@ package org.nahuelrodriguez.configuration;
 
 import org.apache.kafka.clients.consumer.ConsumerConfig;
 import org.apache.kafka.clients.producer.ProducerConfig;
-import org.nahuelrodriguez.properties.KafkaProperties;
-import org.nahuelrodriguez.requests.dtos.NewTodoItemRequest;
-import org.nahuelrodriguez.serializers.TodoItemRequestSerializer;
+import org.nahuelrodriguez.property.KafkaProperties;
+import org.nahuelrodriguez.request.dto.NewTodoItemRequest;
+import org.nahuelrodriguez.serializer.TodoItemRequestSerializer;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.kafka.core.DefaultKafkaProducerFactory;
@@ -18,7 +18,7 @@ import java.util.Map;
 public class KafkaProducerConfig {
     private final KafkaProperties properties;
 
-    public KafkaProducerConfig(final KafkaProperties properties) {
+    public KafkaProducerConfig(KafkaProperties properties) {
         this.properties = properties;
     }
 
