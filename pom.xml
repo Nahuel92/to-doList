@@ -34,7 +34,7 @@
         <jedis.version>3.6.1</jedis.version>
         <spock-core.version>2.0-groovy-3.0</spock-core.version>
         <spring-aop.version>5.3.8</spring-aop.version>
-        <springdoc.version>1.5.9</springdoc.version>
+        <springdoc.version>1.6.9</springdoc.version>
         <surefire.version>3.0.0-M5</surefire.version>
     </properties>
 
